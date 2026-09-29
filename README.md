@@ -1,66 +1,35 @@
 # 🎫 TicketStay
 
-Bienvenue sur **TicketStay**, une application web conçue pour faciliter la consultation, le suivi et la gestion des informations liées aux tickets, constats, interventions et demandes de services.
+TicketStay est une application iOS conçue pour simplifier la gestion et le suivi des billets, réservations et informations importantes, le tout dans une interface moderne, rapide et intuitive.
 
-## 🌐 Site Web
+L'application a été développée afin d'offrir une expérience utilisateur fluide, permettant d'accéder facilement aux fonctionnalités essentielles depuis un appareil mobile.
 
-Accéder à l'application :
+## 📱 Fonctionnalités principales
+
+- Interface simple et intuitive
+- Expérience optimisée pour iPhone et iPad
+- Accès rapide aux informations importantes
+- Design moderne et convivial
+- Mises à jour et améliorations continues
+
+## 🌐 Site web officiel
+
+Découvrez TicketStay et ses fonctionnalités :
 
 👉 https://anthonysmith120.github.io/TicketStay/
 
-## 🚀 Fonctionnalités
+## 🎯 Notre mission
 
-- Interface moderne et intuitive
-- Consultation rapide des informations
-- Navigation simple et efficace
-- Compatible avec les ordinateurs, tablettes et téléphones mobiles
-- Accès en ligne sans installation
-- Hébergement sécurisé via GitHub Pages
+Offrir une solution mobile efficace et accessible qui facilite le quotidien des utilisateurs grâce à une expérience simple, rapide et agréable.
 
-## 🛠 Technologies utilisées
-
-- HTML5
-- CSS3
-- JavaScript
-- GitHub Pages
-
-## 📦 Installation
-
-Clonez le dépôt :
-
-```bash
-git clone https://github.com/Anthonysmith120/TicketStay.git
-```
-
-Accédez au dossier du projet :
-
-```bash
-cd TicketStay
-```
-
-Ouvrez ensuite le fichier `index.html` dans votre navigateur.
-
-## 🎯 Objectif
-
-L'objectif de TicketStay est d'offrir une plateforme simple, rapide et efficace permettant de consulter et gérer les informations nécessaires aux opérations quotidiennes.
-
-## 🌍 Déploiement
-
-Le projet est accessible en ligne à l'adresse suivante :
-
-**https://anthonysmith120.github.io/TicketStay/**
-
-## 👨‍💻 Auteur
+## 👨‍💻 Développeur
 
 **Anthony Smith**
 
-- GitHub : https://github.com/Anthonysmith120
-- Site Web : https://anthonysmith120.github.io/TicketStay/
+GitHub : https://github.com/Anthonysmith120
 
-## 📄 Licence
+## 📲 En savoir plus
 
-Ce projet est distribué à des fins éducatives et de développement personnel.
+Visitez le site officiel pour découvrir l'application :
 
----
-
-⭐ N'hésitez pas à laisser une étoile au projet si vous le trouvez utile !
+https://anthonysmith120.github.io/TicketStay/
