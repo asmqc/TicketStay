@@ -1,5 +1,6 @@
 -- TicketStay — table des données « Mon compte »
--- À coller dans Supabase : SQL Editor → New query → Run
+-- Déjà appliqué au projet TicketStay (migration create_ts_snapshots, 30 sept. 2026).
+-- Pour un nouveau projet : Supabase → SQL Editor → New query → Run
 -- Une ligne par équipe et par compte. L'app iPhone écrit, le site lit.
 
 create table if not exists public.ts_snapshots (
@@ -38,6 +39,8 @@ grant select, insert, update, delete on public.ts_snapshots to authenticated;
 create or replace function public.ts_touch() returns trigger
 language plpgsql set search_path = '' as $$
 begin new.updated_at := now(); return new; end $$;
+
+revoke execute on function public.ts_touch() from public, anon, authenticated;
 
 drop trigger if exists ts_snapshots_touch on public.ts_snapshots;
 create trigger ts_snapshots_touch before update on public.ts_snapshots
