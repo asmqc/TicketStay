@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fonctionnalités — TicketStay</title>
+<meta name="description" content="Calendrier et billets, carnet d'acheteurs, prix suggéré, mode annonce, messages rédigés sur l'appareil et plus : tout ce que fait TicketStay.">
+<meta name="theme-color" content="#F8FAFD">
+<meta name="color-scheme" content="light dark">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-title" content="TicketStay">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta property="og:title" content="TicketStay">
+<meta property="og:description" content="Vos billets de saison, enfin sous contrôle.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<script>
+  (function(){document.documentElement.classList.add('js');try{var s=localStorage.getItem('ts-theme');if(s==='dark'||(!s&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/app.css">
+<script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a href="index.html" class="brand" aria-label="TicketStay — accueil"><img class="brand-mark" src="assets/icon.svg" alt="" width="32" height="32"><span>Ticket<span style="color:var(--primary)">Stay</span></span></a>
+    <nav class="menu" aria-label="Navigation principale">
+      <span class="menu-ind" aria-hidden="true"></span>
+      <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h4v-5h4v5h4v-9"/></svg>Accueil</a>
+      <a href="fonctionnalites.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Fonctionnalités</a>
+      <a href="ligues.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4"/></svg>Ligues</a>
+      <a href="privacy.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.8 7 10 4-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>Confidentialité</a>
+      <a href="contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" data-theme-toggle aria-label="Basculer le mode sombre">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+      </button>
+      <a href="https://discord.gg/tpFYkftsW3" target="_blank" rel="noopener" class="btn btn-primary btn-sm nav-cta">Rejoindre le Discord</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Accueil</a><span>›</span><span>Fonctionnalités</span></div>
+      <span class="eyebrow">Fonctionnalités</span>
+      <h1>Ce que fait l'application</h1>
+      <p>Pensée pour les détenteurs d'abonnements qui revendent ou donnent une partie de leurs billets au fil de la saison.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:clamp(32px,5vw,56px)">
+    <div class="wrap">
+
+      <div class="features">
+        <article class="feature wide first reveal" style="--c:#C8102E">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg></div>
+          <h3>Un accueil qui résume tout</h3>
+          <p>Le prochain match, ce qu'on vous doit encore et vos chiffres du moment, dès l'ouverture.</p>
+        </article>
+        <article class="feature reveal" style="--c:#2f7dd1">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></div>
+          <h3>Calendrier et billets</h3>
+          <p>Chaque match, chaque siège : à vendre, vendu, donné, utilisé ou à placer. Importez votre calendrier depuis un fichier CSV ou XML.</p>
+        </article>
+        <article class="feature reveal" style="--c:#8b5cf6">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 15.2c2.6.3 4.5 2 4.5 4.8"/></svg></div>
+          <h3>Carnet d'acheteurs</h3>
+          <p>Qui a acheté quoi, qui doit encore payer, et un bouton pour relancer par texto en un geste. Ajoutez une personne à la main ou en un tap depuis vos contacts.</p>
+        </article>
+        <article class="feature reveal" style="--c:#c9961f">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4h6a2 2 0 0 1 2 2v6l-9 9-8-8 9-9z"/><circle cx="15" cy="8" r="1.3" fill="currentColor" stroke="none"/></svg></div>
+          <h3>Prix suggéré</h3>
+          <p>Un prix par billet et par paire, calculé à partir de vos propres ventes et du coût de votre abonnement.</p>
+        </article>
+        <article class="feature reveal" style="--c:#e2823a">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4a1 1 0 0 0 1 1h2l9 4V5L6 9H4a1 1 0 0 0-1 1z"/><path d="M18 9a4 4 0 0 1 0 6"/></svg></div>
+          <h3>Mode annonce</h3>
+          <p>Un écran qui prépare l'offre pour chaque acheteur, prix ajustable, et qui suit qui a été contacté.</p>
+        </article>
+        <article class="feature reveal" style="--c:#14b8a6">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></svg></div>
+          <h3>Messages rédigés sur l'appareil</h3>
+          <p>L'intelligence artificielle intégrée à votre appareil peut rédiger un message de vente personnalisé — rien n'est envoyé à l'extérieur.</p>
+        </article>
+        <article class="feature reveal" style="--c:#3aa66b">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+          <h3>Compte protégé par NIP</h3>
+          <p>Un NIP à quatre chiffres protège la gestion de vos billets à chaque ouverture de l'application.</p>
+        </article>
+        <article class="feature reveal" style="--c:#ec4899">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6z"/></svg></div>
+          <h3>Plusieurs équipes</h3>
+          <p>Autant d'abonnements que vous voulez, dans autant de sports, avec une équipe favorite qui s'ouvre au démarrage.</p>
+        </article>
+        <article class="feature reveal" style="--c:#2E5A96">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0 1 12 0c0 3 1 4.5 2 5.5H4c1-1 2-2.5 2-5.5z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></div>
+          <h3>Rappels et classement</h3>
+          <p>Une notification avant un match dont les billets ne sont pas placés, et le classement de la ligue en direct.</p>
+        </article>
+        <article class="feature wide last reveal" style="--c:#2f7dd1">
+          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg></div>
+          <h3>Partage et export</h3>
+          <p>Partagez votre saison en lecture seule ou exportez vos données pour les recharger ailleurs, quand vous le décidez.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-soft" style="padding-block:clamp(56px,8vw,96px)">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Chaque siège</span>
+        <h2 class="h2">Un statut clair pour chaque billet</h2>
+      </div>
+      <div class="flow reveal">
+        <div class="step" style="--c:#C8102E"><i></i><b>À vendre</b></div>
+        <div class="step" style="--c:#3aa66b"><i></i><b>Vendu</b></div>
+        <div class="step" style="--c:#8b5cf6"><i></i><b>Donné</b></div>
+        <div class="step" style="--c:#2f7dd1"><i></i><b>Utilisé</b></div>
+        <div class="step" style="--c:#c9961f"><i></i><b>À placer</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap next-wrap">
+    <a class="next" href="ligues.html">
+      <span><small>Page suivante</small><b>Ligues</b></span>
+      <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand"><img class="brand-mark" src="assets/icon.svg" alt="" width="32" height="32"><span>Ticket<span style="color:var(--primary)">Stay</span></span></a>
+        <p>Application indépendante — ni affiliée, ni associée, ni approuvée par les ligues, les équipes ou les billetteries. Développée par Anthony Smith.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Application</h5>
+        <a href="index.html">Accueil</a>
+        <a href="fonctionnalites.html">Fonctionnalités</a>
+        <a href="ligues.html">Ligues</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="contact.html">Nous joindre</a>
+        <a href="mailto:hockey007smith@hotmail.ca">Courriel</a>
+        <a href="https://discord.gg/tpFYkftsW3" target="_blank" rel="noopener">Discord</a>
+      </div>
+      <div class="foot-col">
+        <h5>Légal</h5>
+        <a href="privacy.html">Politique de confidentialité</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span data-year>2026</span> Anthony Smith — TicketStay</span>
+      <span>Fait au Québec 🇨🇦</span>
+    </div>
+  </div>
+</footer>
+
+<nav class="tabbar" aria-label="Navigation">
+  <span class="tab-ind" aria-hidden="true" style="--i:1"></span>
+  <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h4v-5h4v5h4v-9"/></svg><span>Accueil</span></a>
+  <a href="fonctionnalites.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg><span>Fonctions</span></a>
+  <a href="ligues.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4"/></svg><span>Ligues</span></a>
+  <a href="privacy.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.8 7 10 4-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Confidentialité</span></a>
+  <a href="contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg><span>Contact</span></a>
+</nav>
+
+<script src="assets/site.js"></script>
+</body>
+</html>

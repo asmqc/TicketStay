@@ -26,198 +26,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
-<style>
-  /* ---------------- Hero ---------------- */
-  .hero{position:relative;isolation:isolate;overflow:hidden;background:#070E1B;color:#fff;padding:clamp(40px,8vw,96px) 0 0}
-  .hero::before{
-    content:"";position:absolute;inset:0;z-index:-2;
-    background:
-      radial-gradient(55% 55% at 80% 30%,rgba(200,16,46,.50),transparent 70%),
-      radial-gradient(50% 50% at 5% 0%,rgba(47,125,209,.40),transparent 70%),
-      radial-gradient(40% 40% at 45% 110%,rgba(20,184,166,.18),transparent 70%);
-  }
-  .hero::after{
-    content:"";position:absolute;inset:0;z-index:-1;
-    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
-    background-size:44px 44px;
-    -webkit-mask-image:radial-gradient(80% 70% at 50% 30%,#000 30%,transparent 80%);
-    mask-image:radial-gradient(80% 70% at 50% 30%,#000 30%,transparent 80%);
-  }
-  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,64px);align-items:center}
-  .pill{display:inline-flex;align-items:center;gap:8px;max-width:100%;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.85);padding:6px 14px 6px 8px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
-  .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(61,214,140,.18);flex:none;margin-left:4px}
-  .hero h1{font-size:clamp(38px,6.6vw,70px);line-height:1.02;letter-spacing:-.045em;font-weight:800;margin:22px 0 20px;text-wrap:balance}
-  .hero .lead{font-size:clamp(16px,1.9vw,18.5px);line-height:1.65;color:rgba(255,255,255,.72);max-width:540px;margin:0 0 32px}
-  .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-  .trust{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:34px;padding:0;list-style:none}
-  .trust li{display:flex;align-items:center;gap:8px;font-size:13.5px;color:rgba(255,255,255,.66)}
-  .trust svg{width:16px;height:16px;color:var(--accent);flex:none}
-
-  /* Billet illustratif */
-  .stage{position:relative;display:flex;justify-content:center;padding:10px 0 clamp(48px,7vw,80px)}
-  .ticket{
-    position:relative;width:min(340px,86vw);border-radius:26px;overflow:hidden;color:#0C1424;
-    background:#fff;box-shadow:0 50px 80px -30px rgba(0,0,0,.7),0 0 90px rgba(200,16,46,.35);
-    transform:rotate(-3deg);
-  }
-  .ticket-top{padding:22px 22px 20px;background:linear-gradient(135deg,#12315C,#0A1628);color:#fff;position:relative}
-  .ticket-top small{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6)}
-  .match{display:flex;align-items:center;justify-content:space-between;margin-top:14px;gap:10px}
-  .crest{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-weight:800;font-size:15px;flex:none}
-  .crest.home{background:var(--grad)}
-  .crest.away{background:#2f7dd1}
-  .vs{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);text-align:center;line-height:1.3}
-  .vs b{display:block;color:#fff;font-size:16px;letter-spacing:-.02em}
-  .perf{position:relative;height:0;border-top:2px dashed #D6DDE8;margin:0 18px}
-  .perf::before,.perf::after{content:"";position:absolute;top:-13px;width:24px;height:24px;border-radius:50%;background:#070E1B}
-  .perf::before{left:-30px}.perf::after{right:-30px}
-  .ticket-body{padding:18px 22px 22px}
-  .seats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .seats div{background:#F1F4F9;border-radius:12px;padding:8px 10px}
-  .seats small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#7E8CA0}
-  .seats b{font-size:17px;letter-spacing:-.02em}
-  .status{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-  .st{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px}
-  .st.sell{background:#FFE4E8;color:#B0102A}
-  .st.sold{background:#DDF6EA;color:#1D7A4B}
-  .st.gift{background:#EDE6FF;color:#6B3FD6}
-  .float{
-    position:absolute;display:flex;align-items:center;gap:10px;padding:10px 14px 10px 10px;border-radius:16px;
-    background:rgba(16,26,48,.66);border:1px solid rgba(255,255,255,.14);
-    -webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
-    box-shadow:0 20px 40px -16px rgba(0,0,0,.6);font-size:13px;font-weight:700;color:#fff;line-height:1.25;
-    animation:bob 6s ease-in-out infinite;
-  }
-  .float small{display:block;font-weight:500;color:rgba(255,255,255,.6);font-size:11.5px}
-  .float .fi{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none}
-  .float .fi svg{width:18px;height:18px}
-  .float.f1{top:2%;right:0}
-  .float.f1 .fi{background:rgba(212,167,44,.25);color:#F3CD63}
-  .float.f2{bottom:4px;left:0;animation-delay:-3s}
-  .float.f2 .fi{background:rgba(61,214,140,.2);color:var(--accent)}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.1)}
-  .stat{padding:26px 8px;text-align:center}
-  .stat + .stat{border-left:1px solid rgba(255,255,255,.1)}
-  .stat b{display:block;font-size:clamp(26px,3.4vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
-  .stat span{font-size:13px;color:rgba(255,255,255,.6)}
-
-  @media (max-width:900px){
-    .hero-grid{grid-template-columns:1fr}
-    .hero-copy{text-align:center}
-    .hero .lead{margin-inline:auto}
-    .hero-actions,.trust{justify-content:center}
-    .stage{margin-top:16px}
-  }
-  @media (max-width:600px){
-    .hero-actions .btn{flex:1 1 100%}
-    .float{font-size:12px;padding:8px 12px 8px 8px}
-    .float .fi{width:28px;height:28px}
-    .float.f1{top:-4%}
-    .float.f2{bottom:0}
-    .stats{grid-template-columns:1fr 1fr}
-    .stat:nth-child(3){border-left:none}
-    .stat:nth-child(n+3){border-top:1px solid rgba(255,255,255,.1)}
-    .stat{padding:20px 8px}
-  }
-
-  /* ---------------- Fonctionnalités ---------------- */
-  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .feature{
-    position:relative;background:var(--card);border:1px solid var(--border);
-    border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);
-    transition:transform .25s ease,border-color .25s ease;
-  }
-  @media (hover:hover){.feature:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 45%,var(--border))}}
-  .feature .fi{
-    width:48px;height:48px;border-radius:14px;display:grid;place-items:center;margin-bottom:18px;color:#fff;
-    background:var(--c);box-shadow:0 10px 20px -10px var(--c);
-  }
-  .feature .fi svg{width:23px;height:23px}
-  .feature h3{font-size:17.5px;letter-spacing:-.02em;margin:0 0 8px;font-weight:700}
-  .feature p{margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.6}
-  .feature.wide{grid-column:span 2;background:radial-gradient(90% 120% at 100% 0%,color-mix(in srgb,var(--c) 14%,transparent),transparent 60%),var(--card)}
-  .feature.wide h3{font-size:21px}
-  .feature.wide p{font-size:15.5px;max-width:520px}
-  @media (max-width:980px){.features{grid-template-columns:1fr 1fr}.feature.wide.first,.feature.wide.last{grid-column:1/-1}}
-  @media (max-width:640px){
-    .features{grid-template-columns:1fr;gap:12px}
-    .feature,.feature.wide{grid-column:auto!important;display:grid;grid-template-columns:44px 1fr;gap:4px 16px;padding:20px 18px}
-    .feature .fi{width:44px;height:44px;margin:0;grid-row:span 2;border-radius:13px}
-    .feature h3,.feature.wide h3{font-size:16.5px;margin:0;align-self:center}
-    .feature p,.feature.wide p{font-size:14.5px;grid-column:2}
-  }
-
-  /* ---------------- Statuts ---------------- */
-  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:8px}
-  .step{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center;box-shadow:var(--shadow)}
-  .step i{display:block;width:12px;height:12px;border-radius:50%;margin:0 auto 10px;background:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 18%,transparent)}
-  .step b{display:block;font-size:15px;letter-spacing:-.01em}
-  .step span{font-size:13px;color:var(--ink-soft)}
-  @media (max-width:760px){.flow{grid-template-columns:repeat(2,1fr)}.step:last-child{grid-column:1/-1}}
-
-  /* ---------------- Ligues ---------------- */
-  .sports{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:22px}
-  .sport{font-size:14px;font-weight:700;padding:8px 14px;border-radius:12px;background:var(--card);border:1px solid var(--border)}
-  .leagues{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-  .league{
-    display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;
-    border:1px solid var(--border);background:var(--card);font-size:14px;font-weight:700;color:var(--ink);
-  }
-  .league::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
-  .league.custom{border-style:dashed;color:var(--ink-soft)}
-
-  /* ---------------- Confidentialité ---------------- */
-  .privacy{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,64px);align-items:center}
-  .privacy .sub{margin-top:4px}
-  .panel{
-    position:relative;border-radius:28px;padding:clamp(24px,4vw,36px);color:#fff;overflow:hidden;isolation:isolate;
-    background:#0A1628;border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);
-  }
-  .panel::before{content:"";position:absolute;inset:0;z-index:-1;
-    background:radial-gradient(70% 60% at 100% 0%,rgba(200,16,46,.45),transparent 70%),radial-gradient(60% 50% at 0% 100%,rgba(47,125,209,.35),transparent 70%)}
-  .panel h4{margin:0 0 6px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:700}
-  .panel .big{font-size:clamp(26px,3.2vw,34px);font-weight:800;letter-spacing:-.04em;margin-bottom:18px;line-height:1.1}
-  .panel .row{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid rgba(255,255,255,.1);font-size:15px;color:rgba(255,255,255,.85)}
-  .panel .row i{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;background:rgba(61,214,140,.18);color:var(--accent)}
-  .panel .row i svg{width:13px;height:13px}
-  @media (max-width:900px){.privacy{grid-template-columns:minmax(0,1fr)}}
-
-  /* ---------------- Contact ---------------- */
-  .contact{
-    position:relative;isolation:isolate;overflow:hidden;border-radius:clamp(24px,4vw,36px);
-    padding:clamp(32px,6vw,72px) clamp(20px,5vw,64px);background:#0A1628;color:#fff;text-align:center;
-  }
-  .contact::before{content:"";position:absolute;inset:0;z-index:-1;
-    background:radial-gradient(60% 80% at 50% 0%,rgba(200,16,46,.5),transparent 70%),radial-gradient(40% 60% at 100% 100%,rgba(47,125,209,.35),transparent 70%)}
-  .contact h2{font-size:clamp(28px,4.4vw,44px);letter-spacing:-.04em;margin:0 0 12px;font-weight:800;line-height:1.1}
-  .contact > p{color:rgba(255,255,255,.72);max-width:540px;margin:0 auto 36px;font-size:16px}
-  .ways{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:640px;margin:0 auto;text-align:left}
-  .way{display:flex;align-items:center;gap:14px;min-height:72px;padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);transition:background .2s,transform .15s}
-  .way:hover{background:rgba(255,255,255,.1)}
-  .way:active{transform:scale(.98)}
-  .way .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.1);flex:none}
-  .way .ic svg{width:20px;height:20px}
-  .way b{display:block;font-size:15px}
-  .way small{display:block;color:rgba(255,255,255,.6);font-size:13px;word-break:break-all}
-  @media (max-width:640px){.ways{grid-template-columns:1fr}}
-</style>
+<link rel="stylesheet" href="assets/app.css">
+<script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
 </head>
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
 
 <header class="site-header">
   <div class="wrap nav">
-    <a href="#top" class="brand" aria-label="TicketStay — accueil">
-      <img class="brand-mark" src="assets/icon.svg" alt="" width="32" height="32">
-      <span>Ticket<span style="color:var(--primary)">Stay</span></span>
-    </a>
-    <nav class="nav-links" aria-label="Navigation principale">
-      <a href="#fonctionnalites">Fonctionnalités</a>
-      <a href="#ligues">Ligues</a>
-      <a href="#confidentialite">Confidentialité</a>
-      <a href="#contact">Contact</a>
+    <a href="index.html" class="brand" aria-label="TicketStay — accueil"><img class="brand-mark" src="assets/icon.svg" alt="" width="32" height="32"><span>Ticket<span style="color:var(--primary)">Stay</span></span></a>
+    <nav class="menu" aria-label="Navigation principale">
+      <span class="menu-ind" aria-hidden="true"></span>
+      <a href="index.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h4v-5h4v5h4v-9"/></svg>Accueil</a>
+      <a href="fonctionnalites.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Fonctionnalités</a>
+      <a href="ligues.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4"/></svg>Ligues</a>
+      <a href="privacy.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.8 7 10 4-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>Confidentialité</a>
+      <a href="contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>Contact</a>
     </nav>
     <div class="nav-actions">
       <button class="icon-btn" data-theme-toggle aria-label="Basculer le mode sombre">
@@ -225,37 +49,11 @@
         <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
       </button>
       <a href="https://discord.gg/tpFYkftsW3" target="_blank" rel="noopener" class="btn btn-primary btn-sm nav-cta">Rejoindre le Discord</a>
-      <button class="icon-btn menu-btn" id="menuOpen" aria-label="Ouvrir le menu" aria-controls="sheet" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
-      </button>
     </div>
   </div>
 </header>
 
-<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
-  <div class="sheet-top">
-    <span class="brand"><img class="brand-mark" src="assets/icon.svg" alt="" width="32" height="32"><span>Ticket<span style="color:var(--primary)">Stay</span></span></span>
-    <button class="icon-btn" id="menuClose" aria-label="Fermer le menu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
-  </div>
-  <nav aria-label="Navigation mobile">
-    <a href="#fonctionnalites">Fonctionnalités</a>
-    <a href="#ligues">Ligues</a>
-    <a href="#confidentialite">Confidentialité</a>
-    <a href="privacy.html">Politique complète</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <div class="sheet-actions">
-    <a href="https://discord.gg/tpFYkftsW3" target="_blank" rel="noopener" class="btn btn-primary btn-block">Rejoindre le Discord</a>
-    <a href="mailto:hockey007smith@hotmail.ca" class="btn btn-ghost btn-block">Écrire un courriel</a>
-  </div>
-</div>
-
 <main id="main">
-<span id="top"></span>
-
-  <!-- ============ Hero ============ -->
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
@@ -263,7 +61,7 @@
         <h1>Vos billets de saison, enfin sous <span class="grad-text">contrôle</span>.</h1>
         <p class="lead">TicketStay suit vos abonnements, vos matchs et vos acheteurs, calcule un prix suggéré et rédige vos messages de vente — tout reste sur votre appareil.</p>
         <div class="hero-actions">
-          <a href="#fonctionnalites" class="btn btn-primary">
+          <a href="fonctionnalites.html" class="btn btn-primary">
             Voir les fonctionnalités
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
@@ -323,184 +121,59 @@
     </div>
   </section>
 
-  <!-- ============ Fonctionnalités ============ -->
-  <section class="section" id="fonctionnalites">
+  <section class="section">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="eyebrow">Fonctionnalités</span>
-        <h2 class="h2">Ce que fait l'application</h2>
+        <span class="eyebrow">Explorer</span>
+        <h2 class="h2">Tout TicketStay, en quatre onglets</h2>
         <p class="sub">Pensée pour les détenteurs d'abonnements qui revendent ou donnent une partie de leurs billets au fil de la saison.</p>
       </div>
-
-      <div class="features">
-        <article class="feature wide first reveal" style="--c:#C8102E">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg></div>
-          <h3>Un accueil qui résume tout</h3>
-          <p>Le prochain match, ce qu'on vous doit encore et vos chiffres du moment, dès l'ouverture.</p>
-        </article>
-        <article class="feature reveal" style="--c:#2f7dd1">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></div>
-          <h3>Calendrier et billets</h3>
-          <p>Chaque match, chaque siège : à vendre, vendu, donné, utilisé ou à placer. Importez votre calendrier depuis un fichier CSV ou XML.</p>
-        </article>
-        <article class="feature reveal" style="--c:#8b5cf6">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 15.2c2.6.3 4.5 2 4.5 4.8"/></svg></div>
-          <h3>Carnet d'acheteurs</h3>
-          <p>Qui a acheté quoi, qui doit encore payer, et un bouton pour relancer par texto en un geste. Ajoutez une personne à la main ou en un tap depuis vos contacts.</p>
-        </article>
-        <article class="feature reveal" style="--c:#c9961f">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4h6a2 2 0 0 1 2 2v6l-9 9-8-8 9-9z"/><circle cx="15" cy="8" r="1.3" fill="currentColor" stroke="none"/></svg></div>
-          <h3>Prix suggéré</h3>
-          <p>Un prix par billet et par paire, calculé à partir de vos propres ventes et du coût de votre abonnement.</p>
-        </article>
-        <article class="feature reveal" style="--c:#e2823a">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4a1 1 0 0 0 1 1h2l9 4V5L6 9H4a1 1 0 0 0-1 1z"/><path d="M18 9a4 4 0 0 1 0 6"/></svg></div>
-          <h3>Mode annonce</h3>
-          <p>Un écran qui prépare l'offre pour chaque acheteur, prix ajustable, et qui suit qui a été contacté.</p>
-        </article>
-        <article class="feature reveal" style="--c:#14b8a6">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></svg></div>
-          <h3>Messages rédigés sur l'appareil</h3>
-          <p>L'intelligence artificielle intégrée à votre appareil peut rédiger un message de vente personnalisé — rien n'est envoyé à l'extérieur.</p>
-        </article>
-        <article class="feature reveal" style="--c:#3aa66b">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-          <h3>Compte protégé par NIP</h3>
-          <p>Un NIP à quatre chiffres protège la gestion de vos billets à chaque ouverture de l'application.</p>
-        </article>
-        <article class="feature reveal" style="--c:#ec4899">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6z"/></svg></div>
-          <h3>Plusieurs équipes</h3>
-          <p>Autant d'abonnements que vous voulez, dans autant de sports, avec une équipe favorite qui s'ouvre au démarrage.</p>
-        </article>
-        <article class="feature reveal" style="--c:#2E5A96">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0 1 12 0c0 3 1 4.5 2 5.5H4c1-1 2-2.5 2-5.5z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></div>
-          <h3>Rappels et classement</h3>
-          <p>Une notification avant un match dont les billets ne sont pas placés, et le classement de la ligue en direct.</p>
-        </article>
-        <article class="feature wide last reveal" style="--c:#2f7dd1">
-          <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg></div>
-          <h3>Partage et export</h3>
-          <p>Partagez votre saison en lecture seule ou exportez vos données pour les recharger ailleurs, quand vous le décidez.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ Statuts ============ -->
-  <section class="section bg-soft" style="padding-block:clamp(56px,8vw,96px)">
-    <div class="wrap">
-      <div class="section-head center reveal">
-        <span class="eyebrow">Chaque siège</span>
-        <h2 class="h2">Un statut clair pour chaque billet</h2>
-      </div>
-      <div class="flow reveal">
-        <div class="step" style="--c:#C8102E"><i></i><b>À vendre</b></div>
-        <div class="step" style="--c:#3aa66b"><i></i><b>Vendu</b></div>
-        <div class="step" style="--c:#8b5cf6"><i></i><b>Donné</b></div>
-        <div class="step" style="--c:#2f7dd1"><i></i><b>Utilisé</b></div>
-        <div class="step" style="--c:#c9961f"><i></i><b>À placer</b></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ Ligues ============ -->
-  <section class="section" id="ligues">
-    <div class="wrap">
-      <div class="section-head center reveal">
-        <span class="eyebrow">Ligues</span>
-        <h2 class="h2">Six sports, des dizaines de ligues</h2>
-        <p class="sub">Plus de 460 équipes déjà répertoriées, du professionnel au junior.</p>
-      </div>
-      <div class="leagues reveal">
-        <span class="league" style="--c:#C8102E">LNH</span>
-        <span class="league" style="--c:#1E6FD9">LAH</span>
-        <span class="league" style="--c:#7E5BEF">LPHF</span>
-        <span class="league" style="--c:#E4611C">NBA</span>
-        <span class="league" style="--c:#F04E98">WNBA</span>
-        <span class="league" style="--c:#CD732D">G League</span>
-        <span class="league" style="--c:#D9523D">CEBL</span>
-        <span class="league" style="--c:#C9402F">MLB</span>
-        <span class="league" style="--c:#A3673E">AAA</span>
-        <span class="league" style="--c:#4C9F41">NFL</span>
-        <span class="league" style="--c:#D8A128">LCF</span>
-        <span class="league" style="--c:#3268C0">UFL</span>
-        <span class="league" style="--c:#2FA84F">MLS</span>
-        <span class="league" style="--c:#00B2A9">NWSL</span>
-        <span class="league" style="--c:#217B52">USL</span>
-        <span class="league" style="--c:#C72D38">PLC</span>
-        <span class="league" style="--c:#2196BA">ECHL</span>
-        <span class="league" style="--c:#6A8AAA">SPHL</span>
-        <span class="league" style="--c:#5FAF4A">NLL</span>
-        <span class="league" style="--c:#006AB3">LHJMQ</span>
-        <span class="league" style="--c:#D98C21">OHL</span>
-        <span class="league" style="--c:#2E5A96">WHL</span>
-        <span class="league custom" style="--c:#6F80A3">Ligue personnalisée</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ Confidentialité ============ -->
-  <section class="section bg-soft" id="confidentialite">
-    <div class="wrap privacy">
-      <div class="reveal">
-        <span class="eyebrow">Confidentialité</span>
-        <h2 class="h2">La confidentialité par conception</h2>
-        <p class="sub">TicketStay ne crée aucun compte en ligne, ne contient aucune publicité et aucun outil de mesure.</p>
-        <p class="sub" style="margin-top:16px">Toutes vos données — abonnements, matchs, billets, acheteurs — restent dans l'espace de stockage privé de l'application, sur votre appareil. Rien n'est transmis à qui que ce soit, sauf si vous décidez vous-même de partager ou d'exporter votre saison.</p>
-        <a href="privacy.html" class="btn btn-ghost" style="margin-top:26px;white-space:normal;text-align:center;line-height:1.3;padding-block:10px">
-          Lire la politique de confidentialité complète
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      <div class="explore">
+        <a class="xcard reveal" href="fonctionnalites.html" style="--c:#C8102E">
+          <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg></span>
+          <h3>Fonctionnalités</h3>
+          <p>Accueil, calendrier, carnet d'acheteurs, prix suggéré, mode annonce et plus — tout ce que fait l'application.</p>
+          <span class="go">Voir les fonctionnalités <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="xcard reveal" href="ligues.html" style="--c:#2f7dd1">
+          <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4"/></svg></span>
+          <h3>Ligues</h3>
+          <p>Six sports, des dizaines de ligues et plus de 460 équipes déjà répertoriées, du professionnel au junior.</p>
+          <span class="go">Voir les ligues <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="xcard reveal" href="privacy.html" style="--c:#3aa66b">
+          <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.8 7 10 4-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <h3>Confidentialité</h3>
+          <p>Aucun compte en ligne, aucune publicité, aucun outil de mesure. Vos données restent sur votre appareil.</p>
+          <span class="go">Lire la politique <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="xcard reveal" href="contact.html" style="--c:#8b5cf6">
+          <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg></span>
+          <h3>Contact</h3>
+          <p>Une question, une suggestion ou un problème? Écrivez-nous ou rejoignez le Discord.</p>
+          <span class="go">Nous joindre <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
       </div>
-      <div class="panel reveal">
-        <h4>Garanti par conception</h4>
-        <div class="big">Vos données restent chez vous</div>
-        <div class="row"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></i>Aucune inscription sur un serveur</div>
-        <div class="row"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></i>Aucune analyse d'usage ni statistique</div>
-        <div class="row"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></i>Aucune publicité ni traceur ajouté par nous</div>
-        <div class="row"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></i>Aucun partage ni vente de données, puisqu'aucune ne nous parvient</div>
-      </div>
     </div>
   </section>
-
-  <!-- ============ Contact ============ -->
-  <section class="section" id="contact">
-    <div class="wrap">
-      <div class="contact reveal">
-        <h2>Propriétaire et contact</h2>
-        <p><strong>TicketStay</strong> est développée et éditée par <strong>Anthony Smith</strong>. Pour toute question, suggestion ou problème :</p>
-        <div class="ways">
-          <a class="way" href="mailto:hockey007smith@hotmail.ca">
-            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span>
-            <span><b>Courriel</b><small>hockey007smith@hotmail.ca</small></span>
-          </a>
-          <a class="way" href="https://discord.gg/tpFYkftsW3" target="_blank" rel="noopener">
-            <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 5.3A17 17 0 0 0 15.4 4l-.5 1a15.8 15.8 0 0 0-5.8 0l-.5-1a17 17 0 0 0-4.2 1.3C1.7 9.3 1 13.2 1.3 17a17 17 0 0 0 5.2 2.6l1.1-1.8a11 11 0 0 1-1.7-.8l.4-.3a12.2 12.2 0 0 0 11.4 0l.4.3-1.7.8 1.1 1.8a17 17 0 0 0 5.2-2.6c.4-4.4-.7-8.3-3.1-11.7ZM8.7 14.7c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.8 2.1-1.9 2.1Zm6.6 0c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.8 2.1-1.9 2.1Z"/></svg></span>
-            <span><b>Discord</b><small>Questions, suggestions, support</small></span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="site-footer">
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a href="#top" class="brand"><img class="brand-mark" src="assets/icon.svg" alt="" width="32" height="32"><span>Ticket<span style="color:var(--primary)">Stay</span></span></a>
+        <a href="index.html" class="brand"><img class="brand-mark" src="assets/icon.svg" alt="" width="32" height="32"><span>Ticket<span style="color:var(--primary)">Stay</span></span></a>
         <p>Application indépendante — ni affiliée, ni associée, ni approuvée par les ligues, les équipes ou les billetteries. Développée par Anthony Smith.</p>
       </div>
       <div class="foot-col">
         <h5>Application</h5>
-        <a href="#fonctionnalites">Fonctionnalités</a>
-        <a href="#ligues">Ligues</a>
-        <a href="#confidentialite">Confidentialité</a>
+        <a href="index.html">Accueil</a>
+        <a href="fonctionnalites.html">Fonctionnalités</a>
+        <a href="ligues.html">Ligues</a>
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
+        <a href="contact.html">Nous joindre</a>
         <a href="mailto:hockey007smith@hotmail.ca">Courriel</a>
         <a href="https://discord.gg/tpFYkftsW3" target="_blank" rel="noopener">Discord</a>
       </div>
@@ -516,6 +189,19 @@
   </div>
 </footer>
 
+<nav class="tabbar" aria-label="Navigation">
+  <span class="tab-ind" aria-hidden="true" style="--i:0"></span>
+  <a href="index.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h4v-5h4v5h4v-9"/></svg><span>Accueil</span></a>
+  <a href="fonctionnalites.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg><span>Fonctions</span></a>
+  <a href="ligues.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4"/></svg><span>Ligues</span></a>
+  <a href="privacy.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.8 7 10 4-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Confidentialité</span></a>
+  <a href="contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg><span>Contact</span></a>
+</nav>
+
 <script src="assets/site.js"></script>
+<script>
+  /* Anciens liens (#fonctionnalites, #ligues…) → nouvelles pages */
+  (function(){var m={'#fonctionnalites':'fonctionnalites.html','#ligues':'ligues.html','#confidentialite':'privacy.html','#contact':'contact.html'};if(m[location.hash])location.replace(m[location.hash]);})();
+</script>
 </body>
 </html>
