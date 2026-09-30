@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mon compte — TicketStay</title>
+<meta name="description" content="Connectez-vous avec votre identifiant Apple pour consulter vos billets de saison, vos matchs et vos acheteurs synchronisés depuis l’app TicketStay.">
+<meta name="theme-color" content="#F8FAFD">
+<meta name="color-scheme" content="light dark">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-title" content="TicketStay">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta property="og:title" content="TicketStay">
+<meta property="og:description" content="Vos billets de saison, enfin sous contrôle.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<script>
+  (function(){document.documentElement.classList.add('js');try{var s=localStorage.getItem('ts-theme');if(s==='dark'||(!s&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/app.css">
+<script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a href="index.html" class="brand" aria-label="TicketStay — accueil"><img class="brand-mark" src="assets/icon.svg" alt="" width="32" height="32"><span>Ticket<span style="color:var(--primary)">Stay</span></span></a>
+    <nav class="menu" aria-label="Navigation principale">
+      <span class="menu-ind" aria-hidden="true"></span>
+      <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h4v-5h4v5h4v-9"/></svg>Accueil</a>
+      <a href="fonctionnalites.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Fonctionnalités</a>
+      <a href="ligues.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4"/></svg>Ligues</a>
+      <a href="privacy.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.8 7 10 4-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>Confidentialité</a>
+      <a href="contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" data-theme-toggle aria-label="Basculer le mode sombre">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+      </button>
+      <a href="compte.html" class="acct-btn" aria-current="page" aria-label="Mon compte"><span class="av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg></span><span class="lbl">Mon compte</span></a>
+      <a href="https://discord.gg/tpFYkftsW3" target="_blank" rel="noopener" class="btn btn-primary btn-sm nav-cta">Rejoindre le Discord</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Accueil</a><span>›</span><span>Mon compte</span></div>
+      <span class="eyebrow">Mon compte</span>
+      <h1>Votre compte TicketStay</h1>
+      <p>Connectez-vous avec votre identifiant Apple pour consulter la saison synchronisée depuis votre iPhone : matchs, billets et acheteurs.</p>
+    </div>
+  </section>
+  <section class="section acct" style="padding-top:clamp(28px,5vw,48px)">
+    <div class="wrap">
+
+      <div class="demo-bar" id="demoBar" hidden>
+        <span><b>Mode démo</b> — données fictives, pour voir à quoi ressemble votre compte.</span>
+        <button type="button" class="btn btn-sm btn-ghost" id="demoExit">Quitter la démo</button>
+      </div>
+      <div class="session-bar" id="sessionBar" hidden>
+        <span class="dot"></span><span>Connecté avec votre identifiant Apple</span>
+        <div id="apple-sign-out-button"></div>
+      </div>
+
+      <div data-state="loading" class="acct-loading"><span class="spin" aria-hidden="true"></span><p>Chargement de votre compte…</p></div>
+
+      <div data-state="setup" hidden>
+        <div class="acct-hero-card">
+          <span class="soon">Bientôt disponible</span>
+          <h2>Votre saison, sur n'importe quel écran</h2>
+          <p>Une prochaine mise à jour de l'application permettra de relier votre iPhone à votre compte. Vous pourrez alors consulter vos matchs, vos billets et vos acheteurs depuis un ordinateur, en vous connectant avec votre identifiant Apple.</p>
+          <ol class="steps">
+            <li><span class="n">1</span><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><b>Activez l'accès web</b><small>Dans les réglages de l'app TicketStay, sur votre iPhone.</small></li>
+            <li><span class="n">2</span><span class="si"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.1 1.1.1 2.3-.6 3.1-1.5Z"/></svg></span><b>Connectez-vous avec Apple</b><small>Ici, avec le même identifiant Apple que votre iPhone.</small></li>
+            <li><span class="n">3</span><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 7.9H7Z"/></svg></span><b>Consultez votre saison</b><small>Prochains matchs, sommes à recevoir et acheteurs.</small></li>
+          </ol>
+          <div class="acct-cta"><button type="button" class="btn btn-primary" data-demo>Voir une démo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+        </div>
+        <div class="acct-privacy">
+          <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+          <div><b>Vos données restent à vous</b><small>La connexion est gérée par Apple. Le site lit vos données directement dans votre iCloud privé, depuis votre navigateur : ni TicketStay ni personne d'autre n'y a accès.</small></div>
+        </div>
+      </div>
+
+      <div data-state="signin" hidden>
+        <div class="acct-hero-card signin">
+          <span class="lockbig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.1 1.1.1 2.3-.6 3.1-1.5Z"/></svg></span>
+          <h2>Connectez-vous</h2>
+          <p>Utilisez le même identifiant Apple que sur l'iPhone où TicketStay est installée.</p>
+          <div id="apple-sign-in-button" class="apple-btn"></div>
+          <button type="button" class="linkish" data-demo>ou voir une démo</button>
+        </div>
+        <div class="acct-privacy">
+          <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+          <div><b>Vos données restent à vous</b><small>La connexion est gérée par Apple. Le site lit vos données directement dans votre iCloud privé, depuis votre navigateur : ni TicketStay ni personne d'autre n'y a accès.</small></div>
+        </div>
+      </div>
+
+      <div data-state="empty" hidden>
+        <div class="acct-hero-card">
+          <span class="lockbig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 7.9H7Z"/></svg></span>
+          <h2>Aucune donnée synchronisée</h2>
+          <p>Vous êtes bien connecté, mais votre iPhone n'a encore rien envoyé vers votre iCloud. Dans l'app TicketStay, activez l'accès web dans les réglages, puis revenez sur cette page.</p>
+          <div class="acct-cta"><button type="button" class="btn btn-ghost" data-demo>Voir une démo</button></div>
+        </div>
+      </div>
+
+      <div data-state="error" hidden>
+        <div class="acct-hero-card">
+          <h2>Impossible de charger votre compte</h2>
+          <p id="errMsg"></p>
+          <div class="acct-cta"><button type="button" class="btn btn-primary" id="retry">Réessayer</button> <button type="button" class="btn btn-ghost" data-demo>Voir une démo</button></div>
+        </div>
+      </div>
+
+      <div data-state="dash" hidden>
+        <div class="dash-top">
+          <div>
+            <h2 id="hello">Bonjour</h2>
+            <p><span id="teamName"></span> <span class="sync" id="synced"></span></p>
+          </div>
+        </div>
+        <div class="team-tabs" id="teamTabs" role="tablist" aria-label="Équipes"></div>
+        <div class="kpis" id="kpis"></div>
+        <div class="dash-grid">
+          <div class="dpanel">
+            <h3>Prochains matchs</h3>
+            <div id="games"></div>
+          </div>
+          <div class="dpanel">
+            <h3>Qui doit encore payer</h3>
+            <div id="owing"></div>
+          </div>
+        </div>
+        <div class="dash-grid two">
+          <div class="dpanel" id="recoverBox">
+            <h3>Coût de l'abonnement récupéré <span id="recoverPct"></span></h3>
+            <div class="meter"><span id="recoverBar"></span></div>
+            <small class="muted" id="recoverTxt"></small>
+          </div>
+          <div class="dpanel">
+            <h3>Tous vos billets de la saison</h3>
+            <div class="mix" id="mixBar"></div>
+            <div class="mix-legend" id="mixLegend"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand"><img class="brand-mark" src="assets/icon.svg" alt="" width="32" height="32"><span>Ticket<span style="color:var(--primary)">Stay</span></span></a>
+        <p>Application indépendante — ni affiliée, ni associée, ni approuvée par les ligues, les équipes ou les billetteries. Développée par Anthony Smith.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Application</h5>
+        <a href="index.html">Accueil</a>
+        <a href="fonctionnalites.html">Fonctionnalités</a>
+        <a href="ligues.html">Ligues</a>
+        <a href="compte.html">Mon compte</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="contact.html">Nous joindre</a>
+        <a href="mailto:hockey007smith@hotmail.ca">Courriel</a>
+        <a href="https://discord.gg/tpFYkftsW3" target="_blank" rel="noopener">Discord</a>
+      </div>
+      <div class="foot-col">
+        <h5>Légal</h5>
+        <a href="privacy.html">Politique de confidentialité</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span data-year>2026</span> Anthony Smith — TicketStay</span>
+      <span>Fait au Québec 🇨🇦</span>
+    </div>
+  </div>
+</footer>
+
+<nav class="tabbar" aria-label="Navigation">
+  <span class="tab-ind" aria-hidden="true" style="--i:-1;opacity:0"></span>
+  <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h4v-5h4v5h4v-9"/></svg><span>Accueil</span></a>
+  <a href="fonctionnalites.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg><span>Fonctions</span></a>
+  <a href="ligues.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4"/></svg><span>Ligues</span></a>
+  <a href="privacy.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.8 7 10 4-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Confidentialité</span></a>
+  <a href="contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg><span>Contact</span></a>
+</nav>
+
+<script src="assets/site.js"></script>
+<script src="assets/compte-config.js"></script>
+<script src="assets/compte.js"></script>
+</body>
+</html>
