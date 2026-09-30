@@ -1,15 +1,15 @@
 /*
- * Configuration de la connexion « Mon compte » (iCloud / CloudKit JS).
+ * Configuration de la connexion « Mon compte » (Supabase + GitHub).
  *
- * Tant que containerIdentifier ET apiToken sont vides, la page Mon compte
- * affiche « Bientôt disponible » et propose seulement la démo.
+ * Ces deux valeurs sont PUBLIQUES : elles sont faites pour être dans une page web.
+ * La sécurité vient des règles RLS de la table ts_snapshots (voir supabase/schema.sql) :
+ * chaque compte ne peut lire que ses propres lignes.
  *
- * Les deux valeurs viennent de CloudKit Console (voir COMPTE-ICLOUD.md).
- * Le jeton API web n'est pas un secret : il est fait pour être public dans
- * une page web. Il ne donne accès qu'aux données de la personne connectée.
+ * Ne JAMAIS mettre ici la clé « service_role » ou « secret » (sb_secret_…).
+ * Laisser url ou key vide réaffiche « Bientôt disponible ».
  */
-window.TICKETSTAY_CLOUDKIT = {
-  containerIdentifier: '',     // ex. 'iCloud.com.anthonysmith.TicketStay'
-  apiToken: '',                // jeton API « web » créé dans CloudKit Console
-  environment: 'development'   // mettre 'production' une fois le schéma déployé
+window.TICKETSTAY_SUPABASE = {
+  url: 'https://ulxjyvrwvhqntyiztiqw.supabase.co',
+  key: 'sb_publishable_L_XvCBKFEFswNnNzDwi1pg_zXqSXQGZ',
+  provider: 'github'
 };

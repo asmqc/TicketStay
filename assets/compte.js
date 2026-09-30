@@ -1,15 +1,16 @@
 /* TicketStay — page « Mon compte »
- * Connexion avec l'identifiant Apple (CloudKit JS) et lecture des données
- * synchronisées par l'app dans la base PRIVÉE iCloud de la personne.
- * Format attendu : voir COMPTE-ICLOUD.md (type d'enregistrement TSSnapshot).
+ * Connexion avec GitHub (Supabase Auth) et lecture des données synchronisées
+ * par l'app dans la table ts_snapshots (une ligne par équipe, voir supabase/schema.sql).
+ * La sécurité par ligne (RLS) fait que chaque compte ne lit que ses propres lignes.
  */
 (function () {
   'use strict';
 
-  var cfg = window.TICKETSTAY_CLOUDKIT || {};
-  var configured = !!(cfg.containerIdentifier && cfg.apiToken);
-  var container = null;
+  var cfg = window.TICKETSTAY_SUPABASE || {};
+  var configured = !!(cfg.url && cfg.key);
+  var sb = null;
   var state = { teams: [], team: 0, demo: false };
+  var listening = false;
 
   var money = new Intl.NumberFormat('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 });
   var dayFmt = new Intl.DateTimeFormat('fr-CA', { weekday: 'short' });
@@ -45,15 +46,15 @@
     document.querySelectorAll('[data-state]').forEach(function (s) { s.hidden = s.getAttribute('data-state') !== name; });
   }
 
-  /* ================================================================ CloudKit */
-  function loadCloudKit() {
+  /* ================================================================ Supabase */
+  function loadSupabase() {
     return new Promise(function (res, rej) {
-      if (window.CloudKit) return res();
+      if (window.supabase && window.supabase.createClient) return res();
       var s = document.createElement('script');
-      s.src = 'https://cdn.apple-cloudkit.com/ck/2/cloudkit.js';
+      s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
       s.async = true;
       s.onload = function () { res(); };
-      s.onerror = function () { rej(new Error('Le service iCloud ne répond pas. Vérifiez votre connexion Internet.')); };
+      s.onerror = function () { rej(new Error('Le service de connexion ne répond pas. Vérifiez votre connexion Internet.')); };
       document.head.appendChild(s);
     });
   }
@@ -62,65 +63,95 @@
     state.demo = false;
     $('#demoBar').hidden = true;
     show('loading');
-    loadCloudKit().then(function () {
-      if (!container) {
-        CloudKit.configure({
-          locale: 'fr-ca',
-          containers: [{
-            containerIdentifier: cfg.containerIdentifier,
-            apiTokenAuth: {
-              apiToken: cfg.apiToken,
-              persist: true,
-              signInButton: { id: 'apple-sign-in-button', theme: 'black' },
-              signOutButton: { id: 'apple-sign-out-button', theme: 'white-with-outline' }
-            },
-            environment: cfg.environment || 'production'
-          }]
+    loadSupabase().then(function () {
+      if (!sb) {
+        sb = window.supabase.createClient(cfg.url, cfg.key, {
+          auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
         });
-        container = CloudKit.getDefaultContainer();
       }
-      return container.setUpAuth();
-    }).then(function (user) {
-      if (user) onSignedIn(user); else onSignedOut();
+      if (!listening) {
+        listening = true;
+        sb.auth.onAuthStateChange(function (event, session) {
+          if (state.demo) return;
+          if (event === 'SIGNED_OUT') onSignedOut();
+          else if (event === 'SIGNED_IN' && session && !state.teams.length) onSignedIn(session.user);
+        });
+      }
+      return sb.auth.getSession();
+    }).then(function (r) {
+      /* Nettoie l'adresse après le retour de GitHub (?code=…) */
+      if (/[?&](code|error)=/.test(location.search)) {
+        var q = new URLSearchParams(location.search);
+        if (q.get('error_description')) throw new Error(q.get('error_description'));
+        try { history.replaceState(null, '', location.pathname); } catch (e) {}
+      }
+      var session = r && r.data && r.data.session;
+      if (r && r.error) throw r.error;
+      if (session) onSignedIn(session.user); else onSignedOut();
     }).catch(onError);
+  }
+
+  function signIn() {
+    var btn = $('#ghSignIn');
+    btn.disabled = true;
+    btn.classList.add('busy');
+    sb.auth.signInWithOAuth({
+      provider: cfg.provider || 'github',
+      options: { redirectTo: location.origin + location.pathname }
+    }).then(function (r) { if (r.error) throw r.error; }).catch(function (e) {
+      btn.disabled = false; btn.classList.remove('busy'); onError(e);
+    });
+  }
+
+  function signOut() {
+    state.teams = [];
+    sb.auth.signOut().then(onSignedOut, onSignedOut);
   }
 
   function onSignedOut() {
     $('#sessionBar').hidden = true;
     state.teams = [];
+    var btn = $('#ghSignIn'); if (btn) { btn.disabled = false; btn.classList.remove('busy'); }
     show('signin');
-    container.whenUserSignsIn().then(onSignedIn).catch(onError);
+  }
+
+  function userLabel(u) {
+    var m = (u && u.user_metadata) || {};
+    return { name: m.full_name || m.name || m.user_name || m.preferred_username || u.email || '', login: m.user_name || m.preferred_username || '', avatar: m.avatar_url || '' };
   }
 
   function onSignedIn(user) {
+    var who = userLabel(user);
     $('#sessionBar').hidden = false;
-    container.whenUserSignsOut().then(onSignedOut);
-    fetchData(user);
+    $('#who').textContent = who.login ? who.name + ' (@' + who.login + ')' : who.name;
+    var av = $('#whoAvatar');
+    if (who.avatar && /^https:\/\//.test(who.avatar)) { av.src = who.avatar; av.hidden = false; } else av.hidden = true;
+    fetchData(who);
   }
 
-  function fetchData(user) {
+  function fetchData(who) {
     show('loading');
-    container.privateCloudDatabase.performQuery({ recordType: 'TSSnapshot' }).then(function (r) {
-      if (r.hasErrors) throw r.errors[0];
-      var teams = r.records.map(function (rec) {
-        try {
-          var d = JSON.parse(rec.fields.payload.value);
-          if (!d.syncedAt && rec.modified) d.syncedAt = new Date(rec.modified.timestamp).toISOString();
-          return d;
-        } catch (e) { return null; }
+    sb.from('ts_snapshots').select('team_id, payload, updated_at').then(function (r) {
+      if (r.error) throw r.error;
+      var teams = (r.data || []).map(function (row) {
+        var d = row.payload;
+        if (typeof d === 'string') { try { d = JSON.parse(d); } catch (e) { d = null; } }
+        if (d && !d.syncedAt && row.updated_at) d.syncedAt = row.updated_at;
+        return d;
       }).filter(function (d) { return d && d.team; });
       if (!teams.length) { show('empty'); return; }
       teams.sort(function (a, b) { return (a.team.name || '').localeCompare(b.team.name || '', 'fr'); });
-      var given = user && user.nameComponents && user.nameComponents.givenName;
-      setData(teams, given || teams[0].owner || '');
+      var first = (teams[0].owner || who.name || '').split(' ')[0];
+      setData(teams, first);
     }).catch(onError);
   }
 
   function onError(err) {
-    var code = err && (err.ckErrorCode || err.serverErrorCode);
-    var msg = (err && (err.reason || err.message)) || 'Erreur inconnue.';
-    if (code === 'AUTHENTICATION_REQUIRED' || code === 'AUTHENTICATION_FAILED') { onSignedOut(); return; }
-    if (code === 'NOT_FOUND' || code === 'UNKNOWN_ITEM' || /record type|did not find/i.test(msg)) { show('empty'); return; }
+    var code = err && (err.code || err.status);
+    var msg = (err && (err.message || err.error_description)) || 'Erreur inconnue.';
+    /* Table pas encore créée : on affiche simplement un compte vide */
+    if (code === '42P01' || code === 'PGRST205' || /relation .* does not exist|Could not find the table/i.test(msg)) { show('empty'); return; }
+    if (/provider is not enabled|Unsupported provider/i.test(msg)) msg = 'La connexion GitHub n\'est pas encore activée pour ce site.';
     $('#errMsg').textContent = msg;
     show('error');
   }
@@ -316,6 +347,8 @@
   document.querySelectorAll('[data-demo]').forEach(function (b) { b.addEventListener('click', startDemo); });
   $('#demoExit').addEventListener('click', exitDemo);
   $('#retry').addEventListener('click', function () { if (configured) startCloud(); });
+  $('#ghSignIn').addEventListener('click', signIn);
+  $('#signOut').addEventListener('click', signOut);
 
   if (/[?&]demo=1/.test(location.search)) startDemo();
   else if (configured) startCloud();

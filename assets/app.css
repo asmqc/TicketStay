@@ -458,3 +458,30 @@
   .lg-item b{color:var(--ink)}
   @media (max-width:980px){.kpis{grid-template-columns:1fr 1fr}.dash-grid,.dash-grid.two{grid-template-columns:1fr}}
   @media (max-width:420px){.kpi{padding:16px}.kpi b{font-size:21px}.acts .act{padding:0 10px}}
+
+  /* Connexion GitHub */
+  .gh-btn{
+    position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;
+    width:100%;max-width:320px;min-height:54px;margin:26px auto 6px;padding:0 24px;border-radius:16px;border:0;cursor:pointer;
+    background:#1F2328;color:#fff;font:inherit;font-size:16px;font-weight:700;
+    box-shadow:0 14px 30px -14px rgba(0,0,0,.6);transition:transform .15s,background .2s;
+  }
+  html.dark .gh-btn{background:#fff;color:#1F2328}
+  .gh-btn svg{width:22px;height:22px;flex:none}
+  .gh-btn:hover{background:#32383F}
+  html.dark .gh-btn:hover{background:#EDEFF2}
+  .gh-btn:active{transform:scale(.97)}
+  .gh-btn .spin{display:none;width:18px;height:18px;border-width:2px;border-color:rgba(255,255,255,.35);border-top-color:#fff}
+  html.dark .gh-btn .spin{border-color:rgba(0,0,0,.2);border-top-color:#1F2328}
+  .gh-btn.busy{opacity:.85;cursor:progress}
+  .gh-btn.busy .spin{display:inline-block}
+  .gh-btn.busy svg{display:none}
+  .signin .gh-btn{display:flex}
+  .who-av{width:36px;height:36px;border-radius:50%;flex:none;object-fit:cover;border:1px solid var(--border)}
+  .who-txt{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+  .who-txt small{font-size:12px;color:var(--ink-faint);font-weight:600}
+  .who-txt b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .session-bar #signOut{margin-left:auto}
+  .session-bar{flex-wrap:nowrap}
+  .session-bar .who-txt{flex:1}
+  @media (max-width:480px){.session-bar{padding:10px 10px 10px 12px;gap:10px}.session-bar #signOut{min-height:38px;padding:0 12px;font-size:13px}}
