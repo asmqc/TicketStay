@@ -75,7 +75,7 @@
      par exemple 'https://apps.apple.com/ca/app/ticketstay/id0000000000'.
      Tous les boutons du site (français et anglais) passeront alors
      de « Bientôt sur l'App Store » à « Télécharger dans l'App Store ». */
-  var APP_STORE_URL = '';
+  var APP_STORE_URL = 'https://apps.apple.com/app/id6796148236';
   document.querySelectorAll('[data-store]').forEach(function (el) {
     if (!APP_STORE_URL) return;
     el.setAttribute('href', APP_STORE_URL);
