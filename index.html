@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>TicketStay — Gérez vos billets de saison</title>
-<meta name="description" content="TicketStay aide les détenteurs d'abonnements de saison à suivre leurs matchs, revendre ou donner leurs billets, et retrouver qui doit encore payer — entièrement sur l'appareil, sans compte en ligne.">
+<meta name="description" content="TicketStay aide les détenteurs d'abonnements de saison à suivre leurs matchs, revendre ou donner leurs billets, et retrouver qui doit encore payer — entièrement sur l'appareil, sans compte obligatoire.">
 <meta name="theme-color" content="#F8FAFD">
 <meta name="color-scheme" content="light dark">
 <meta name="format-detection" content="telephone=no">
@@ -18,6 +18,8 @@
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="alternate" hreflang="fr-CA" href="index.html">
+<link rel="alternate" hreflang="en" href="en/index.html">
 <link rel="manifest" href="manifest.webmanifest">
 <script>
   (function(){document.documentElement.classList.add('js');try{var s=localStorage.getItem('ts-theme');if(s==='dark'||(!s&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})();
@@ -41,9 +43,11 @@
       <a href="fonctionnalites.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Fonctionnalités</a>
       <a href="ligues.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4"/></svg>Ligues</a>
       <a href="privacy.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.8 7 10 4-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>Confidentialité</a>
+      <a href="faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.3-2.4 3.8"/><path d="M12 17.2h.01"/></svg>FAQ</a>
       <a href="contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>Contact</a>
     </nav>
     <div class="nav-actions">
+      <a class="icon-btn lang-btn" href="en/index.html" hreflang="en" lang="en" aria-label="English version"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></svg>EN</a>
       <button class="icon-btn" data-theme-toggle aria-label="Basculer le mode sombre">
         <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></svg>
         <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
@@ -58,10 +62,11 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <span class="pill"><span class="dot"></span> Aucun compte en ligne · Tout reste sur votre appareil</span>
+        <span class="pill"><span class="dot"></span> Aucun compte obligatoire · Tout reste sur votre appareil</span>
         <h1>Vos billets de saison, enfin sous <span class="grad-text">contrôle</span>.</h1>
         <p class="lead">TicketStay suit vos abonnements, vos matchs et vos acheteurs, calcule un prix suggéré et rédige vos messages de vente — tout reste sur votre appareil.</p>
         <div class="hero-actions">
+          <a class="btn-store" data-store data-live="Télécharger dans l'" aria-disabled="true" aria-label="TicketStay sur l'App Store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-3.9zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z"/></svg><span><small>Bientôt sur l'</small><b>App Store</b></span></a>
           <a href="fonctionnalites.html" class="btn btn-primary">
             Voir les fonctionnalités
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -116,9 +121,114 @@
       <div class="stats">
         <div class="stat"><b>6</b><span>sports</span></div>
         <div class="stat"><b>460+</b><span>équipes répertoriées</span></div>
-        <div class="stat"><b>0</b><span>compte en ligne</span></div>
+        <div class="stat"><b>0</b><span>compte obligatoire</span></div>
         <div class="stat"><b>0</b><span>pub ni mesure</span></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section how">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Comment ça marche</span>
+        <h2 class="h2">Prêt en trois étapes</h2>
+        <p class="sub">Quelques minutes au début de la saison, puis TicketStay s'occupe du suivi.</p>
+      </div>
+      <ol class="steps reveal">
+        <li><span class="n">01</span><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 0 2-2h12a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H6a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4V8Z"/><path d="M14 6v12" stroke-dasharray="2 2.5"/></svg></span><b>Ajoutez votre abonnement</b><small>Choisissez votre équipe parmi plus de 460, puis inscrivez vos sections, rangées, sièges et le coût de l'abonnement.</small></li>
+        <li><span class="n">02</span><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></span><b>Importez le calendrier</b><small>Ajoutez les matchs depuis un fichier CSV ou XML, ou un à un. Chaque siège reçoit son statut.</small></li>
+        <li><span class="n">03</span><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.2-8.6"/><path d="M21 4 12 13l-3-3"/></svg></span><b>Vendez, donnez, encaissez</b><small>Prix suggéré, message de vente, carnet d'acheteurs : vous savez toujours qui a payé et qui doit encore.</small></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section bg-soft shots">
+    <div class="wrap" data-carousel>
+      <div class="section-head center reveal">
+        <span class="eyebrow">Aperçu</span>
+        <h2 class="h2">TicketStay, écran par écran</h2>
+        <p class="sub">Les écrans principaux de TicketStay sur iPhone.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Écrans de l'application">
+        <button type="button" role="tab" data-go>Accueil</button>
+        <button type="button" role="tab" data-go>Calendrier</button>
+        <button type="button" role="tab" data-go>Acheteurs</button>
+        <button type="button" role="tab" data-go>Prix suggéré</button>
+      </div>
+      <div class="slides">
+        <figure class="slide">
+          <div class="phone" role="img" aria-label="Écran d'accueil de TicketStay : prochain match, sommes à recevoir et billets à placer"><div class="scr"><span class="isl"></span>
+            <div class="sb"><span>19:41</span><i></i></div>
+            <div class="bd">
+              <h6>Bonsoir 👋</h6>
+              <div class="cd dk"><span class="k">Prochain match</span>
+                <div class="mt"><span class="cr">DOM</span><span class="vs2">Samedi · 19 h<b>Domicile vs Visiteurs</b></span><span class="cr b">VIS</span></div></div>
+              <div class="g2">
+                <div class="cd"><span class="k">À recevoir</span><span class="num r">170 $</span></div>
+                <div class="cd"><span class="k">Encaissé</span><span class="num g">1 240 $</span></div>
+              </div>
+              <div class="cd"><span class="k">Billets à placer</span>
+                <div class="row"><span class="dt">12<small>OCT</small></span><span class="grow"><b>vs Visiteurs</b><small>Sec. 112 · R. F · S. 3–4</small></span><span class="ch place">À placer</span></div>
+              </div>
+            </div>
+            <div class="tb"><span class="on">Accueil</span><span>Matchs</span><span>Acheteurs</span><span>Réglages</span></div>
+          </div></div>
+          <figcaption><b>Accueil</b><span>Le prochain match et ce qu'on vous doit, dès l'ouverture.</span></figcaption>
+        </figure>
+        <figure class="slide">
+          <div class="phone" role="img" aria-label="Calendrier de TicketStay : liste des matchs avec le statut de chaque siège"><div class="scr"><span class="isl"></span>
+            <div class="sb"><span>19:41</span><i></i></div>
+            <div class="bd">
+              <h6>Matchs</h6>
+              <div class="cd">
+                <div class="row"><span class="dt">04<small>OCT</small></span><span class="grow"><b>vs Les Loups</b><small>Sam. · 19 h</small></span><span class="ch sold">Vendu</span></div>
+                <div class="row"><span class="dt">08<small>OCT</small></span><span class="grow"><b>vs Les Faucons</b><small>Mer. · 19 h 30</small></span><span class="ch gift">Donné</span></div>
+                <div class="row"><span class="dt">12<small>OCT</small></span><span class="grow"><b>vs Les Ours</b><small>Dim. · 17 h</small></span><span class="ch place">À placer</span></div>
+                <div class="row"><span class="dt">18<small>OCT</small></span><span class="grow"><b>vs Les Lynx</b><small>Sam. · 19 h</small></span><span class="ch sell">À vendre</span></div>
+                <div class="row"><span class="dt">25<small>OCT</small></span><span class="grow"><b>vs Les Orignaux</b><small>Sam. · 19 h</small></span><span class="ch sold">Vendu</span></div>
+              </div>
+            </div>
+            <div class="tb"><span>Accueil</span><span class="on">Matchs</span><span>Acheteurs</span><span>Réglages</span></div>
+          </div></div>
+          <figcaption><b>Calendrier et billets</b><span>Chaque match, chaque siège, avec son statut.</span></figcaption>
+        </figure>
+        <figure class="slide">
+          <div class="phone" role="img" aria-label="Carnet d'acheteurs de TicketStay : qui doit encore payer, avec un bouton Texto"><div class="scr"><span class="isl"></span>
+            <div class="sb"><span>19:41</span><i></i></div>
+            <div class="bd">
+              <h6>Acheteurs</h6>
+              <div class="cd"><span class="k">Doivent encore payer</span>
+                <div class="row"><span class="av2" style="background:#2f7dd1">JT</span><span class="grow"><b>Julie T.</b><small>2 billets · 4 oct.</small></span><span class="tx">Texto</span></div>
+                <div class="row"><span class="av2" style="background:#8b5cf6">ML</span><span class="grow"><b>Marc L.</b><small>1 billet · 18 oct.</small></span><span class="tx">Texto</span></div>
+              </div>
+              <div class="cd"><span class="k">Ont payé</span>
+                <div class="row"><span class="av2" style="background:#3aa66b">SB</span><span class="grow"><b>Sophie B.</b><small>2 billets · 25 oct.</small></span><span class="ch sold">Payé</span></div>
+                <div class="row"><span class="av2" style="background:#c9961f">PG</span><span class="grow"><b>Pierre G.</b><small>2 billets · 8 oct.</small></span><span class="ch gift">Donné</span></div>
+              </div>
+            </div>
+            <div class="tb"><span>Accueil</span><span>Matchs</span><span class="on">Acheteurs</span><span>Réglages</span></div>
+          </div></div>
+          <figcaption><b>Carnet d'acheteurs</b><span>Qui doit encore payer, et une relance par texto en un geste.</span></figcaption>
+        </figure>
+        <figure class="slide">
+          <div class="phone" role="img" aria-label="Prix suggéré de TicketStay : prix par billet et par paire"><div class="scr"><span class="isl"></span>
+            <div class="sb"><span>19:41</span><i></i></div>
+            <div class="bd">
+              <h6>Prix suggéré</h6>
+              <div class="cd"><span class="k">Par billet</span><div class="big">85 $</div>
+                <div class="row"><span class="grow"><b>Par paire</b><small>Deux sièges côte à côte</small></span><b>160 $</b></div></div>
+              <div class="cd"><span class="k">Abonnement remboursé</span>
+                <div class="bar"><i style="width:62%"></i></div>
+                <div class="row"><span class="grow"><small>Coût de l'abonnement</small></span><b>4 200 $</b></div></div>
+              <div class="cta">Préparer l'annonce</div>
+            </div>
+            <div class="tb"><span>Accueil</span><span class="on">Matchs</span><span>Acheteurs</span><span>Réglages</span></div>
+          </div></div>
+          <figcaption><b>Prix suggéré</b><span>Calculé à partir de vos ventes et du coût de votre abonnement.</span></figcaption>
+        </figure>
+      </div>
+      <div class="shot-nav"><button type="button" data-prev aria-label="Écran précédent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button type="button" data-next aria-label="Écran suivant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+      <p class="shot-note">Illustrations des écrans, avec des données fictives.</p>
     </div>
   </section>
 
@@ -126,7 +236,7 @@
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Explorer</span>
-        <h2 class="h2">Tout TicketStay, en quatre onglets</h2>
+        <h2 class="h2">Tout TicketStay, en un coup d'œil</h2>
         <p class="sub">Pensée pour les détenteurs d'abonnements qui revendent ou donnent une partie de leurs billets au fil de la saison.</p>
       </div>
       <div class="explore">
@@ -142,10 +252,22 @@
           <p>Six sports, des dizaines de ligues et plus de 460 équipes déjà répertoriées, du professionnel au junior.</p>
           <span class="go">Voir les ligues <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
+        <a class="xcard reveal" href="faq.html" style="--c:#14b8a6">
+          <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.3-2.4 3.8"/><path d="M12 17.2h.01"/></svg></span>
+          <h3>FAQ</h3>
+          <p>Compte, données, changement de téléphone, NIP, import du calendrier : les réponses aux questions fréquentes.</p>
+          <span class="go">Lire la FAQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="xcard reveal" href="nouveautes.html" style="--c:#e2823a">
+          <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"/><path d="M18 15l.9 2.1L21 18l-2.1.9L18 21l-.9-2.1L15 18l2.1-.9z"/></svg></span>
+          <h3>Nouveautés</h3>
+          <p>Les dernières améliorations de TicketStay et de son site, et ce qui s'en vient.</p>
+          <span class="go">Voir les nouveautés <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
         <a class="xcard reveal" href="privacy.html" style="--c:#3aa66b">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.8 7 10 4-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>
           <h3>Confidentialité</h3>
-          <p>Aucun compte en ligne, aucune publicité, aucun outil de mesure. Vos données restent sur votre appareil.</p>
+          <p>Aucun compte obligatoire, aucune publicité, aucun outil de mesure. Vos données restent sur votre appareil.</p>
           <span class="go">Lire la politique <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
         <a class="xcard reveal" href="contact.html" style="--c:#8b5cf6">
@@ -171,6 +293,8 @@
         <a href="index.html">Accueil</a>
         <a href="fonctionnalites.html">Fonctionnalités</a>
         <a href="ligues.html">Ligues</a>
+        <a href="nouveautes.html">Nouveautés</a>
+        <a href="faq.html">FAQ</a>
         <a href="compte.html">Mon compte</a>
       </div>
       <div class="foot-col">

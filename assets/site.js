@@ -70,6 +70,22 @@
     });
   });
 
+  /* ---------- Bouton App Store ----------
+     Quand l'application est publiée, collez l'adresse de sa fiche ici,
+     par exemple 'https://apps.apple.com/ca/app/ticketstay/id0000000000'.
+     Tous les boutons du site (français et anglais) passeront alors
+     de « Bientôt sur l'App Store » à « Télécharger dans l'App Store ». */
+  var APP_STORE_URL = '';
+  document.querySelectorAll('[data-store]').forEach(function (el) {
+    if (!APP_STORE_URL) return;
+    el.setAttribute('href', APP_STORE_URL);
+    el.setAttribute('target', '_blank');
+    el.setAttribute('rel', 'noopener');
+    el.removeAttribute('aria-disabled');
+    var s = el.querySelector('small');
+    if (s && el.dataset.live) s.textContent = el.dataset.live;
+  });
+
   /* ---------- Année ---------- */
   document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
