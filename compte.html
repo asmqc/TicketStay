@@ -19,7 +19,7 @@
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="alternate" hreflang="fr-CA" href="compte.html">
-<link rel="alternate" hreflang="en" href="en/index.html">
+<link rel="alternate" hreflang="en" href="en/account.html">
 <link rel="manifest" href="manifest.webmanifest">
 <script>
   (function(){document.documentElement.classList.add('js');try{var s=localStorage.getItem('ts-theme');if(s==='dark'||(!s&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})();
@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="assets/app.css">
 <script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
 </head>
-<body>
+<body data-root="">
 <a class="skip" href="#main">Aller au contenu</a>
 
 <header class="site-header">
@@ -47,7 +47,7 @@
       <a href="contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>Contact</a>
     </nav>
     <div class="nav-actions">
-      <a class="icon-btn lang-btn" href="en/index.html" hreflang="en" lang="en" aria-label="English version"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></svg>EN</a>
+      <a class="icon-btn lang-btn" href="en/account.html" hreflang="en" lang="en" aria-label="English version"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></svg>EN</a>
       <button class="icon-btn" data-theme-toggle aria-label="Basculer le mode sombre">
         <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></svg>
         <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
@@ -72,12 +72,12 @@
 
       <div class="demo-bar" id="demoBar" hidden>
         <span><b>Mode démo</b> — données fictives, pour voir à quoi ressemble votre compte.</span>
-        <button type="button" class="btn btn-sm btn-ghost" id="demoExit">Quitter la démo</button>
+        <span class="bar-acts"><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Paramètres du compte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Paramètres</span></button><button type="button" class="btn btn-sm btn-ghost" id="demoExit">Quitter la démo</button></span>
       </div>
       <div class="session-bar" id="sessionBar" hidden>
         <img class="who-av" id="whoAvatar" alt="" width="32" height="32" hidden referrerpolicy="no-referrer">
         <span class="who-txt"><small>Connecté avec GitHub</small><b id="who"></b></span>
-        <button type="button" class="btn btn-sm btn-ghost" id="signOut">Se déconnecter</button>
+        <span class="bar-acts"><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Paramètres du compte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Paramètres</span></button><button type="button" class="btn btn-sm btn-ghost" id="signOut">Se déconnecter</button></span>
       </div>
 
       <div data-state="loading" class="acct-loading"><span class="spin" aria-hidden="true"></span><p>Chargement de votre compte…</p></div>
@@ -96,13 +96,14 @@
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-          <div><b>Vos données restent à vous</b><small>La connexion est gérée par GitHub : votre mot de passe n'est jamais transmis à TicketStay. Une règle de sécurité fait qu'un compte ne peut lire que ses propres données. À la connexion, seuls votre nom d'utilisateur, votre nom, votre photo de profil et votre courriel GitHub sont conservés, pour identifier votre compte.</small></div>
+          <div><b>Vos données restent à vous</b><small>La connexion est gérée par GitHub : votre mot de passe n'est jamais transmis à TicketStay. Une règle de sécurité fait qu'un compte ne peut lire que ses propres données. À la connexion, seuls votre nom d'utilisateur, votre nom, votre photo de profil et votre courriel GitHub sont conservés, pour identifier votre compte, ainsi que les préférences choisies dans les paramètres. Vous pouvez supprimer votre compte en tout temps.</small></div>
         </div>
       </div>
 
       <div data-state="signin" hidden>
         <div class="acct-hero-card signin">
           <span class="lockbig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></span>
+          <p class="goodbye" id="goodbye" role="status" hidden></p>
           <h2>Connectez-vous</h2>
           <p>Utilisez votre compte GitHub pour accéder à votre compte TicketStay.</p>
           <button type="button" class="gh-btn" id="ghSignIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span>Se connecter avec GitHub</span><i class="spin" aria-hidden="true"></i></button>
@@ -110,7 +111,7 @@
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-          <div><b>Vos données restent à vous</b><small>La connexion est gérée par GitHub : votre mot de passe n'est jamais transmis à TicketStay. Une règle de sécurité fait qu'un compte ne peut lire que ses propres données. À la connexion, seuls votre nom d'utilisateur, votre nom, votre photo de profil et votre courriel GitHub sont conservés, pour identifier votre compte.</small></div>
+          <div><b>Vos données restent à vous</b><small>La connexion est gérée par GitHub : votre mot de passe n'est jamais transmis à TicketStay. Une règle de sécurité fait qu'un compte ne peut lire que ses propres données. À la connexion, seuls votre nom d'utilisateur, votre nom, votre photo de profil et votre courriel GitHub sont conservés, pour identifier votre compte, ainsi que les préférences choisies dans les paramètres. Vous pouvez supprimer votre compte en tout temps.</small></div>
         </div>
       </div>
 
@@ -129,6 +130,70 @@
           <p id="errMsg"></p>
           <div class="acct-cta"><button type="button" class="btn btn-primary" id="retry">Réessayer</button> <button type="button" class="btn btn-ghost" data-demo>Voir une démo</button></div>
         </div>
+      </div>
+
+
+      <div data-state="settings" hidden>
+        <div class="set-top">
+          <button type="button" class="btn btn-sm btn-ghost" id="settingsBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Retour</button>
+          <h2>Paramètres du compte</h2>
+        </div>
+        <p class="set-demo" id="demoNote" hidden>Mode démo : vous pouvez essayer les préférences, mais rien n'est enregistré et les actions sur les données sont désactivées.</p>
+
+        <section class="dpanel set-card" aria-labelledby="setProfileH">
+          <h3 id="setProfileH">Profil</h3>
+          <div class="set-profile">
+            <img id="setAvatar" class="set-av" alt="" width="64" height="64" hidden referrerpolicy="no-referrer"><span id="setAvatarFallback" class="set-av fallback" aria-hidden="true"></span>
+            <div class="set-id"><b id="setName"></b><span id="setLogin"></span></div>
+          </div>
+          <dl class="set-list">
+            <div><dt>Courriel</dt><dd id="setEmail"></dd></div>
+            <div><dt>Connexion</dt><dd>GitHub</dd></div>
+          </dl>
+          <p class="set-hint">Le nom, la photo et le courriel viennent de votre compte GitHub. Pour les changer, modifiez votre profil sur github.com.</p>
+        </section>
+
+        <section class="dpanel set-card" aria-labelledby="setPrefH">
+          <h3 id="setPrefH">Préférences</h3>
+          <form id="prefForm" class="set-form">
+            <label class="field"><span>Nom affiché</span><input id="prefName" type="text" maxlength="40" autocomplete="given-name"><small>Utilisé pour vous saluer sur cette page.</small></label>
+            <label class="field"><span>Langue</span><select id="prefLang"><option value="fr">Français</option><option value="en">English</option></select></label>
+            <label class="field"><span>Devise</span><select id="prefCurrency"><option value="CAD">Dollar canadien (CAD)</option><option value="USD">Dollar américain (USD)</option><option value="EUR">Euro (EUR)</option></select></label>
+            <label class="field"><span>Équipe affichée en premier</span><select id="prefTeam"></select></label>
+            <div class="set-actions"><button type="submit" class="btn btn-primary" id="prefSave">Enregistrer</button><p class="set-msg" id="prefMsg" role="status" hidden></p></div>
+          </form>
+        </section>
+
+        <section class="dpanel set-card" aria-labelledby="setDataH">
+          <h3 id="setDataH">Mes données</h3>
+          <div class="set-row">
+            <div><b>Exporter mes données synchronisées</b><small>Télécharge un fichier JSON avec vos équipes, matchs, billets et acheteurs.</small></div>
+            <button type="button" class="btn btn-sm btn-ghost" id="exportBtn" data-demo-off>Exporter</button>
+          </div>
+          <div class="set-row">
+            <div><b>Supprimer mes données synchronisées</b><small>Efface la copie en ligne. Les données dans l'app sur votre iPhone ne sont pas touchées.</small></div>
+            <button type="button" class="btn btn-sm btn-ghost danger" id="delDataBtn" data-demo-off>Supprimer</button>
+          </div>
+          <div class="confirm" id="delDataConfirm" hidden>
+            <p>Supprimer toutes vos données synchronisées? Cette action est irréversible.</p>
+            <div class="set-actions"><button type="button" class="btn btn-sm btn-danger" id="delDataYes">Oui, supprimer</button><button type="button" class="btn btn-sm btn-ghost" id="delDataNo">Annuler</button></div>
+          </div>
+          <p class="set-msg" id="dataMsg" role="status" hidden></p>
+        </section>
+
+        <section class="dpanel set-card" aria-labelledby="setAcctH">
+          <h3 id="setAcctH">Compte</h3>
+          <div class="set-row">
+            <div><b>Supprimer mon compte</b><small>Supprime votre compte TicketStay en ligne et toutes vos données synchronisées. Votre compte GitHub n'est pas touché.</small></div>
+            <button type="button" class="btn btn-sm btn-ghost danger" id="delAcctBtn" data-demo-off>Supprimer le compte</button>
+          </div>
+          <div class="confirm" id="delAcctConfirm" hidden>
+            <p>Cette action est définitive. Pour confirmer, tapez <b>SUPPRIMER</b> ci-dessous.</p>
+            <label class="field"><span class="sr-only">Mot de confirmation</span><input id="delAcctWord" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="SUPPRIMER"></label>
+            <div class="set-actions"><button type="button" class="btn btn-sm btn-danger" id="delAcctYes">Supprimer définitivement</button><button type="button" class="btn btn-sm btn-ghost" id="delAcctNo">Annuler</button></div>
+          </div>
+          <p class="set-msg" id="acctMsg" role="status" hidden></p>
+        </section>
       </div>
 
       <div data-state="dash" hidden>

@@ -611,3 +611,54 @@
   .slide{margin:0;min-width:0}
   @media (min-width:981px){.slides{grid-template-columns:repeat(4,minmax(0,1fr))}}
   .entry{min-width:0;overflow-wrap:break-word}
+
+  /* ================= Paramètres du compte ================= */
+  .bar-acts{display:flex;gap:8px;margin-left:auto;flex:none}
+  .session-bar #signOut{margin-left:0}
+  .gear-btn svg{width:17px;height:17px}
+  @media (max-width:560px){.gear-btn span{display:none}.gear-btn{width:38px;padding:0!important;justify-content:center}}
+  .set-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .set-top h2{margin:0;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.04em}
+  .set-top .btn svg{width:16px;height:16px}
+  .set-demo{margin:0 0 14px;padding:12px 16px;border-radius:14px;font-size:14px;background:color-mix(in srgb,#c9961f 14%,var(--card));border:1px solid color-mix(in srgb,#c9961f 40%,var(--border))}
+  .set-card{max-width:760px;margin-bottom:12px}
+  .set-profile{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+  .set-av{width:64px;height:64px;border-radius:50%;object-fit:cover;flex:none;border:1px solid var(--border)}
+  .set-av.fallback{display:grid;place-items:center;background:var(--grad);color:#fff;font-weight:800;font-size:22px}
+  .set-av.fallback[hidden]{display:none}
+  .set-id{display:flex;flex-direction:column;min-width:0}
+  .set-id b{font-size:18px;letter-spacing:-.02em}
+  .set-id span{color:var(--ink-soft);font-size:14.5px}
+  .set-list{margin:0;display:grid;gap:0;border-top:1px solid var(--border)}
+  .set-list div{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);font-size:15px}
+  .set-list dt{color:var(--ink-soft)}
+  .set-list dd{margin:0;font-weight:600;text-align:right;word-break:break-all}
+  .set-hint{margin:12px 0 0;font-size:13.5px;color:var(--ink-faint);line-height:1.55}
+  .set-form{display:grid;gap:16px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field > span{font-size:14px;font-weight:700}
+  .field small{font-size:13px;color:var(--ink-faint)}
+  .field input,.field select{
+    width:100%;min-height:48px;border-radius:14px;border:1px solid var(--border-strong);background:var(--bg);color:var(--ink);
+    padding:0 14px;font:inherit;font-size:16px;outline:none;-webkit-appearance:none;appearance:none;transition:border-color .2s,box-shadow .2s
+  }
+  .field select{background-image:linear-gradient(45deg,transparent 50%,var(--ink-faint) 50%),linear-gradient(135deg,var(--ink-faint) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 15px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
+  .field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 16%,transparent)}
+  .set-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .set-msg{margin:0;font-size:14px;font-weight:600;color:#1D9A5E}
+  html.dark .set-msg{color:var(--accent)}
+  .set-msg.bad{color:var(--primary)}
+  .set-card > .set-msg{margin-top:10px}
+  .set-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--border)}
+  .set-row:first-of-type{border-top:0;padding-top:0}
+  .set-row b{display:block;font-size:15px}
+  .set-row small{display:block;color:var(--ink-soft);font-size:13.5px;line-height:1.5;margin-top:2px}
+  .set-row .btn{flex:none}
+  .btn.danger{color:var(--primary);border-color:color-mix(in srgb,var(--primary) 40%,var(--border))}
+  .btn-danger{background:#C8102E;color:#fff}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .confirm{margin-top:4px;padding:16px;border-radius:16px;background:color-mix(in srgb,var(--primary) 7%,var(--card));border:1px solid color-mix(in srgb,var(--primary) 30%,var(--border));display:grid;gap:12px}
+  .confirm p{margin:0;font-size:14.5px}
+  .goodbye{margin:0 auto 10px;max-width:420px;padding:10px 14px;border-radius:12px;background:rgba(61,214,140,.12);color:#1D7A4B;font-weight:600;font-size:14.5px}
+  html.dark .goodbye{color:var(--accent)}
+  @media (max-width:560px){.set-row{flex-direction:column;align-items:stretch}.set-row .btn{width:100%}.set-actions .btn{flex:1 1 auto}}

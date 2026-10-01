@@ -45,3 +45,26 @@ revoke execute on function public.ts_touch() from public, anon, authenticated;
 drop trigger if exists ts_snapshots_touch on public.ts_snapshots;
 create trigger ts_snapshots_touch before update on public.ts_snapshots
   for each row execute function public.ts_touch();
+
+-- ---------------------------------------------------------------------------
+-- Paramètres du compte : « Supprimer mon compte »
+-- Déjà appliqué au projet TicketStay (migration delete_my_account, 30 sept. 2026).
+-- La fonction ne peut supprimer QUE le compte de la personne connectée (auth.uid()).
+-- L'avertissement « security definer » de Supabase est donc voulu.
+create or replace function public.delete_my_account()
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare uid uuid := auth.uid();
+begin
+  if uid is null then
+    raise exception 'Non connecté' using errcode = '42501';
+  end if;
+  delete from public.ts_snapshots where user_id = uid;
+  delete from auth.users where id = uid;
+end $$;
+
+revoke execute on function public.delete_my_account() from public, anon;
+grant execute on function public.delete_my_account() to authenticated;

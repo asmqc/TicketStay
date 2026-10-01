@@ -5,6 +5,14 @@ et lit la table `ts_snapshots`. Chaque compte ne voit que ses propres lignes (RL
 
 ## Déjà fait sur le site
 - Bouton « Se connecter avec GitHub », session, déconnexion, tableau de bord, démo (`compte.html?demo=1`).
+- Version anglaise : `en/account.html` (même script `assets/compte.js`, la langue vient de `<html lang>`).
+  La connexion revient toujours sur `compte.html` (seule adresse autorisée), puis renvoie vers la page anglaise
+  si la connexion a été lancée de là. Rien à ajouter dans Supabase.
+- Paramètres du compte (bouton ⚙ Paramètres) :
+  - Profil GitHub (lecture seule).
+  - Préférences enregistrées dans les métadonnées du compte : `ts_display_name`, `ts_lang`, `ts_currency`, `ts_default_team`.
+  - Exporter (JSON) et supprimer les données synchronisées (`ts_snapshots`).
+  - Supprimer mon compte : appelle la fonction SQL `public.delete_my_account()` (voir `supabase/schema.sql`).
 
 ## À faire une fois dans Supabase
 1. **SQL Editor** → coller `supabase/schema.sql` → **Run**.
