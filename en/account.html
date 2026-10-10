@@ -214,6 +214,49 @@
         </form>
       </div>
 
+
+      <div data-state="buyers" hidden>
+        <div class="set-top">
+          <button type="button" class="btn btn-sm btn-ghost" id="buyersBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back</button>
+          <h2>Buyers</h2>
+          <button type="button" class="btn btn-sm btn-primary push-right" id="addBuyer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>Add</span></button>
+        </div>
+        <p class="muted buyers-sum" id="buyersSummary"></p>
+        <div class="dpanel ed-list" id="buyersList"></div>
+        <form class="dpanel set-card ed-card me-card" id="meForm" novalidate>
+          <h3>Your details in texts</h3>
+          <div class="set-form">
+            <div class="row2">
+              <label class="field"><span>Your name</span><input id="meName" type="text" maxlength="60" autocomplete="name"></label>
+              <label class="field"><span>Your phone</span><input id="mePhone" type="tel" maxlength="30" autocomplete="tel"></label>
+            </div>
+            <label class="field"><span>Interac e-Transfer</span><input id="meInterac" type="text" maxlength="80" placeholder="email or phone" autocomplete="off"><small>Included in reminders and transfer texts.</small></label>
+            <div class="set-actions"><button type="submit" class="btn btn-sm btn-primary">Save</button><p class="set-msg" id="meMsg" role="status" hidden></p></div>
+          </div>
+        </form>
+      </div>
+
+      <div data-state="buyer" hidden>
+        <form class="dpanel set-card ed-card" id="buyerForm" novalidate>
+          <div class="set-top"><h2 id="buyerHeading">Buyer</h2></div>
+          <div class="set-form">
+            <label class="field"><span>Name</span><input id="bName" type="text" maxlength="60" autocomplete="off"></label>
+            <div class="row2">
+              <label class="field"><span>Phone</span><input id="bPhone" type="tel" maxlength="30" autocomplete="off" placeholder="for texts"></label>
+              <label class="field"><span>Email</span><input id="bEmail" type="email" maxlength="80" autocomplete="off" placeholder="optional"></label>
+            </div>
+            <label class="field"><span>Notes</span><textarea id="bNotes" rows="2" placeholder="Favourite section, availability…"></textarea></label>
+            <label class="check"><input id="bPriority" type="checkbox"><span>Priority — shown at the top of the list</span></label>
+            <p class="set-msg bad" id="buyerMsg" role="alert" hidden></p>
+            <div class="set-actions"><button type="submit" class="btn btn-primary">Save</button><button type="button" class="btn btn-ghost" id="bCancel">Cancel</button><button type="button" class="btn btn-sm btn-ghost danger push-right" id="bRemove">Remove from contact book</button></div>
+            <div class="confirm" id="bRemoveConfirm" hidden>
+              <p>Remove this person from the contact book? Their tickets are not affected.</p>
+              <div class="set-actions"><button type="button" class="btn btn-sm btn-danger" id="bRemoveYes">Yes, remove</button><button type="button" class="btn btn-sm btn-ghost" id="bRemoveNo">Cancel</button></div>
+            </div>
+          </div>
+        </form>
+      </div>
+
       <div data-state="settings" hidden>
         <div class="set-top">
           <button type="button" class="btn btn-sm btn-ghost" id="settingsBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back</button>
@@ -285,6 +328,7 @@
           </div>
           <div class="dash-actions" id="dashActions" hidden>
             <button type="button" class="btn btn-sm btn-ghost" data-matches><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg><span>Manage games</span></button>
+            <button type="button" class="btn btn-sm btn-ghost" data-buyers><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 15.2c2.6.3 4.5 2 4.5 4.8"/></svg><span>Buyers</span></button>
             <button type="button" class="btn btn-sm btn-primary" data-add-game><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>Add a game</span></button>
           </div>
         </div>

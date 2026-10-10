@@ -41,6 +41,20 @@
       typeToConfirm: 'Tapez SUPPRIMER pour confirmer.',
       notSet: 'Non fourni par GitHub', firstTeam: 'Première équipe (ordre alphabétique)', noTeams: 'Aucune équipe synchronisée',
       switching: 'Ouverture de la version anglaise…',
+      txtHi: 'Salut!', txtHiName: 'Salut %@!', txtReminder: 'Petit rappel pour les billets : il reste %@ à régler.',
+      txtInterac: 'Virement Interac à : %@', txtInteracConfirm: 'Je te confirme les coordonnées pour le virement Interac.', txtThanks: 'Merci!',
+      txtFor: '%@ pour %@, %@ à %@', txtYourN: 'Tes %@ billets', txtYour1: 'Ton billet', txtSection: 'Section %@', txtRow: 'Rangée %@',
+      txtPriceN: 'Prix : %@ pour les %@, soit %@ chacun.', txtPrice1: 'Prix : %@.',
+      txtSteps: ['Pour recevoir les billets :', '1. Confirme-moi l\'adresse courriel à utiliser.', '2. Je transfère les billets à cette adresse depuis Ticketmaster.', '3. Tu reçois un courriel de Ticketmaster annonçant un transfert de billets. Ouvre-le et touche « Accepter les billets ».', '4. Il faut un compte Ticketmaster avec cette même adresse courriel. C\'est gratuit et ça prend deux minutes si tu n\'en as pas.', '5. Les billets apparaissent ensuite dans ton compte, dans « Mes billets ».'],
+      txtImportant: 'Important : garde-les dans l\'application Ticketmaster. Le code-barres change constamment, alors une capture d\'écran ou un PDF ne passe pas à l\'entrée.',
+      txtTextMe: 'Texte-moi quand tu les as reçus, juste pour être sûrs.', txtGoodGame: 'Bonne game! %@',
+      nPerson1: '%@ personne', nPersons: '%@ personnes', owedTotal: '%@ à recevoir',
+      emptyBook: 'Carnet vide. Ajoutez les personnes à qui vous vendez habituellement, ou inscrivez un acheteur sur un billet vendu.',
+      bought1: '%@ billet acheté (%@)', boughtN: '%@ billets achetés (%@)', given1: '%@ billet donné', givenN: '%@ billets donnés',
+      noTickets: 'Aucun billet pour l\'instant', nextOn: 'Prochain match : %@', remind: 'Relancer', markPaid: 'Payé', edit: 'Modifier',
+      owes: 'Doit encore %@', savedShort: 'Enregistré.', newBuyer: 'Nouvel acheteur', nameNeeded: 'Inscrivez le nom de la personne.',
+      nameTaken: 'Une personne porte déjà ce nom dans le carnet.', transferText: 'Texto de transfert',
+      needPhone: 'Ajoutez le téléphone de l\'acheteur pour lui texter.',
       seasonDefault: 'Saison 2026-2027', teamNameNeeded: 'Inscrivez le nom de l\'équipe.',
       noGamesYet: 'Aucun match pour l\'instant. Ajoutez le premier avec le bouton ci-dessus.',
       upcoming: 'À venir', past: 'Passés', newGame: 'Nouveau match', statusLabel: 'Statut', seatLabel: 'Siège',
@@ -81,6 +95,20 @@
       typeToConfirm: 'Type DELETE to confirm.',
       notSet: 'Not provided by GitHub', firstTeam: 'First team (alphabetical)', noTeams: 'No synced teams',
       switching: 'Opening the French version…',
+      txtHi: 'Hi!', txtHiName: 'Hi %@!', txtReminder: 'Quick reminder about the tickets: %@ is still owing.',
+      txtInterac: 'Interac e-Transfer to: %@', txtInteracConfirm: 'Confirming the details for the Interac e-Transfer.', txtThanks: 'Thanks!',
+      txtFor: '%@ for %@, %@ at %@', txtYourN: 'Your %@ tickets', txtYour1: 'Your ticket', txtSection: 'Section %@', txtRow: 'Row %@',
+      txtPriceN: 'Price: %@ for the %@, so %@ each.', txtPrice1: 'Price: %@.',
+      txtSteps: ['To receive the tickets:', '1. Confirm the email address to use.', '2. I transfer the tickets to that address from Ticketmaster.', '3. You get an email from Ticketmaster announcing a ticket transfer. Open it and tap “Accept tickets”.', '4. You need a Ticketmaster account with that same email address. It\'s free and takes two minutes if you don\'t have one.', '5. The tickets then show up in your account, under “My Tickets”.'],
+      txtImportant: 'Important: keep them in the Ticketmaster app. The barcode changes constantly, so a screenshot or a PDF won\'t get you in.',
+      txtTextMe: 'Text me when you get them, just to be sure.', txtGoodGame: 'Enjoy the game! %@',
+      nPerson1: '%@ person', nPersons: '%@ people', owedTotal: '%@ owed to you',
+      emptyBook: 'Empty contact book. Add the people you usually sell to, or enter a buyer on a sold ticket.',
+      bought1: '%@ ticket bought (%@)', boughtN: '%@ tickets bought (%@)', given1: '%@ ticket given', givenN: '%@ tickets given',
+      noTickets: 'No tickets yet', nextOn: 'Next game: %@', remind: 'Remind', markPaid: 'Paid', edit: 'Edit',
+      owes: 'Still owes %@', savedShort: 'Saved.', newBuyer: 'New buyer', nameNeeded: 'Enter the person\'s name.',
+      nameTaken: 'Someone with this name is already in the contact book.', transferText: 'Transfer text',
+      needPhone: 'Add the buyer\'s phone number to text them.',
       seasonDefault: '2026-2027 Season', teamNameNeeded: 'Enter the team name.',
       noGamesYet: 'No games yet. Add the first one with the button above.',
       upcoming: 'Upcoming', past: 'Past', newGame: 'New game', statusLabel: 'Status', seatLabel: 'Seat',
@@ -700,6 +728,15 @@
           var paye = el('input', { type: 'checkbox' }); paye.checked = !!b.paye;
           paye.addEventListener('change', function () { b.paye = paye.checked; });
           champs.appendChild(el('label', { cls: 'check' }, [paye, el('span', { text: T.paidLabel })]));
+          var texto = el('button', { type: 'button', cls: 'btn btn-sm btn-ghost seat-sms', text: T.transferText });
+          texto.addEventListener('click', function () {
+            if (!String(b.telephone || '').trim()) { msg('#matchMsg', T.needPhone, true); tel.focus(); return; }
+            var d = new Date($('#mDate').value);
+            var m = { adversaire: $('#mOpp').value.trim(), date: isNaN(d) ? new Date().toISOString() : d.toISOString(),
+                      section: $('#mSection').value.trim(), rangee: $('#mRow').value.trim(), billets: edition.billets };
+            location.href = lienTexto(b.telephone, messageTransfert(abonnementCourant(), m, b));
+          });
+          champs.appendChild(texto);
         }
         carte.appendChild(champs);
       }
@@ -752,6 +789,229 @@
     garder();
     rafraichir();
     ouvrirMatchs();
+  }
+
+
+  /* ================================================================ Carnet d'acheteurs et textos
+   * Même logique que l'onglet Acheteurs de l'app : le carnet (archive.carnet)
+   * plus toutes les personnes inscrites sur un billet vendu ou donné. */
+  var SPORT_EMOJI = { Hockey: '🏒', Basketball: '🏀', Baseball: '⚾', Football: '🏈', Soccer: '⚽', Crosse: '🥍' };
+  function prenomDe(nom) { return String(nom || '').trim().split(/\s+/)[0] || ''; }
+  function chiffres(tel) { return String(tel || '').replace(/[^\d+]/g, ''); }
+  function lienTexto(tel, corps) {
+    var sep = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent) ? '&' : '?';
+    return 'sms:' + chiffres(tel) + (corps ? sep + 'body=' + encodeURIComponent(corps) : '');
+  }
+  function destinationInterac() {
+    var c = (state.archive && state.archive.compte) || {};
+    return String(c.interac || c.courriel || '').trim();
+  }
+  function argentCourt(n) {
+    try { return new Intl.NumberFormat(LOCALE, { style: 'currency', currency: state.prefs.currency || 'CAD', maximumFractionDigits: 0 }).format(n); }
+    catch (e) { return money.format(n); }
+  }
+  function remplir(modele) {
+    var args = Array.prototype.slice.call(arguments, 1), i = 0;
+    return modele.replace(/%@/g, function () { return args[i++] === undefined ? '' : args[i - 1]; });
+  }
+
+  /* Toutes les fiches : carnet + personnes des billets, toutes équipes confondues. */
+  function fiches() {
+    var parCle = {}, liste = [];
+    function fiche(nom) {
+      var k = cle(nom);
+      if (!k) return null;
+      if (!parCle[k]) { parCle[k] = { cle: k, nom: String(nom).trim(), telephone: '', courriel: '', notes: '', prioritaire: false, contact: null, achetes: 0, donnes: 0, total: 0, du: 0, prochain: null }; liste.push(parCle[k]); }
+      return parCle[k];
+    }
+    (state.archive.carnet || []).forEach(function (c, i) {
+      var f = fiche(c.nom); if (!f) return;
+      f.contact = i; f.nom = String(c.nom).trim();
+      f.telephone = c.telephone || ''; f.courriel = c.courriel || ''; f.notes = c.notes || ''; f.prioritaire = !!c.prioritaire;
+    });
+    var maintenant = new Date();
+    state.archive.abonnements.forEach(function (ab) {
+      (ab.matchs || []).forEach(function (m) {
+        (m.billets || []).forEach(function (b) {
+          if (b.statut !== 'Vendu' && b.statut !== 'Donné') return;
+          var f = fiche(b.personne); if (!f) return;
+          if (!f.telephone && b.telephone) f.telephone = b.telephone;
+          if (!f.courriel && b.courriel) f.courriel = b.courriel;
+          if (b.statut === 'Vendu') {
+            f.achetes++; f.total += +b.prixVente || 0;
+            if (!b.paye) f.du += +b.prixVente || 0;
+          } else f.donnes++;
+          var d = new Date(m.date);
+          if (d >= maintenant && (!f.prochain || d < f.prochain)) f.prochain = d;
+        });
+      });
+    });
+    liste.sort(function (a, b) {
+      if (a.prioritaire !== b.prioritaire) return a.prioritaire ? -1 : 1;
+      if ((a.du > 0) !== (b.du > 0)) return a.du > 0 ? -1 : 1;
+      return a.nom.localeCompare(b.nom, LANG);
+    });
+    return liste;
+  }
+
+  function messageRappel(f) {
+    var c = (state.archive && state.archive.compte) || {};
+    var texte = remplir(T.txtHiName, prenomDe(f.nom)) + ' ' + remplir(T.txtReminder, argentCourt(f.du));
+    var dest = destinationInterac();
+    if (dest) texte += ' ' + remplir(T.txtInterac, dest);
+    texte += '\n\n' + T.txtThanks;
+    if (c.nom) texte += '\n' + c.nom;
+    return texte;
+  }
+
+  /* Texto de transfert d'un billet vendu, comme dans l'app. */
+  function messageTransfert(ab, m, b) {
+    var c = state.archive.compte || {};
+    var lot = (m.billets || []).filter(function (x) { return x.statut === 'Vendu' && cle(x.personne) === cle(b.personne); });
+    if (!lot.length) lot = [b];
+    var n = lot.length;
+    var total = lot.reduce(function (s, x) { return s + (+x.prixVente || 0); }, 0);
+    var sieges = lot.map(function (x) { return x.siege; }).filter(Boolean).join(', ');
+    var d = new Date(m.date);
+    var lignes = [];
+    var p = prenomDe(b.personne);
+    lignes.push(p ? remplir(T.txtHiName, p) : T.txtHi, '');
+    var desc = remplir(T.txtFor, n > 1 ? remplir(T.txtYourN, n) : T.txtYour1, m.adversaire || T.opponent, longFmt.format(d), timeFmt.format(d));
+    var place = [m.section ? remplir(T.txtSection, m.section) : '', m.rangee ? remplir(T.txtRow, m.rangee) : ''].filter(Boolean).join(' · ');
+    if (place) desc += ', ' + place;
+    if (sieges) desc += ' (' + sieges + ')';
+    lignes.push(desc + '.', '');
+    if (total > 0) lignes.push(n > 1 ? remplir(T.txtPriceN, argentCourt(total), n, argentCourt(total / n)) : remplir(T.txtPrice1, argentCourt(total)));
+    var dest = destinationInterac();
+    lignes.push(dest ? remplir(T.txtInterac, dest) : T.txtInteracConfirm, '');
+    T.txtSteps.forEach(function (l) { lignes.push(l); });
+    lignes.push('', T.txtImportant, '', T.txtTextMe, '');
+    var lg = LIGUES[(ab.reglages || {}).ligueID];
+    var sport = lg ? lg[2] : ((ab.reglages || {}).sportPerso || 'Hockey');
+    var sig = remplir(T.txtGoodGame, SPORT_EMOJI[sport] || '🎟️');
+    if (c.nom) { sig += '\n' + c.nom; if (c.telephone) sig += ' — ' + c.telephone; }
+    else if (c.telephone) sig += '\n' + c.telephone;
+    lignes.push(sig);
+    return lignes.join('\n');
+  }
+
+  function ouvrirCarnet() {
+    var c = state.archive.compte || (state.archive.compte = {});
+    $('#meName').value = c.nom || '';
+    $('#mePhone').value = c.telephone || '';
+    $('#meInterac').value = c.interac || '';
+    msg('#meMsg', '');
+    dessinerCarnet();
+    show('buyers');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function dessinerCarnet() {
+    var box = clear($('#buyersList'));
+    var liste = fiches();
+    var totalDu = liste.reduce(function (s, f) { return s + f.du; }, 0);
+    $('#buyersSummary').textContent = remplir(liste.length === 1 ? T.nPerson1 : T.nPersons, liste.length) + (totalDu ? ' · ' + remplir(T.owedTotal, argentCourt(totalDu)) : '');
+    if (!liste.length) { box.appendChild(el('p', { cls: 'muted', text: T.emptyBook })); return; }
+    liste.forEach(function (f) {
+      var details = [];
+      if (f.achetes) details.push(remplir(f.achetes === 1 ? T.bought1 : T.boughtN, f.achetes, argentCourt(f.total)));
+      if (f.donnes) details.push(remplir(f.donnes === 1 ? T.given1 : T.givenN, f.donnes));
+      if (!f.achetes && !f.donnes) details.push(T.noTickets);
+      if (f.prochain) details.push(remplir(T.nextOn, cap(longFmt.format(f.prochain))));
+      var acts = el('div', { cls: 'acts' });
+      if (f.telephone) acts.appendChild(el('a', { cls: 'act', href: lienTexto(f.telephone, f.du > 0 ? messageRappel(f) : ''), 'aria-label': T.textTo + f.nom, text: f.du > 0 ? T.remind : T.text }));
+      if (f.courriel) acts.appendChild(el('a', { cls: 'act', href: 'mailto:' + f.courriel + (f.du > 0 ? '?body=' + encodeURIComponent(messageRappel(f)) : ''), 'aria-label': T.emailTo + f.nom, text: T.email }));
+      if (f.du > 0) {
+        var payer = el('button', { type: 'button', cls: 'act act-ok', text: T.markPaid });
+        payer.addEventListener('click', function () { marquerPaye(f.cle); });
+        acts.appendChild(payer);
+      }
+      var modif = el('button', { type: 'button', cls: 'act', text: T.edit });
+      modif.addEventListener('click', function () { ouvrirFiche(f); });
+      acts.appendChild(modif);
+      box.appendChild(el('div', { cls: 'buyer buyer-row' + (f.du > 0 ? ' owes' : '') }, [
+        el('span', { cls: 'bav', text: initials(f.nom) }),
+        el('div', { cls: 'binfo' }, [
+          el('b', { text: (f.prioritaire ? '★ ' : '') + f.nom }),
+          el('small', { text: details.join(' · ') }),
+          f.du > 0 ? el('small', { cls: 'du', text: remplir(T.owes, argentCourt(f.du)) }) : null,
+          f.notes ? el('small', { cls: 'muted', text: f.notes }) : null
+        ]),
+        acts
+      ]));
+    });
+  }
+
+  function marquerPaye(k) {
+    state.archive.abonnements.forEach(function (ab) {
+      (ab.matchs || []).forEach(function (m) {
+        (m.billets || []).forEach(function (b) { if (b.statut === 'Vendu' && cle(b.personne) === k) b.paye = true; });
+      });
+    });
+    garder(); rafraichir(); dessinerCarnet();
+  }
+
+  function enregistrerMoi(e) {
+    e.preventDefault();
+    var c = state.archive.compte || (state.archive.compte = {});
+    c.nom = $('#meName').value.trim();
+    c.telephone = $('#mePhone').value.trim();
+    c.interac = $('#meInterac').value.trim();
+    garder();
+    if (state.who) state.who.name = c.nom;
+    dessinerCarnet();
+    msg('#meMsg', T.savedShort);
+  }
+
+  /* ---------- Fiche d'une personne ---------- */
+  var ficheEnCours = null;   // { contact: index dans le carnet ou null, ancienNom }
+
+  function ouvrirFiche(f) {
+    ficheEnCours = { contact: f ? f.contact : null, ancienNom: f ? f.nom : '' };
+    $('#buyerHeading').textContent = f ? f.nom : T.newBuyer;
+    $('#bName').value = f ? f.nom : '';
+    $('#bPhone').value = f ? f.telephone : '';
+    $('#bEmail').value = f ? f.courriel : '';
+    $('#bNotes').value = f ? f.notes : '';
+    $('#bPriority').checked = !!(f && f.prioritaire);
+    $('#bRemove').hidden = !(f && f.contact !== null);
+    $('#bRemoveConfirm').hidden = true;
+    msg('#buyerMsg', '');
+    show('buyer');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!f) setTimeout(function () { $('#bName').focus(); }, 300);
+  }
+
+  function enregistrerFiche(e) {
+    e.preventDefault();
+    var nom = $('#bName').value.trim();
+    if (!nom) { msg('#buyerMsg', T.nameNeeded, true); $('#bName').focus(); return; }
+    var carnet = state.archive.carnet || (state.archive.carnet = []);
+    var k = cle(nom);
+    var doublon = carnet.some(function (c, i) { return i !== ficheEnCours.contact && cle(c.nom) === k; });
+    if (doublon) { msg('#buyerMsg', T.nameTaken, true); return; }
+    var c = ficheEnCours.contact !== null ? carnet[ficheEnCours.contact] : { id: uuid() };
+    c.nom = nom;
+    c.telephone = $('#bPhone').value.trim();
+    c.courriel = $('#bEmail').value.trim();
+    c.notes = $('#bNotes').value.trim();
+    c.prioritaire = $('#bPriority').checked;
+    if (ficheEnCours.contact === null) carnet.push(c);
+    /* Nom changé : les billets de cette personne suivent. */
+    var ancien = cle(ficheEnCours.ancienNom);
+    if (ancien && ancien !== k) {
+      state.archive.abonnements.forEach(function (ab) {
+        (ab.matchs || []).forEach(function (m) {
+          (m.billets || []).forEach(function (b) { if (cle(b.personne) === ancien) b.personne = nom; });
+        });
+      });
+    }
+    garder(); rafraichir(); ouvrirCarnet();
+  }
+
+  function retirerFiche() {
+    if (ficheEnCours && ficheEnCours.contact !== null) state.archive.carnet.splice(ficheEnCours.contact, 1);
+    garder(); rafraichir(); ouvrirCarnet();
   }
 
   /* ================================================================ Tableau de bord */
@@ -857,7 +1117,7 @@
     ids.forEach(function (id) {
       var b = buyers[id] || { name: T.unknownBuyer };
       var acts = el('div', { cls: 'acts' });
-      if (b.phone) acts.appendChild(el('a', { cls: 'act', href: 'sms:' + String(b.phone).replace(/[^\d+]/g, ''), 'aria-label': T.textTo + b.name, text: T.text }));
+      if (b.phone) acts.appendChild(el('a', { cls: 'act', href: state.imported ? lienTexto(b.phone, messageRappel({ nom: b.name, du: owing[id].sum })) : 'sms:' + String(b.phone).replace(/[^\d+]/g, ''), 'aria-label': T.textTo + b.name, text: state.imported ? T.remind : T.text }));
       if (b.email) acts.appendChild(el('a', { cls: 'act', href: 'mailto:' + b.email, 'aria-label': T.emailTo + b.name, text: T.email }));
       ol.appendChild(el('div', { cls: 'buyer' }, [
         el('span', { cls: 'bav', text: initials(b.name) }),
@@ -1045,6 +1305,15 @@
   $('#mDelete').addEventListener('click', function () { $('#mDelConfirm').hidden = false; });
   $('#mDelNo').addEventListener('click', function () { $('#mDelConfirm').hidden = true; });
   $('#mDelYes').addEventListener('click', supprimerMatch);
+  document.querySelectorAll('[data-buyers]').forEach(function (b) { b.addEventListener('click', ouvrirCarnet); });
+  $('#buyersBack').addEventListener('click', function () { show('dash'); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  $('#addBuyer').addEventListener('click', function () { ouvrirFiche(null); });
+  $('#meForm').addEventListener('submit', enregistrerMoi);
+  $('#buyerForm').addEventListener('submit', enregistrerFiche);
+  $('#bCancel').addEventListener('click', ouvrirCarnet);
+  $('#bRemove').addEventListener('click', function () { $('#bRemoveConfirm').hidden = false; });
+  $('#bRemoveNo').addEventListener('click', function () { $('#bRemoveConfirm').hidden = true; });
+  $('#bRemoveYes').addEventListener('click', retirerFiche);
   $('#retry').addEventListener('click', function () { if (configured) startCloud(); });
   $('#ghSignIn').addEventListener('click', signIn);
   $('#signOut').addEventListener('click', signOut);

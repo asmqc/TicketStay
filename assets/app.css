@@ -716,3 +716,19 @@
   .check{display:flex;align-items:center;gap:10px;font-size:14.5px;font-weight:600;grid-column:1/-1;min-height:40px;cursor:pointer}
   .check input{width:22px;height:22px;accent-color:#3aa66b}
   @media (max-width:560px){.seat-fields,.row2{grid-template-columns:1fr}.seat-top{grid-template-columns:1fr 40px}.seat-top select{grid-column:1/2;grid-row:2}.dash-actions{width:100%}.dash-actions .btn{flex:1}}
+
+  /* ================= Carnet d'acheteurs ================= */
+  .buyers-sum{margin:-6px 0 12px;font-weight:600}
+  .buyer-row{flex-wrap:wrap;padding:14px 0}
+  .dpanel .buyer-row:first-child{padding-top:0}
+  .buyer-row .binfo{flex:1;min-width:180px}
+  .buyer-row .binfo small{display:block}
+  .buyer-row small.du{color:var(--primary);font-weight:700}
+  .buyer-row .acts{display:flex;flex-wrap:wrap;gap:6px}
+  .act{background:var(--card);color:var(--ink);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+  .act-ok{border-color:color-mix(in srgb,#3aa66b 50%,var(--border));color:#1D7A4B}
+  html.dark .act-ok{color:var(--accent)}
+  .me-card{margin-top:14px}
+  .me-card h3{margin:0 0 12px;font-size:17px}
+  .seat-sms{grid-column:1/-1;justify-self:start}
+  @media (max-width:560px){.buyer-row .acts{width:100%}}
