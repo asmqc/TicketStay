@@ -76,7 +76,7 @@
       </div>
       <div class="demo-bar import-bar" id="importBar" hidden>
         <span><b>Votre saison</b> — modifiée le <span id="importDate"></span>, gardée seulement dans ce navigateur.</span>
-        <span class="bar-acts"><button type="button" class="btn btn-sm btn-ghost" data-paste>Recoller de l'app</button><button type="button" class="btn btn-sm btn-ghost" data-new-team>+ Équipe</button><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Paramètres du compte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Paramètres</span></button><button type="button" class="btn btn-sm btn-ghost" id="importClear">Effacer</button></span>
+        <span class="bar-acts"><button type="button" class="btn btn-sm btn-primary" data-export><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg><span>Copier pour l'app</span></button><button type="button" class="btn btn-sm btn-ghost" data-paste>Recoller de l'app</button><button type="button" class="btn btn-sm btn-ghost" data-new-team>+ Équipe</button><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Paramètres du compte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Paramètres</span></button><button type="button" class="btn btn-sm btn-ghost" id="importClear">Effacer</button></span>
       </div>
       <div class="session-bar" id="sessionBar" hidden>
         <img class="who-av" id="whoAvatar" alt="" width="32" height="32" hidden referrerpolicy="no-referrer">
@@ -257,6 +257,50 @@
         </form>
       </div>
 
+
+      <div data-state="bilan" hidden>
+        <div class="set-top">
+          <button type="button" class="btn btn-sm btn-ghost" data-back-dash><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Retour</button>
+          <div><h2 id="bilanTitle">Bilan</h2><p class="muted" id="bilanSub"></p></div>
+          <button type="button" class="btn btn-sm btn-ghost push-right" id="bilanPrint">Exporter en PDF</button>
+        </div>
+        <div class="kpis bilan-kpis" id="bilanTiles"></div>
+        <div class="dash-grid two">
+          <div class="dpanel">
+            <h3>Coût de l'abonnement récupéré <span id="bilanPct"></span></h3>
+            <div class="meter"><span id="bilanBar"></span></div>
+            <p class="verdict" id="bilanVerdict"></p>
+          </div>
+          <div class="dpanel">
+            <h3>Répartition des billets</h3>
+            <div class="mix" id="bilanMix"></div>
+            <div class="mix-legend" id="bilanMixLegend"></div>
+          </div>
+        </div>
+        <div class="dpanel">
+          <h3>Détail des ventes</h3>
+          <div class="sales" id="bilanSales"></div>
+        </div>
+        <p class="set-hint">Exporter en PDF ouvre l'impression : choisissez « Enregistrer en PDF ». Le rapport contient toutes vos équipes.</p>
+      </div>
+
+      <div data-state="export" hidden>
+        <div class="set-top">
+          <button type="button" class="btn btn-sm btn-ghost" data-back-dash><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Retour</button>
+          <h2>Copier pour l'app</h2>
+        </div>
+        <div class="dpanel set-card ed-card">
+          <ol class="steps paste-steps">
+            <li><span class="n">1</span><b>Copiez le texte</b><small>Avec le bouton ci-dessous.</small></li>
+            <li><span class="n">2</span><b>Dans l'app TicketStay</b><small>Réglages → Importer une sauvegarde.</small></li>
+            <li><span class="n">3</span><b>Collez, puis Remplacer</b><small>L'app reprend vos équipes et vos matchs du site.</small></li>
+          </ol>
+          <p class="warn-note"><b>Attention :</b> l'importation remplace les équipes et les matchs qui sont dans l'app. Votre compte, votre NIP et vos photos dans l'app ne sont pas touchés.</p>
+          <label class="field paste-field"><span class="sr-only">Texte à coller dans l'app</span><textarea id="exportText" rows="7" readonly spellcheck="false"></textarea></label>
+          <div class="set-actions"><button type="button" class="btn btn-primary" id="exportCopy">Copier le texte</button><button type="button" class="btn btn-ghost" id="exportDownload">Télécharger (.json)</button><p class="set-msg" id="exportMsg" role="status" hidden></p></div>
+        </div>
+      </div>
+
       <div data-state="settings" hidden>
         <div class="set-top">
           <button type="button" class="btn btn-sm btn-ghost" id="settingsBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Retour</button>
@@ -329,6 +373,7 @@
           <div class="dash-actions" id="dashActions" hidden>
             <button type="button" class="btn btn-sm btn-ghost" data-matches><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg><span>Gérer les matchs</span></button>
             <button type="button" class="btn btn-sm btn-ghost" data-buyers><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 15.2c2.6.3 4.5 2 4.5 4.8"/></svg><span>Acheteurs</span></button>
+            <button type="button" class="btn btn-sm btn-ghost" data-bilan><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Bilan</span></button>
             <button type="button" class="btn btn-sm btn-primary" data-add-game><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>Ajouter un match</span></button>
           </div>
         </div>
@@ -360,6 +405,7 @@
 
     </div>
   </section>
+  <div id="printReport" class="print-report" aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer">

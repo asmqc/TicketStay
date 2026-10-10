@@ -41,6 +41,14 @@
       typeToConfirm: 'Tapez SUPPRIMER pour confirmer.',
       notSet: 'Non fourni par GitHub', firstTeam: 'Première équipe (ordre alphabétique)', noTeams: 'Aucune équipe synchronisée',
       switching: 'Ouverture de la version anglaise…',
+      colon: ' : ', bCost: 'Coût de l\'abonnement', bCollected: 'Encaissé', bPending: 'En attente', bPerTicket: 'Coût payé par billet',
+      bBest: 'Meilleure vente', bNetUsed: 'Coût net par match vu', bGames: 'Matchs inscrits', bUpcomingN: '%@ à venir',
+      bNoCost: 'Inscrivez le coût de votre abonnement (+ Équipe ou dans l\'app) pour suivre votre remboursement.',
+      bPaidBack: 'Abonnement remboursé, avec un profit de %@.', bLeft: 'Il reste %@ à récupérer.',
+      bNoSales: 'Aucune vente enregistrée.', pTitle: '%@ — Rapport de saison', pGenerated: 'Généré le %@', pHolder: 'Détenteur : %@',
+      pBalance: 'Solde : %@', pToCollect: 'à recevoir', pDate: 'Date', opponentWord: 'Adversaire', pPerson: 'Personne', pPrice: 'Prix',
+      pAll: 'Total de toutes les équipes', pFoot: 'Rapport produit par %@. À usage personnel — ce document n\'est pas un reçu officiel.',
+      copiedApp: 'Copié! Ouvrez l\'app TicketStay pour le coller.', copyManual: 'Sélectionnez le texte et copiez-le à la main.',
       txtHi: 'Salut!', txtHiName: 'Salut %@!', txtReminder: 'Petit rappel pour les billets : il reste %@ à régler.',
       txtInterac: 'Virement Interac à : %@', txtInteracConfirm: 'Je te confirme les coordonnées pour le virement Interac.', txtThanks: 'Merci!',
       txtFor: '%@ pour %@, %@ à %@', txtYourN: 'Tes %@ billets', txtYour1: 'Ton billet', txtSection: 'Section %@', txtRow: 'Rangée %@',
@@ -95,6 +103,14 @@
       typeToConfirm: 'Type DELETE to confirm.',
       notSet: 'Not provided by GitHub', firstTeam: 'First team (alphabetical)', noTeams: 'No synced teams',
       switching: 'Opening the French version…',
+      colon: ': ', bCost: 'Season ticket cost', bCollected: 'Collected', bPending: 'Pending', bPerTicket: 'Cost paid per ticket',
+      bBest: 'Best sale', bNetUsed: 'Net cost per game attended', bGames: 'Games entered', bUpcomingN: '%@ upcoming',
+      bNoCost: 'Enter the cost of your season tickets (+ Team or in the app) to track how much you\'ve recovered.',
+      bPaidBack: 'Season tickets paid back, with a profit of %@.', bLeft: 'You still have %@ to recover.',
+      bNoSales: 'No sales recorded.', pTitle: '%@ — Season report', pGenerated: 'Generated on %@', pHolder: 'Holder: %@',
+      pBalance: 'Balance: %@', pToCollect: 'to collect', pDate: 'Date', opponentWord: 'Opponent', pPerson: 'Person', pPrice: 'Price',
+      pAll: 'Total for all teams', pFoot: 'Report produced by %@. For personal use — this document is not an official receipt.',
+      copiedApp: 'Copied! Open the TicketStay app to paste it.', copyManual: 'Select the text and copy it by hand.',
       txtHi: 'Hi!', txtHiName: 'Hi %@!', txtReminder: 'Quick reminder about the tickets: %@ is still owing.',
       txtInterac: 'Interac e-Transfer to: %@', txtInteracConfirm: 'Confirming the details for the Interac e-Transfer.', txtThanks: 'Thanks!',
       txtFor: '%@ for %@, %@ at %@', txtYourN: 'Your %@ tickets', txtYour1: 'Your ticket', txtSection: 'Section %@', txtRow: 'Row %@',
@@ -1014,6 +1030,169 @@
     garder(); rafraichir(); ouvrirCarnet();
   }
 
+
+  /* ================================================================ Bilan, PDF et copie vers l'app
+   * Mêmes calculs que l'onglet Bilan de l'app. */
+  function statsAbonnement(ab) {
+    var r = ab.reglages || {};
+    var cout = +r.coutAbonnement || 0;
+    var billets = [];
+    var auj = new Date(); auj.setHours(0, 0, 0, 0);
+    var aPlacer = 0, aVenir = 0, prochain = null;
+    (ab.matchs || []).forEach(function (m) {
+      var d = new Date(m.date);
+      if (d >= auj) {
+        aVenir++;
+        if (!prochain || d < new Date(prochain.date)) prochain = m;
+      }
+      (m.billets || []).forEach(function (b) {
+        billets.push({ b: b, m: m });
+        if (d >= auj && (b.statut === 'À placer' || b.statut === 'À vendre')) aPlacer++;
+      });
+    });
+    var vendus = billets.filter(function (x) { return x.b.statut === 'Vendu'; });
+    var revenus = vendus.reduce(function (s, x) { return s + (+x.b.prixVente || 0); }, 0);
+    var encaisse = vendus.filter(function (x) { return x.b.paye; }).reduce(function (s, x) { return s + (+x.b.prixVente || 0); }, 0);
+    var compte = {};
+    ORDRE_STATUTS.forEach(function (s) { compte[s] = 0; });
+    billets.forEach(function (x) { compte[STATUT_APP[x.b.statut] || 'a_placer']++; });
+    return {
+      nom: r.equipe || T.team, saison: r.nomSaison || '', cout: cout, nbBillets: billets.length,
+      nbMatchs: (ab.matchs || []).length, aVenir: aVenir, prochain: prochain, aPlacer: aPlacer,
+      revenus: revenus, encaisse: encaisse, enAttente: revenus - encaisse, solde: encaisse - cout,
+      taux: cout > 0 ? encaisse / cout : 0,
+      coutParBillet: billets.length ? cout / billets.length : 0,
+      meilleure: vendus.reduce(function (mx, x) { return Math.max(mx, +x.b.prixVente || 0); }, 0),
+      coutNetUtilise: compte.utilise ? (cout - revenus) / compte.utilise : 0,
+      compte: compte,
+      ventes: billets.filter(function (x) { return x.b.statut === 'Vendu' || x.b.statut === 'Donné'; })
+        .sort(function (a, b) { return new Date(a.m.date) - new Date(b.m.date); })
+    };
+  }
+
+  function tuile(etiquette, valeur, ton) {
+    return el('div', { cls: 'kpi ' + (ton || '') }, [el('small', { text: etiquette }), el('b', { text: valeur })]);
+  }
+
+  function ouvrirBilan() {
+    var s = statsAbonnement(abonnementCourant());
+    $('#bilanTitle').textContent = s.nom;
+    $('#bilanSub').textContent = s.saison;
+    var k = clear($('#bilanTiles'));
+    k.appendChild(tuile(T.bCost, money.format(s.cout), 'nxt'));
+    k.appendChild(tuile(T.bCollected, money.format(s.encaisse), 'rev'));
+    k.appendChild(tuile(T.bPending, money.format(s.enAttente), s.enAttente ? 'owed' : 'ok'));
+    k.appendChild(tuile(T.bPerTicket, money.format(s.coutParBillet), 'nxt'));
+    k.appendChild(tuile(T.bBest, money.format(s.meilleure), 'rev'));
+    k.appendChild(tuile(T.bNetUsed, money.format(s.coutNetUtilise), 'todo'));
+    k.appendChild(tuile(T.toPlace, String(s.aPlacer), s.aPlacer ? 'todo' : 'ok'));
+    k.appendChild(tuile(T.bGames, s.nbMatchs + ' · ' + remplir(T.bUpcomingN, s.aVenir), 'nxt'));
+
+    var pct = Math.min(100, Math.round(s.taux * 100));
+    $('#bilanBar').style.width = pct + '%';
+    $('#bilanPct').textContent = s.cout ? pct + T.pct : '—';
+    $('#bilanVerdict').textContent = !s.cout ? T.bNoCost
+      : s.solde >= 0 ? remplir(T.bPaidBack, money.format(s.solde)) : remplir(T.bLeft, money.format(-s.solde));
+    $('#bilanVerdict').className = 'verdict ' + (s.cout && s.solde >= 0 ? 'ok' : '');
+
+    var bar = clear($('#bilanMix')), leg = clear($('#bilanMixLegend'));
+    var total = s.nbBillets || 1;
+    ORDRE_STATUTS.forEach(function (st) {
+      if (!s.compte[st]) return;
+      bar.appendChild(el('span', { cls: 'seg ' + STATUS_CLS[st], style: 'width:' + (s.compte[st] / total * 100) + '%', title: T.status[st] }));
+      leg.appendChild(el('span', { cls: 'lg-item ' + STATUS_CLS[st] }, [el('i'), T.status[st] + ' ', el('b', { text: String(s.compte[st]) })]));
+    });
+
+    var tb = clear($('#bilanSales'));
+    if (!s.ventes.length) tb.appendChild(el('p', { cls: 'muted', text: T.bNoSales }));
+    s.ventes.forEach(function (x) {
+      var d = new Date(x.m.date);
+      var vendu = x.b.statut === 'Vendu';
+      tb.appendChild(el('div', { cls: 'sale' }, [
+        el('span', { cls: 'sd', text: dateCourteWeb(d) }),
+        el('span', { cls: 'so' }, [el('b', { text: x.m.adversaire || T.opponent }), el('small', { text: [x.b.siege, x.b.personne].filter(Boolean).join(' · ') })]),
+        el('span', { cls: 'sp ' + (vendu ? (x.b.paye ? 'paid' : 'unpaid') : 'gift'), text: vendu ? money.format(+x.b.prixVente || 0) + (x.b.paye ? '' : ' ⏳') : T.status.donne })
+      ]));
+    });
+    show('bilan');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function dateCourteWeb(d) {
+    return cap(dayFmt.format(d)).replace('.', '') + ' ' + d.getDate() + ' ' + monFmt.format(d).replace('.', '');
+  }
+
+  /* Rapport imprimable (Imprimer → Enregistrer en PDF), comme le PDF de l'app. */
+  function imprimerRapport() {
+    var box = clear($('#printReport'));
+    var c = state.archive.compte || {};
+    box.appendChild(el('h1', { text: remplir(T.pTitle, 'TicketStay') }));
+    box.appendChild(el('p', { cls: 'pmeta', text: remplir(T.pGenerated, cap(longFmt.format(new Date()))) + (c.nom ? ' · ' + remplir(T.pHolder, c.nom) : '') }));
+    var tCout = 0, tEnc = 0, tAtt = 0;
+    state.archive.abonnements.forEach(function (ab) {
+      var s = statsAbonnement(ab);
+      tCout += s.cout; tEnc += s.encaisse; tAtt += s.enAttente;
+      box.appendChild(el('h2', { text: s.nom + (s.saison ? ' · ' + s.saison : '') }));
+      box.appendChild(el('p', { text: T.bCost + T.colon + money.format(s.cout) + '   ·   ' + T.bCollected + T.colon + money.format(s.encaisse) + '   ·   ' + T.bPending + T.colon + money.format(s.enAttente) }));
+      box.appendChild(el('p', { cls: 'pstrong', text: remplir(T.pBalance, money.format(s.solde)) }));
+      if (!s.ventes.length) { box.appendChild(el('p', { cls: 'pmeta', text: T.bNoSales })); return; }
+      var rows = s.ventes.map(function (x) {
+        var vendu = x.b.statut === 'Vendu';
+        return el('tr', null, [
+          el('td', { text: dateCourteWeb(new Date(x.m.date)) }), el('td', { text: x.m.adversaire || '' }),
+          el('td', { text: x.b.siege || '' }), el('td', { text: x.b.personne || '' }),
+          el('td', { text: vendu ? money.format(+x.b.prixVente || 0) + (x.b.paye ? '' : ' (' + T.pToCollect + ')') : T.status.donne })
+        ]);
+      });
+      box.appendChild(el('table', null, [
+        el('thead', null, [el('tr', null, [T.pDate, T.opponentWord, T.seatWord, T.pPerson, T.pPrice].map(function (h) { return el('th', { text: h }); }))]),
+        el('tbody', null, rows)
+      ]));
+    });
+    if (state.archive.abonnements.length > 1) {
+      box.appendChild(el('h2', { text: T.pAll }));
+      box.appendChild(el('p', { text: T.bCost + T.colon + money.format(tCout) + '   ·   ' + T.bCollected + T.colon + money.format(tEnc) + '   ·   ' + T.bPending + T.colon + money.format(tAtt) }));
+      box.appendChild(el('p', { cls: 'pstrong', text: remplir(T.pBalance, money.format(tEnc - tCout)) }));
+    }
+    box.appendChild(el('p', { cls: 'pmeta pfoot', text: remplir(T.pFoot, 'TicketStay') }));
+    window.print();
+  }
+
+  /* ---------- Copie vers l'app ---------- */
+  function texteApp() {
+    var a = JSON.parse(JSON.stringify(state.archive));
+    delete a._modifie;
+    if (!a.equipesPersos) a.equipesPersos = {};
+    if (!a.carnet) a.carnet = [];
+    var fav = a.abonnements.filter(function (x) { return x.favori; })[0] || a.abonnements[0];
+    if (fav && fav.id) a.actifID = fav.id;
+    return JSON.stringify(a, null, 2);
+  }
+
+  function ouvrirExport() {
+    $('#exportText').value = texteApp();
+    msg('#exportMsg', '');
+    show('export');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function copierExport() {
+    var zone = $('#exportText');
+    function ok() { msg('#exportMsg', T.copiedApp); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(zone.value).then(ok, function () { zone.select(); try { document.execCommand('copy'); ok(); } catch (e) { msg('#exportMsg', T.copyManual, true); } });
+    } else {
+      zone.select(); try { document.execCommand('copy'); ok(); } catch (e) { msg('#exportMsg', T.copyManual, true); }
+    }
+  }
+
+  function telechargerExport() {
+    var blob = new Blob([texteApp()], { type: 'application/json' });
+    var a = el('a', { href: URL.createObjectURL(blob), download: 'ticketstay-saison-' + new Date().toISOString().slice(0, 10) + '.json' });
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+  }
+
   /* ================================================================ Tableau de bord */
   function displayName() {
     if (state.prefs.name) return state.prefs.name;
@@ -1314,6 +1493,12 @@
   $('#bRemove').addEventListener('click', function () { $('#bRemoveConfirm').hidden = false; });
   $('#bRemoveNo').addEventListener('click', function () { $('#bRemoveConfirm').hidden = true; });
   $('#bRemoveYes').addEventListener('click', retirerFiche);
+  document.querySelectorAll('[data-bilan]').forEach(function (b) { b.addEventListener('click', ouvrirBilan); });
+  document.querySelectorAll('[data-export]').forEach(function (b) { b.addEventListener('click', ouvrirExport); });
+  document.querySelectorAll('[data-back-dash]').forEach(function (b) { b.addEventListener('click', function () { show('dash'); window.scrollTo({ top: 0, behavior: 'smooth' }); }); });
+  $('#bilanPrint').addEventListener('click', imprimerRapport);
+  $('#exportCopy').addEventListener('click', copierExport);
+  $('#exportDownload').addEventListener('click', telechargerExport);
   $('#retry').addEventListener('click', function () { if (configured) startCloud(); });
   $('#ghSignIn').addEventListener('click', signIn);
   $('#signOut').addEventListener('click', signOut);
