@@ -662,3 +662,19 @@
   .goodbye{margin:0 auto 10px;max-width:420px;padding:10px 14px;border-radius:12px;background:rgba(61,214,140,.12);color:#1D7A4B;font-weight:600;font-size:14.5px}
   html.dark .goodbye{color:var(--accent)}
   @media (max-width:560px){.set-row{flex-direction:column;align-items:stretch}.set-row .btn{width:100%}.set-actions .btn{flex:1 1 auto}}
+
+  /* ================= Coller les données de l'app ================= */
+  .import-bar{background:color-mix(in srgb,#3aa66b 13%,var(--card));border:1px solid color-mix(in srgb,#3aa66b 40%,var(--border))}
+  .import-bar .bar-acts{flex-wrap:wrap;justify-content:flex-end}
+  .paste-card{text-align:left}
+  .paste-card h2,.paste-card > .lockbig{display:block;text-align:center;margin-left:auto;margin-right:auto}
+  .paste-steps{margin-top:18px}
+  .paste-steps li{padding:16px 18px}
+  .paste-field{margin-top:18px}
+  .paste-field textarea{width:100%;min-height:150px;border-radius:16px;border:1px solid var(--border-strong);background:var(--bg);color:var(--ink);padding:14px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical;outline:none}
+  .paste-field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 16%,transparent)}
+  .paste-card .set-msg{margin-top:10px}
+  .paste-card .acct-cta{justify-content:center}
+  .or-paste{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:14px;padding-top:16px;border-top:1px solid var(--border)}
+  .or-paste span{font-size:13px;color:var(--ink-faint);font-weight:600}
+  @media (max-width:760px){.paste-card .acct-cta{justify-content:stretch}}

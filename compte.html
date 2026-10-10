@@ -74,6 +74,10 @@
         <span><b>Mode démo</b> — données fictives, pour voir à quoi ressemble votre compte.</span>
         <span class="bar-acts"><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Paramètres du compte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Paramètres</span></button><button type="button" class="btn btn-sm btn-ghost" id="demoExit">Quitter la démo</button></span>
       </div>
+      <div class="demo-bar import-bar" id="importBar" hidden>
+        <span><b>Données de l'app</b> — copiées le <span id="importDate"></span>, gardées seulement dans ce navigateur.</span>
+        <span class="bar-acts"><button type="button" class="btn btn-sm btn-ghost" data-paste>Mettre à jour</button><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Paramètres du compte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Paramètres</span></button><button type="button" class="btn btn-sm btn-ghost" id="importClear">Effacer</button></span>
+      </div>
       <div class="session-bar" id="sessionBar" hidden>
         <img class="who-av" id="whoAvatar" alt="" width="32" height="32" hidden referrerpolicy="no-referrer">
         <span class="who-txt"><small>Connecté avec GitHub</small><b id="who"></b></span>
@@ -92,7 +96,7 @@
             <li><span class="n">2</span><span class="si"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></span><b>Connectez-vous avec GitHub</b><small>Ici et dans l'app, avec le même compte GitHub.</small></li>
             <li><span class="n">3</span><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 7.9H7Z"/></svg></span><b>Consultez votre saison</b><small>Prochains matchs, sommes à recevoir et acheteurs.</small></li>
           </ol>
-          <div class="acct-cta"><button type="button" class="btn btn-primary" data-demo>Voir une démo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+          <div class="acct-cta"><button type="button" class="btn btn-primary" data-demo>Voir une démo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button> <button type="button" class="btn btn-ghost" data-paste>Coller les données de l'app</button></div>
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
@@ -108,6 +112,7 @@
           <p>Utilisez votre compte GitHub pour accéder à votre compte TicketStay.</p>
           <button type="button" class="gh-btn" id="ghSignIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span>Se connecter avec GitHub</span><i class="spin" aria-hidden="true"></i></button>
           <button type="button" class="linkish" data-demo>ou voir une démo</button>
+          <div class="or-paste"><span>ou, sans compte</span><button type="button" class="btn btn-ghost" data-paste>Coller les données de l'app</button></div>
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
@@ -119,8 +124,8 @@
         <div class="acct-hero-card">
           <span class="lockbig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 7.9H7Z"/></svg></span>
           <h2>Aucune donnée synchronisée</h2>
-          <p>Vous êtes bien connecté, mais aucune saison n'est encore reliée à votre compte. Une prochaine mise à jour de l'app TicketStay permettra d'envoyer vos équipes, vos matchs et vos acheteurs vers votre compte. D'ici là, la démo montre ce que vous verrez.</p>
-          <div class="acct-cta"><button type="button" class="btn btn-ghost" data-demo>Voir une démo</button></div>
+          <p>Vous êtes bien connecté, mais aucune saison n'est encore reliée à votre compte. En attendant, copiez vos données dans l'app TicketStay et collez-les ici pour voir votre saison.</p>
+          <div class="acct-cta"><button type="button" class="btn btn-primary" data-paste>Coller les données de l'app</button><button type="button" class="btn btn-ghost" data-demo>Voir une démo</button></div>
         </div>
       </div>
 
@@ -128,17 +133,37 @@
         <div class="acct-hero-card">
           <h2>Impossible de charger votre compte</h2>
           <p id="errMsg"></p>
-          <div class="acct-cta"><button type="button" class="btn btn-primary" id="retry">Réessayer</button> <button type="button" class="btn btn-ghost" data-demo>Voir une démo</button></div>
+          <div class="acct-cta"><button type="button" class="btn btn-primary" id="retry">Réessayer</button> <button type="button" class="btn btn-ghost" data-paste>Coller les données de l'app</button></div>
         </div>
       </div>
 
+
+
+      <div data-state="paste" hidden>
+        <div class="acct-hero-card paste-card">
+          <span class="lockbig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="M9 13h6M9 17h4"/></svg></span>
+          <h2>Coller les données de l'app</h2>
+          <ol class="steps paste-steps">
+            <li><span class="n">1</span><b>Dans l'app TicketStay</b><small>Réglages → Partager la saison.</small></li>
+            <li><span class="n">2</span><b>Copier pour le site web</b><small>Le texte de votre saison est copié.</small></li>
+            <li><span class="n">3</span><b>Collez-le ci-dessous</b><small>Appui long dans la zone → Coller.</small></li>
+          </ol>
+          <label class="field paste-field"><span class="sr-only">Données copiées dans l'app</span><textarea id="pasteText" rows="7" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="{ &quot;abonnements&quot; : … }"></textarea></label>
+          <p class="set-msg bad" id="pasteMsg" role="alert" hidden></p>
+          <div class="acct-cta"><button type="button" class="btn btn-primary" id="pasteGo">Afficher ma saison</button><button type="button" class="btn btn-ghost" id="pasteCancel">Annuler</button></div>
+        </div>
+        <div class="acct-privacy">
+          <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+          <div><b>Rien n'est envoyé</b><small>Le texte est lu directement dans votre navigateur et n'est transmis à personne. Seuls vos équipes, matchs, billets et acheteurs sont gardés, dans ce navigateur seulement ; le NIP, les photos et les emblèmes sont ignorés. Le bouton Effacer les retire.</small></div>
+        </div>
+      </div>
 
       <div data-state="settings" hidden>
         <div class="set-top">
           <button type="button" class="btn btn-sm btn-ghost" id="settingsBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Retour</button>
           <h2>Paramètres du compte</h2>
         </div>
-        <p class="set-demo" id="demoNote" hidden>Mode démo : vous pouvez essayer les préférences, mais rien n'est enregistré et les actions sur les données sont désactivées.</p>
+        <p class="set-demo" id="demoNote" data-demo-text="Mode démo : vous pouvez essayer les préférences, mais rien n'est enregistré et les actions sur les données sont désactivées." hidden>Mode démo : vous pouvez essayer les préférences, mais rien n'est enregistré et les actions sur les données sont désactivées.</p>
 
         <section class="dpanel set-card" aria-labelledby="setProfileH">
           <h3 id="setProfileH">Profil</h3>

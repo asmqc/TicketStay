@@ -29,7 +29,7 @@
       allPaid: 'Tout le monde a payé', allPaidSub: 'Personne ne vous doit d\'argent pour cette équipe.',
       unknownBuyer: 'Acheteur inconnu', text: 'Texto', textTo: 'Texto à ', email: 'Courriel', emailTo: 'Courriel à ',
       ticket: ' billet', tickets: ' billets', recovered: ' récupérés sur ', pct: ' %',
-      status: { a_vendre: 'À vendre', vendu: 'Vendu', donne: 'Donné', utilise: 'Utilisé', a_placer: 'À placer' },
+      status: { a_vendre: 'À vendre', vendu: 'Vendu', donne: 'Donné', utilise: 'Utilisé', a_placer: 'À placer', non_utilise: 'Non utilisé' },
       demoLeague: 'Ligue démo',
       demoTeams: [['Les Harfangs', ['Les Loups', 'Les Faucons', 'Les Ours', 'Les Lynx', 'Les Orignaux']], ['Les Castors', ['Les Aigles', 'Les Renards', 'Les Coyotes', 'Les Bisons']]],
       // Paramètres
@@ -40,7 +40,14 @@
       accountDeleted: 'Votre compte a été supprimé.', confirmWord: 'SUPPRIMER',
       typeToConfirm: 'Tapez SUPPRIMER pour confirmer.',
       notSet: 'Non fourni par GitHub', firstTeam: 'Première équipe (ordre alphabétique)', noTeams: 'Aucune équipe synchronisée',
-      switching: 'Ouverture de la version anglaise…'
+      switching: 'Ouverture de la version anglaise…',
+      pasteEmpty: 'Collez d\'abord le texte copié dans l\'app.',
+      pasteBad: 'Ce texte ne ressemble pas aux données de l\'app TicketStay. Dans l\'app, utilisez Réglages → Partager la saison → Copier pour le site web, puis collez tout le texte.',
+      pasteNoTeam: 'Les données ont été lues, mais elles ne contiennent aucune équipe.',
+      importNote: 'Données de l\'app : vos préférences sont gardées dans ce navigateur seulement. L\'export et la suppression en ligne ne s\'appliquent pas.',
+      importSaved: 'Préférences gardées dans ce navigateur.',
+      seat: ['Sec. ', 'R. '],
+      custom: 'Ma ligue'
     },
     en: {
       netErr: 'The sign-in service is not responding. Check your internet connection.',
@@ -55,7 +62,7 @@
       allPaid: 'Everyone has paid', allPaidSub: 'Nobody owes you money for this team.',
       unknownBuyer: 'Unknown buyer', text: 'Text', textTo: 'Text ', email: 'Email', emailTo: 'Email ',
       ticket: ' ticket', tickets: ' tickets', recovered: ' recovered out of ', pct: '%',
-      status: { a_vendre: 'For sale', vendu: 'Sold', donne: 'Given away', utilise: 'Used', a_placer: 'To assign' },
+      status: { a_vendre: 'For sale', vendu: 'Sold', donne: 'Given away', utilise: 'Used', a_placer: 'To assign', non_utilise: 'Not used' },
       demoLeague: 'Demo league',
       demoTeams: [['Snowy Owls', ['Wolves', 'Falcons', 'Bears', 'Lynx', 'Moose']], ['Beavers', ['Eagles', 'Foxes', 'Coyotes', 'Bison']]],
       saved: 'Settings saved.', savedDemo: 'Demo mode: settings are not saved.',
@@ -65,7 +72,14 @@
       accountDeleted: 'Your account has been deleted.', confirmWord: 'DELETE',
       typeToConfirm: 'Type DELETE to confirm.',
       notSet: 'Not provided by GitHub', firstTeam: 'First team (alphabetical)', noTeams: 'No synced teams',
-      switching: 'Opening the French version…'
+      switching: 'Opening the French version…',
+      pasteEmpty: 'First paste the text copied in the app.',
+      pasteBad: 'This text doesn\'t look like TicketStay app data. In the app, use Settings → Share the season → Copy for the website, then paste all of the text.',
+      pasteNoTeam: 'The data was read, but it contains no team.',
+      importNote: 'App data: your preferences are kept in this browser only. Online export and deletion don\'t apply.',
+      importSaved: 'Preferences kept in this browser.',
+      seat: ['Sec. ', 'Row '],
+      custom: 'My league'
     }
   }[LANG];
 
@@ -88,7 +102,7 @@
   var longFmt = new Intl.DateTimeFormat(LOCALE, { weekday: 'long', day: 'numeric', month: 'long' });
   var syncFmt = new Intl.DateTimeFormat(LOCALE, { dateStyle: 'long', timeStyle: 'short' });
 
-  var STATUS_CLS = { a_vendre: 'sell', vendu: 'sold', donne: 'gift', utilise: 'used', a_placer: 'todo' };
+  var STATUS_CLS = { a_vendre: 'sell', vendu: 'sold', donne: 'gift', utilise: 'used', a_placer: 'todo', non_utilise: 'used' };
 
   function $(s) { return document.querySelector(s); }
 
@@ -294,6 +308,8 @@
 
   function startDemo() {
     state.demo = true;
+    state.imported = false;
+    $('#importBar').hidden = true;
     state.user = null;
     state.who = { name: 'Alex Martin', login: 'alex-demo', avatar: '', email: 'alex@example.com' };
     state.prefs = Object.assign({ name: '', lang: '', currency: 'CAD', team: '' }, demoPrefs);
@@ -310,6 +326,141 @@
     try { history.replaceState(null, '', location.pathname); } catch (e) {}
     if (configured) startCloud(); else show('setup');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+
+  /* ================================================================ Données collées depuis l'app
+   * Dans l'app : Réglages → Partager la saison → Copier pour le site web.
+   * Le texte est lu ici, dans le navigateur. Rien n'est envoyé : seule une
+   * version allégée (sans NIP, photos ni emblèmes) est gardée dans ce navigateur. */
+  var CLE_IMPORT = 'ts-import-v1';
+  var CLE_IMPORT_PREFS = 'ts-import-prefs';
+  var LIGUES = {
+    lnh: ['LNH', 'NHL', 'Hockey'], lah: ['LAH', 'AHL', 'Hockey'], lphf: ['LPHF', 'PWHL', 'Hockey'],
+    echl: ['ECHL', 'ECHL', 'Hockey'], sphl: ['SPHL', 'SPHL', 'Hockey'], lhjmq: ['LHJMQ', 'QMJHL', 'Hockey'],
+    ohl: ['OHL', 'OHL', 'Hockey'], whl: ['WHL', 'WHL', 'Hockey'],
+    nba: ['NBA', 'NBA', 'Basketball'], wnba: ['WNBA', 'WNBA', 'Basketball'], gleague: ['G League', 'G League', 'Basketball'],
+    cebl: ['CEBL', 'CEBL', 'Basketball'], mlb: ['MLB', 'MLB', 'Baseball'], aaa: ['AAA', 'AAA', 'Baseball'],
+    nfl: ['NFL', 'NFL', 'Football'], lcf: ['LCF', 'CFL', 'Football'], ufl: ['UFL', 'UFL', 'Football'],
+    mls: ['MLS', 'MLS', 'Soccer'], nwsl: ['NWSL', 'NWSL', 'Soccer'], usl: ['USL', 'USL', 'Soccer'],
+    cpl: ['PLC', 'CPL', 'Soccer'], nll: ['NLL', 'NLL', 'Crosse']
+  };
+  var STATUT_APP = { 'À placer': 'a_placer', 'À vendre': 'a_vendre', 'Utilisé': 'utilise', 'Vendu': 'vendu', 'Donné': 'donne', 'Non utilisé': 'non_utilise' };
+  function cle(s) { return String(s || '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  function nomSport(s) { return LANG === 'en' && s === 'Crosse' ? 'Lacrosse' : s; }
+
+  function lireApp(texte) {
+    var a;
+    try { a = JSON.parse(String(texte).trim().replace(/^[^{]*/, '').replace(/[^}]*$/, '')); }
+    catch (e) { throw new Error(T.pasteBad); }
+    if (!a || typeof a !== 'object') throw new Error(T.pasteBad);
+    var abos = Array.isArray(a.abonnements) ? a.abonnements
+      : (a.reglages || a.matchs) ? [{ reglages: a.reglages || {}, matchs: a.matchs || [], favori: true }] : null;
+    if (!abos) throw new Error(T.pasteBad);
+    if (!abos.length) throw new Error(T.pasteNoTeam);
+    var carnet = {};
+    (a.carnet || []).forEach(function (c) { if (c && c.nom) carnet[cle(c.nom)] = c; });
+    var owner = (a.compte && a.compte.nom) || '';
+    var maintenant = new Date().toISOString();
+    var equipes = abos.map(function (ab, i) {
+      var r = ab.reglages || {};
+      var lg = LIGUES[r.ligueID];
+      var parNom = {}, liste = [];
+      function acheteur(nom, tel, courriel) {
+        var k = cle(nom);
+        if (!k) return null;
+        if (!parNom[k]) {
+          var c = carnet[k] || {};
+          parNom[k] = { id: 'b' + liste.length, name: String(nom).trim(), phone: tel || c.telephone || '', email: courriel || c.courriel || '' };
+          liste.push(parNom[k]);
+        } else {
+          if (!parNom[k].phone && tel) parNom[k].phone = tel;
+          if (!parNom[k].email && courriel) parNom[k].email = courriel;
+        }
+        return parNom[k].id;
+      }
+      var games = (ab.matchs || []).map(function (m) {
+        return {
+          date: m.date, opponent: m.adversaire || '', home: m.domicile !== false,
+          tickets: (m.billets || []).map(function (b) {
+            var st = STATUT_APP[b.statut] || 'a_placer';
+            var seat = [m.section ? T.seat[0] + m.section : '', m.rangee ? T.seat[1] + m.rangee : '', b.siege || ''].filter(Boolean).join(' · ');
+            return {
+              seat: seat, status: st, price: +b.prixVente || 0,
+              buyer: (st === 'vendu' || st === 'donne') ? acheteur(b.personne, b.telephone, b.courriel) : null,
+              paid: st !== 'vendu' || !!b.paye
+            };
+          })
+        };
+      });
+      return {
+        _id: ab.id || ('app-' + i), version: 1, owner: owner, syncedAt: maintenant, favori: !!ab.favori,
+        team: {
+          name: r.equipe || T.team,
+          sport: nomSport(lg ? lg[2] : (r.sportPerso || '')),
+          league: lg ? lg[LANG === 'en' ? 1 : 0] : T.custom,
+          season: r.nomSaison || '', cost: +r.coutAbonnement || 0
+        },
+        games: games, buyers: liste
+      };
+    });
+    equipes.sort(function (x, y) { return (y.favori ? 1 : 0) - (x.favori ? 1 : 0); });
+    return equipes;
+  }
+
+  function ouvrirCollage() {
+    msg('#pasteMsg', '');
+    show('paste');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(function () { var z = $('#pasteText'); if (z) z.focus(); }, 300);
+  }
+
+  function validerCollage() {
+    var texte = $('#pasteText').value;
+    if (!texte.trim()) { msg('#pasteMsg', T.pasteEmpty, true); return; }
+    var equipes;
+    try { equipes = lireApp(texte); } catch (e) { msg('#pasteMsg', e.message, true); return; }
+    try { localStorage.setItem(CLE_IMPORT, JSON.stringify(equipes)); } catch (e) {}
+    $('#pasteText').value = '';
+    startImport(equipes);
+  }
+
+  function annulerCollage() {
+    if (state.teams.length) show('dash');
+    else if (state.demo) startDemo();
+    else if (configured) startCloud();
+    else show('setup');
+  }
+
+  function importGarde() {
+    try { var s = localStorage.getItem(CLE_IMPORT); return s ? JSON.parse(s) : null; } catch (e) { return null; }
+  }
+
+  function startImport(equipes) {
+    state.demo = true;
+    state.imported = true;
+    state.user = null;
+    state.who = { name: (equipes[0] && equipes[0].owner) || '', login: '', avatar: '', email: '' };
+    var p = {};
+    try { p = JSON.parse(localStorage.getItem(CLE_IMPORT_PREFS) || '{}') || {}; } catch (e) {}
+    state.prefs = Object.assign({ name: '', lang: '', currency: 'CAD', team: '' }, p);
+    setMoney(state.prefs.currency);
+    $('#demoBar').hidden = true;
+    $('#sessionBar').hidden = true;
+    $('#importBar').hidden = false;
+    $('#importDate').textContent = equipes[0] && equipes[0].syncedAt ? syncFmt.format(new Date(equipes[0].syncedAt)) : '';
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+    setData(equipes);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function effacerImport() {
+    try { localStorage.removeItem(CLE_IMPORT); localStorage.removeItem(CLE_IMPORT_PREFS); } catch (e) {}
+    state.imported = false;
+    state.demo = false;
+    state.teams = [];
+    $('#importBar').hidden = true;
+    if (configured) startCloud(); else show('setup');
   }
 
   /* ================================================================ Tableau de bord */
@@ -487,6 +638,7 @@
     }
     document.querySelectorAll('[data-demo-off]').forEach(function (b) { b.disabled = state.demo; b.title = state.demo ? T.demoOff : ''; });
     $('#demoNote').hidden = !state.demo;
+    $('#demoNote').textContent = state.imported ? T.importNote : $('#demoNote').getAttribute('data-demo-text');
     resetConfirms();
     msg('#prefMsg', '');
     msg('#dataMsg', '');
@@ -513,11 +665,15 @@
       if (langChanged) {
         msg('#prefMsg', T.switching);
         try { localStorage.setItem('ts-open-settings', '1'); } catch (x) {}
-        location.href = pageUrl(p.lang) + (state.demo ? '?demo=1' : '');
+        location.href = pageUrl(p.lang) + (state.demo && !state.imported ? '?demo=1' : '');
         return;
       }
       show('settings');
       msg('#prefMsg', text);
+    }
+    if (state.imported) {
+      try { localStorage.setItem(CLE_IMPORT_PREFS, JSON.stringify(p)); } catch (x) {}
+      applied(T.importSaved); return;
     }
     if (state.demo) { demoPrefs = p; applied(T.savedDemo); return; }
     var btn = $('#prefSave'); btn.disabled = true; msg('#prefMsg', T.saving);
@@ -579,6 +735,10 @@
   document.querySelectorAll('[data-demo]').forEach(function (b) { b.addEventListener('click', startDemo); });
   document.querySelectorAll('[data-open-settings]').forEach(function (b) { b.addEventListener('click', openSettings); });
   $('#demoExit').addEventListener('click', exitDemo);
+  document.querySelectorAll('[data-paste]').forEach(function (b) { b.addEventListener('click', ouvrirCollage); });
+  $('#pasteGo').addEventListener('click', validerCollage);
+  $('#pasteCancel').addEventListener('click', annulerCollage);
+  $('#importClear').addEventListener('click', effacerImport);
   $('#retry').addEventListener('click', function () { if (configured) startCloud(); });
   $('#ghSignIn').addEventListener('click', signIn);
   $('#signOut').addEventListener('click', signOut);
@@ -606,7 +766,9 @@
     })();
   }
 
+  var garde = importGarde();
   if (/[?&]demo=1/.test(location.search)) startDemo();
+  else if (garde && garde.length) startImport(garde);
   else if (configured) startCloud();
   else show('setup');
   reopenSettingsIfAsked();
