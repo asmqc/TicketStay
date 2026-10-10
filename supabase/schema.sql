@@ -68,3 +68,35 @@ end $$;
 
 revoke execute on function public.delete_my_account() from public, anon;
 grant execute on function public.delete_my_account() to authenticated;
+
+-- ---------------------------------------------------------------------------
+-- Saison gérée sur le site, une ligne par compte GitHub (format de l'app,
+-- sans NIP, photo ni emblèmes). À appliquer : migration create_ts_saisons.
+create table if not exists public.ts_saisons (
+  user_id    uuid        primary key default auth.uid() references auth.users (id) on delete cascade,
+  archive    jsonb       not null,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.ts_saisons enable row level security;
+
+drop policy if exists "Lire sa saison"      on public.ts_saisons;
+drop policy if exists "Ajouter sa saison"   on public.ts_saisons;
+drop policy if exists "Modifier sa saison"  on public.ts_saisons;
+drop policy if exists "Supprimer sa saison" on public.ts_saisons;
+
+create policy "Lire sa saison" on public.ts_saisons
+  for select to authenticated using ((select auth.uid()) = user_id);
+create policy "Ajouter sa saison" on public.ts_saisons
+  for insert to authenticated with check ((select auth.uid()) = user_id);
+create policy "Modifier sa saison" on public.ts_saisons
+  for update to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
+create policy "Supprimer sa saison" on public.ts_saisons
+  for delete to authenticated using ((select auth.uid()) = user_id);
+
+revoke all on public.ts_saisons from anon;
+grant select, insert, update, delete on public.ts_saisons to authenticated;
+
+drop trigger if exists ts_saisons_touch on public.ts_saisons;
+create trigger ts_saisons_touch before update on public.ts_saisons
+  for each row execute function public.ts_touch();

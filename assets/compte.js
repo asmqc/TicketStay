@@ -41,6 +41,9 @@
       typeToConfirm: 'Tapez SUPPRIMER pour confirmer.',
       notSet: 'Non fourni par GitHub', firstTeam: 'Première équipe (ordre alphabétique)', noTeams: 'Aucune équipe synchronisée',
       switching: 'Ouverture de la version anglaise…',
+      whereLocal: 'gardée seulement dans ce navigateur. Connectez-vous avec GitHub pour la retrouver partout.',
+      cloudSaving: 'enregistrement dans votre compte GitHub…', cloudSaved: 'enregistrée dans votre compte GitHub.',
+      cloudError: 'pas encore enregistrée dans votre compte (connexion?) : gardée dans ce navigateur, nouvel essai à la prochaine modification.',
       colon: ' : ', bCost: 'Coût de l\'abonnement', bCollected: 'Encaissé', bPending: 'En attente', bPerTicket: 'Coût payé par billet',
       bBest: 'Meilleure vente', bNetUsed: 'Coût net par match vu', bGames: 'Matchs inscrits', bUpcomingN: '%@ à venir',
       bNoCost: 'Inscrivez le coût de votre abonnement (+ Équipe ou dans l\'app) pour suivre votre remboursement.',
@@ -103,6 +106,9 @@
       typeToConfirm: 'Type DELETE to confirm.',
       notSet: 'Not provided by GitHub', firstTeam: 'First team (alphabetical)', noTeams: 'No synced teams',
       switching: 'Opening the French version…',
+      whereLocal: 'kept only in this browser. Sign in with GitHub to find it everywhere.',
+      cloudSaving: 'saving to your GitHub account…', cloudSaved: 'saved to your GitHub account.',
+      cloudError: 'not saved to your account yet (connection?): kept in this browser, will retry on the next change.',
       colon: ': ', bCost: 'Season ticket cost', bCollected: 'Collected', bPending: 'Pending', bPerTicket: 'Cost paid per ticket',
       bBest: 'Best sale', bNetUsed: 'Net cost per game attended', bGames: 'Games entered', bUpcomingN: '%@ upcoming',
       bNoCost: 'Enter the cost of your season tickets (+ Team or in the app) to track how much you\'ve recovered.',
@@ -259,7 +265,10 @@
 
   function signOut() {
     state.teams = []; state.user = null;
-    if (state.demo) { exitDemo(); return; }
+    if (state.demo && !state.imported) { exitDemo(); return; }
+    try { localStorage.removeItem(CLE_IMPORT); localStorage.removeItem(CLE_IMPORT_V1); } catch (e) {}
+    state.archive = null; state.imported = false; state.demo = false;
+    $('#importBar').hidden = true;
     sb.auth.signOut().then(onSignedOut, onSignedOut);
   }
 
@@ -267,6 +276,8 @@
     $('#sessionBar').hidden = true;
     state.teams = []; state.user = null;
     var btn = $('#ghSignIn'); if (btn) { btn.disabled = false; btn.classList.remove('busy'); }
+    var locale = importGarde();
+    if (locale) { startImport(locale); return; }
     show('signin');
   }
 
@@ -289,7 +300,49 @@
     $('#who').textContent = who.login ? who.name + ' (@' + who.login + ')' : who.name;
     var av = $('#whoAvatar');
     if (who.avatar && /^https:\/\//.test(who.avatar)) { av.src = who.avatar; av.hidden = false; } else av.hidden = true;
-    fetchData();
+    fetchSaison();
+  }
+
+  /* Saison enregistrée dans le compte GitHub (table ts_saisons, une ligne par compte). */
+  function fetchSaison() {
+    show('loading');
+    sb.from('ts_saisons').select('archive, updated_at').maybeSingle().then(function (r) {
+      if (r.error) throw r.error;
+      var locale = importGarde();
+      if (r.data && r.data.archive && Array.isArray(r.data.archive.abonnements)) {
+        startImport(r.data.archive);
+        try { localStorage.setItem(CLE_IMPORT, JSON.stringify(r.data.archive)); } catch (e) {}
+      } else if (locale) {
+        /* Première connexion : la saison de ce navigateur part dans le compte. */
+        startImport(locale);
+        sauverNuage();
+      } else fetchData();
+    }).catch(function (err) {
+      var code = err && (err.code || err.status);
+      if (code === '42P01' || code === 'PGRST205' || /Could not find the table|does not exist/i.test((err && err.message) || '')) { fetchData(); return; }
+      onError(err);
+    });
+  }
+
+  var minuterieNuage = null;
+  function sauverNuage() {
+    if (!state.user || !sb || !state.archive) return;
+    clearTimeout(minuterieNuage);
+    statutSaison(T.cloudSaving);
+    minuterieNuage = setTimeout(function () {
+      var a = JSON.parse(JSON.stringify(state.archive));
+      sb.from('ts_saisons').upsert({ user_id: state.user.id, archive: a }).then(function (r) {
+        if (r.error) throw r.error;
+        statutSaison(T.cloudSaved);
+      }).catch(function () { statutSaison(T.cloudError, true); });
+    }, 700);
+  }
+
+  function statutSaison(texte, mauvais) {
+    var s = $('#importWhere');
+    if (!s) return;
+    s.textContent = texte;
+    s.classList.toggle('bad', !!mauvais);
   }
 
   function fetchData() {
@@ -311,6 +364,7 @@
   }
 
   function onError(err) {
+    if (!state.imported && importGarde()) { startImport(importGarde()); return; }
     var code = err && (err.code || err.status);
     var msg = (err && (err.message || err.error_description)) || T.unknownErr;
     /* Table pas encore créée : on affiche simplement un compte vide */
@@ -508,6 +562,7 @@
       localStorage.removeItem(CLE_IMPORT_V1);
     } catch (e) {}
     $('#importDate').textContent = syncFmt.format(new Date(state.archive._modifie));
+    sauverNuage();
   }
 
   function importGarde() {
@@ -545,17 +600,20 @@
 
   function startImport(archive) {
     state.archive = archive;
-    state.demo = true;
     state.imported = true;
-    state.user = null;
-    state.who = { name: (archive.compte && archive.compte.nom) || '', login: '', avatar: '', email: (archive.compte && archive.compte.courriel) || '' };
-    var p = {};
-    try { p = JSON.parse(localStorage.getItem(CLE_IMPORT_PREFS) || '{}') || {}; } catch (e) {}
-    state.prefs = Object.assign({ name: '', lang: '', currency: 'CAD', team: '' }, p);
-    setMoney(state.prefs.currency);
+    state.demo = !state.user;
+    if (!state.user) {
+      state.who = { name: (archive.compte && archive.compte.nom) || '', login: '', avatar: '', email: (archive.compte && archive.compte.courriel) || '' };
+      var p = {};
+      try { p = JSON.parse(localStorage.getItem(CLE_IMPORT_PREFS) || '{}') || {}; } catch (e) {}
+      state.prefs = Object.assign({ name: '', lang: '', currency: 'CAD', team: '' }, p);
+      setMoney(state.prefs.currency);
+    }
     $('#demoBar').hidden = true;
-    $('#sessionBar').hidden = true;
+    $('#sessionBar').hidden = !state.user;
     $('#importBar').hidden = false;
+    $('#importClear').hidden = !!state.user;
+    statutSaison(state.user ? T.cloudSaved : T.whereLocal);
     $('#importDate').textContent = archive._modifie ? syncFmt.format(new Date(archive._modifie)) : '';
     try { history.replaceState(null, '', location.pathname); } catch (e) {}
     setData(equipesDe(archive));
@@ -1404,7 +1462,7 @@
       show('settings');
       msg('#prefMsg', text);
     }
-    if (state.imported) {
+    if (state.imported && !state.user) {
       try { localStorage.setItem(CLE_IMPORT_PREFS, JSON.stringify(p)); } catch (x) {}
       applied(T.importSaved); return;
     }
@@ -1421,6 +1479,7 @@
 
   function exportData() {
     if (state.demo) return;
+    if (state.archive) { telechargerExport(); msg('#dataMsg', T.exported); return; }
     var rows = state.rows || [];
     if (!rows.length) { msg('#dataMsg', T.nothingExport, true); return; }
     var blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), teams: rows }, null, 2)], { type: 'application/json' });
@@ -1439,8 +1498,14 @@
     if (state.demo) return;
     var b = $('#delDataYes'); b.disabled = true;
     sb.from('ts_snapshots').delete().eq('user_id', state.user.id).then(function (r) {
-      b.disabled = false;
       if (r.error) throw r.error;
+      return sb.from('ts_saisons').delete().eq('user_id', state.user.id);
+    }).then(function (r) {
+      b.disabled = false;
+      if (r && r.error && !/Could not find the table/i.test(r.error.message || '')) throw r.error;
+      try { localStorage.removeItem(CLE_IMPORT); localStorage.removeItem(CLE_IMPORT_V1); } catch (e) {}
+      state.archive = null; state.imported = false;
+      $('#importBar').hidden = true;
       state.teams = []; state.rows = [];
       resetConfirms();
       fillSettings();
@@ -1528,8 +1593,8 @@
 
   var garde = importGarde();
   if (/[?&]demo=1/.test(location.search)) startDemo();
-  else if (garde) startImport(garde);
   else if (configured) startCloud();
+  else if (garde) startImport(garde);
   else show('setup');
   reopenSettingsIfAsked();
 })();

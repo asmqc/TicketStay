@@ -75,7 +75,7 @@
         <span class="bar-acts"><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Account settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Settings</span></button><button type="button" class="btn btn-sm btn-ghost" id="demoExit">Exit demo</button></span>
       </div>
       <div class="demo-bar import-bar" id="importBar" hidden>
-        <span><b>Your season</b> — updated on <span id="importDate"></span>, kept only in this browser.</span>
+        <span><b>Your season</b> — updated on <span id="importDate"></span>, <span id="importWhere">kept only in this browser.</span></span>
         <span class="bar-acts"><button type="button" class="btn btn-sm btn-primary" data-export><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg><span>Copy for the app</span></button><button type="button" class="btn btn-sm btn-ghost" data-paste>Paste again from the app</button><button type="button" class="btn btn-sm btn-ghost" data-new-team>+ Team</button><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Account settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Settings</span></button><button type="button" class="btn btn-sm btn-ghost" id="importClear">Clear</button></span>
       </div>
       <div class="session-bar" id="sessionBar" hidden>
@@ -100,7 +100,7 @@
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-          <div><b>Your data stays yours</b><small>Sign-in is handled by GitHub: your password is never sent to TicketStay. A security rule means an account can only read its own data. When you sign in, only your GitHub username, name, profile photo and email are kept, to identify your account, along with the preferences you choose in settings. You can delete your account at any time.</small></div>
+          <div><b>Your data stays yours</b><small>Sign-in is handled by GitHub: your password is never sent to TicketStay. A security rule means an account can only read its own data. When you sign in, your GitHub username, name, profile photo and email are kept to identify your account, along with your preferences and the season you manage on the website (teams, games, tickets, buyers). You can delete everything at any time in settings.</small></div>
         </div>
       </div>
 
@@ -116,7 +116,7 @@
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-          <div><b>Your data stays yours</b><small>Sign-in is handled by GitHub: your password is never sent to TicketStay. A security rule means an account can only read its own data. When you sign in, only your GitHub username, name, profile photo and email are kept, to identify your account, along with the preferences you choose in settings. You can delete your account at any time.</small></div>
+          <div><b>Your data stays yours</b><small>Sign-in is handled by GitHub: your password is never sent to TicketStay. A security rule means an account can only read its own data. When you sign in, your GitHub username, name, profile photo and email are kept to identify your account, along with your preferences and the season you manage on the website (teams, games, tickets, buyers). You can delete everything at any time in settings.</small></div>
         </div>
       </div>
 
@@ -155,7 +155,7 @@
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-          <div><b>Nothing is sent</b><small>The text is read directly in your browser and isn't sent to anyone. Only your teams, games, tickets and buyers are kept, in this browser only; the PIN, photos and logos are ignored. The Clear button removes them.</small></div>
+          <div><b>Where your season goes</b><small>Signed in with GitHub: your teams, games, tickets and buyers are saved to your account (server in Canada), so you can find them on all your devices. Without signing in, they stay only in this browser. The PIN, photos and logos are always ignored.</small></div>
         </div>
       </div>
 
@@ -163,7 +163,7 @@
       <div data-state="team" hidden>
         <form class="dpanel set-card ed-card" id="ntForm" novalidate>
           <div class="set-top"><h2>New team</h2></div>
-          <p class="set-hint">Your season is kept only in this browser.</p>
+          <p class="set-hint">Signed in with GitHub, your season is saved to your account; otherwise, only in this browser.</p>
           <div class="set-form">
             <label class="field"><span>Team</span><input id="ntName" type="text" maxlength="60" autocomplete="off" placeholder="Montréal Canadiens"></label>
             <label class="field"><span>League</span><select id="ntLeague"></select></label>

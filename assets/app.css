@@ -767,3 +767,4 @@
     .print-report th,.print-report td{text-align:left;padding:3pt 4pt;border-bottom:1px solid #ddd}
     .print-report .pfoot{margin-top:18pt}
   }
+  #importWhere.bad{color:var(--primary);font-weight:600}

@@ -75,7 +75,7 @@
         <span class="bar-acts"><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Paramètres du compte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Paramètres</span></button><button type="button" class="btn btn-sm btn-ghost" id="demoExit">Quitter la démo</button></span>
       </div>
       <div class="demo-bar import-bar" id="importBar" hidden>
-        <span><b>Votre saison</b> — modifiée le <span id="importDate"></span>, gardée seulement dans ce navigateur.</span>
+        <span><b>Votre saison</b> — modifiée le <span id="importDate"></span>, <span id="importWhere">gardée seulement dans ce navigateur.</span></span>
         <span class="bar-acts"><button type="button" class="btn btn-sm btn-primary" data-export><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg><span>Copier pour l'app</span></button><button type="button" class="btn btn-sm btn-ghost" data-paste>Recoller de l'app</button><button type="button" class="btn btn-sm btn-ghost" data-new-team>+ Équipe</button><button type="button" class="btn btn-sm btn-ghost gear-btn" data-open-settings aria-label="Paramètres du compte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span>Paramètres</span></button><button type="button" class="btn btn-sm btn-ghost" id="importClear">Effacer</button></span>
       </div>
       <div class="session-bar" id="sessionBar" hidden>
@@ -100,7 +100,7 @@
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-          <div><b>Vos données restent à vous</b><small>La connexion est gérée par GitHub : votre mot de passe n'est jamais transmis à TicketStay. Une règle de sécurité fait qu'un compte ne peut lire que ses propres données. À la connexion, seuls votre nom d'utilisateur, votre nom, votre photo de profil et votre courriel GitHub sont conservés, pour identifier votre compte, ainsi que les préférences choisies dans les paramètres. Vous pouvez supprimer votre compte en tout temps.</small></div>
+          <div><b>Vos données restent à vous</b><small>La connexion est gérée par GitHub : votre mot de passe n'est jamais transmis à TicketStay. Une règle de sécurité fait qu'un compte ne peut lire que ses propres données. À la connexion, votre nom d'utilisateur, votre nom, votre photo de profil et votre courriel GitHub sont conservés pour identifier votre compte, avec vos préférences et la saison que vous gérez sur le site (équipes, matchs, billets, acheteurs). Vous pouvez tout supprimer en tout temps dans les paramètres.</small></div>
         </div>
       </div>
 
@@ -116,7 +116,7 @@
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-          <div><b>Vos données restent à vous</b><small>La connexion est gérée par GitHub : votre mot de passe n'est jamais transmis à TicketStay. Une règle de sécurité fait qu'un compte ne peut lire que ses propres données. À la connexion, seuls votre nom d'utilisateur, votre nom, votre photo de profil et votre courriel GitHub sont conservés, pour identifier votre compte, ainsi que les préférences choisies dans les paramètres. Vous pouvez supprimer votre compte en tout temps.</small></div>
+          <div><b>Vos données restent à vous</b><small>La connexion est gérée par GitHub : votre mot de passe n'est jamais transmis à TicketStay. Une règle de sécurité fait qu'un compte ne peut lire que ses propres données. À la connexion, votre nom d'utilisateur, votre nom, votre photo de profil et votre courriel GitHub sont conservés pour identifier votre compte, avec vos préférences et la saison que vous gérez sur le site (équipes, matchs, billets, acheteurs). Vous pouvez tout supprimer en tout temps dans les paramètres.</small></div>
         </div>
       </div>
 
@@ -155,7 +155,7 @@
         </div>
         <div class="acct-privacy">
           <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-          <div><b>Rien n'est envoyé</b><small>Le texte est lu directement dans votre navigateur et n'est transmis à personne. Seuls vos équipes, matchs, billets et acheteurs sont gardés, dans ce navigateur seulement ; le NIP, les photos et les emblèmes sont ignorés. Le bouton Effacer les retire.</small></div>
+          <div><b>Où va votre saison</b><small>Connecté avec GitHub : vos équipes, matchs, billets et acheteurs sont enregistrés dans votre compte (serveur au Canada), pour les retrouver sur tous vos appareils. Sans connexion, ils restent seulement dans ce navigateur. Le NIP, les photos et les emblèmes sont toujours ignorés.</small></div>
         </div>
       </div>
 
@@ -163,7 +163,7 @@
       <div data-state="team" hidden>
         <form class="dpanel set-card ed-card" id="ntForm" novalidate>
           <div class="set-top"><h2>Nouvelle équipe</h2></div>
-          <p class="set-hint">Votre saison est gardée seulement dans ce navigateur.</p>
+          <p class="set-hint">Connecté avec GitHub, votre saison est enregistrée dans votre compte ; sinon, seulement dans ce navigateur.</p>
           <div class="set-form">
             <label class="field"><span>Équipe</span><input id="ntName" type="text" maxlength="60" autocomplete="off" placeholder="Canadiens de Montréal"></label>
             <label class="field"><span>Ligue</span><select id="ntLeague"></select></label>
