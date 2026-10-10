@@ -41,6 +41,14 @@
       typeToConfirm: 'Tapez SUPPRIMER pour confirmer.',
       notSet: 'Non fourni par GitHub', firstTeam: 'Première équipe (ordre alphabétique)', noTeams: 'Aucune équipe synchronisée',
       switching: 'Ouverture de la version anglaise…',
+      seasonDefault: 'Saison 2026-2027', teamNameNeeded: 'Inscrivez le nom de l\'équipe.',
+      noGamesYet: 'Aucun match pour l\'instant. Ajoutez le premier avec le bouton ci-dessus.',
+      upcoming: 'À venir', past: 'Passés', newGame: 'Nouveau match', statusLabel: 'Statut', seatLabel: 'Siège',
+      seatWord: 'Siège', removeSeat: 'Retirer ce siège', priceLabel: 'Prix obtenu', personPh: 'Nom de la personne',
+      soldTo: 'Vendu à', givenTo: 'Donné à', phoneLabel: 'Téléphone', emailLabel: 'Courriel', optional: 'facultatif',
+      paidLabel: 'Payé — l\'argent est rentré', noSeats: 'Aucun siège. Ajoutez-en un.',
+      oppNeeded: 'Inscrivez l\'adversaire.', dateNeeded: 'Choisissez la date et l\'heure du match.',
+      personNeeded: 'Vendu et Donné demandent le nom de la personne.',
       pasteEmpty: 'Collez d\'abord le texte copié dans l\'app.',
       pasteBad: 'Ce texte ne ressemble pas aux données de l\'app TicketStay. Dans l\'app, utilisez Réglages → Partager la saison → Envoyer les données → Copier, puis collez tout le texte.',
       pasteNoTeam: 'Les données ont été lues, mais elles ne contiennent aucune équipe.',
@@ -73,6 +81,14 @@
       typeToConfirm: 'Type DELETE to confirm.',
       notSet: 'Not provided by GitHub', firstTeam: 'First team (alphabetical)', noTeams: 'No synced teams',
       switching: 'Opening the French version…',
+      seasonDefault: '2026-2027 Season', teamNameNeeded: 'Enter the team name.',
+      noGamesYet: 'No games yet. Add the first one with the button above.',
+      upcoming: 'Upcoming', past: 'Past', newGame: 'New game', statusLabel: 'Status', seatLabel: 'Seat',
+      seatWord: 'Seat', removeSeat: 'Remove this seat', priceLabel: 'Price received', personPh: 'Person\'s name',
+      soldTo: 'Sold to', givenTo: 'Given to', phoneLabel: 'Phone', emailLabel: 'Email', optional: 'optional',
+      paidLabel: 'Paid — the money is in', noSeats: 'No seats. Add one.',
+      oppNeeded: 'Enter the opponent.', dateNeeded: 'Choose the game date and time.',
+      personNeeded: 'Sold and Given away need the person\'s name.',
       pasteEmpty: 'First paste the text copied in the app.',
       pasteBad: 'This text doesn\'t look like TicketStay app data. In the app, use Settings → Share the season → Send the data → Copy, then paste all of the text.',
       pasteNoTeam: 'The data was read, but it contains no team.',
@@ -329,11 +345,13 @@
   }
 
 
-  /* ================================================================ Données collées depuis l'app
-   * Dans l'app : Réglages → Partager la saison → Envoyer les données → Copier.
-   * Le texte est lu ici, dans le navigateur. Rien n'est envoyé : seule une
-   * version allégée (sans NIP, photos ni emblèmes) est gardée dans ce navigateur. */
-  var CLE_IMPORT = 'ts-import-v1';
+  /* ================================================================ Ma saison sur le site
+   * Les données viennent de l'app (Réglages → Partager la saison → Envoyer les
+   * données → Copier) ou sont créées ici. Elles sont gardées au format de
+   * l'app, sans NIP, photo ni emblèmes, et seulement dans ce navigateur.
+   * Rien n'est envoyé sur Internet. */
+  var CLE_IMPORT = 'ts-saison-v2';
+  var CLE_IMPORT_V1 = 'ts-import-v1';
   var CLE_IMPORT_PREFS = 'ts-import-prefs';
   var LIGUES = {
     lnh: ['LNH', 'NHL', 'Hockey'], lah: ['LAH', 'AHL', 'Hockey'], lphf: ['LPHF', 'PWHL', 'Hockey'],
@@ -345,24 +363,55 @@
     mls: ['MLS', 'MLS', 'Soccer'], nwsl: ['NWSL', 'NWSL', 'Soccer'], usl: ['USL', 'USL', 'Soccer'],
     cpl: ['PLC', 'CPL', 'Soccer'], nll: ['NLL', 'NLL', 'Crosse']
   };
+  /* Valeurs exactes enregistrées par l'app (ne pas traduire). */
   var STATUT_APP = { 'À placer': 'a_placer', 'À vendre': 'a_vendre', 'Utilisé': 'utilise', 'Vendu': 'vendu', 'Donné': 'donne', 'Non utilisé': 'non_utilise' };
+  var STATUT_VERS_APP = {};
+  Object.keys(STATUT_APP).forEach(function (k) { STATUT_VERS_APP[STATUT_APP[k]] = k; });
+  var ORDRE_STATUTS = ['a_placer', 'a_vendre', 'vendu', 'donne', 'utilise', 'non_utilise'];
+
   function cle(s) { return String(s || '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
   function nomSport(s) { return LANG === 'en' && s === 'Crosse' ? 'Lacrosse' : s; }
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID().toUpperCase();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16);
+    }).toUpperCase();
+  }
+  /* Format de date lu par l'app : ISO 8601 sans millisecondes. */
+  function isoApp(d) { return d.toISOString().replace(/\.\d{3}Z$/, 'Z'); }
+  function pourChampDate(iso) {
+    var d = new Date(iso); if (isNaN(d)) d = new Date();
+    var p = function (n) { return String(n).padStart(2, '0'); };
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes());
+  }
+
+  /* Retire ce qui n'a rien à faire dans un navigateur. */
+  function nettoyer(a) {
+    delete a.nip;
+    delete a.emblemes;
+    if (a.compte) delete a.compte.photo;
+    return a;
+  }
 
   function lireApp(texte) {
     var a;
     try { a = JSON.parse(String(texte).trim().replace(/^[^{]*/, '').replace(/[^}]*$/, '')); }
     catch (e) { throw new Error(T.pasteBad); }
     if (!a || typeof a !== 'object') throw new Error(T.pasteBad);
-    var abos = Array.isArray(a.abonnements) ? a.abonnements
-      : (a.reglages || a.matchs) ? [{ reglages: a.reglages || {}, matchs: a.matchs || [], favori: true }] : null;
-    if (!abos) throw new Error(T.pasteBad);
-    if (!abos.length) throw new Error(T.pasteNoTeam);
+    if (!Array.isArray(a.abonnements)) {
+      if (!(a.reglages || a.matchs)) throw new Error(T.pasteBad);
+      a = { abonnements: [{ id: uuid(), reglages: a.reglages || {}, matchs: a.matchs || [], favori: true }] };
+    }
+    if (!a.abonnements.length) throw new Error(T.pasteNoTeam);
+    return nettoyer(a);
+  }
+
+  /* Archive de l'app → équipes affichées par le tableau de bord. */
+  function equipesDe(a) {
     var carnet = {};
     (a.carnet || []).forEach(function (c) { if (c && c.nom) carnet[cle(c.nom)] = c; });
     var owner = (a.compte && a.compte.nom) || '';
-    var maintenant = new Date().toISOString();
-    var equipes = abos.map(function (ab, i) {
+    var equipes = a.abonnements.map(function (ab, i) {
       var r = ab.reglages || {};
       var lg = LIGUES[r.ligueID];
       var parNom = {}, liste = [];
@@ -379,9 +428,9 @@
         }
         return parNom[k].id;
       }
-      var games = (ab.matchs || []).map(function (m) {
+      var games = (ab.matchs || []).map(function (m, mi) {
         return {
-          date: m.date, opponent: m.adversaire || '', home: m.domicile !== false,
+          _mi: mi, date: m.date, opponent: m.adversaire || '', home: m.domicile !== false,
           tickets: (m.billets || []).map(function (b) {
             var st = STATUT_APP[b.statut] || 'a_placer';
             var seat = [m.section ? T.seat[0] + m.section : '', m.rangee ? T.seat[1] + m.rangee : '', b.siege || ''].filter(Boolean).join(' · ');
@@ -394,7 +443,7 @@
         };
       });
       return {
-        _id: ab.id || ('app-' + i), version: 1, owner: owner, syncedAt: maintenant, favori: !!ab.favori,
+        _id: ab.id || ('app-' + i), _ai: i, version: 1, owner: owner, syncedAt: a._modifie || null, favori: !!ab.favori,
         team: {
           name: r.equipe || T.team,
           sport: nomSport(lg ? lg[2] : (r.sportPerso || '')),
@@ -408,6 +457,23 @@
     return equipes;
   }
 
+  function garder() {
+    state.archive._modifie = isoApp(new Date());
+    try {
+      localStorage.setItem(CLE_IMPORT, JSON.stringify(state.archive));
+      localStorage.removeItem(CLE_IMPORT_V1);
+    } catch (e) {}
+    $('#importDate').textContent = syncFmt.format(new Date(state.archive._modifie));
+  }
+
+  function importGarde() {
+    try {
+      var s = localStorage.getItem(CLE_IMPORT);
+      var a = s ? JSON.parse(s) : null;
+      return a && Array.isArray(a.abonnements) ? a : null;
+    } catch (e) { return null; }
+  }
+
   function ouvrirCollage() {
     msg('#pasteMsg', '');
     show('paste');
@@ -418,11 +484,12 @@
   function validerCollage() {
     var texte = $('#pasteText').value;
     if (!texte.trim()) { msg('#pasteMsg', T.pasteEmpty, true); return; }
-    var equipes;
-    try { equipes = lireApp(texte); } catch (e) { msg('#pasteMsg', e.message, true); return; }
-    try { localStorage.setItem(CLE_IMPORT, JSON.stringify(equipes)); } catch (e) {}
+    var archive;
+    try { archive = lireApp(texte); } catch (e) { msg('#pasteMsg', e.message, true); return; }
     $('#pasteText').value = '';
-    startImport(equipes);
+    state.archive = archive;
+    garder();
+    startImport(archive);
   }
 
   function annulerCollage() {
@@ -432,15 +499,12 @@
     else show('setup');
   }
 
-  function importGarde() {
-    try { var s = localStorage.getItem(CLE_IMPORT); return s ? JSON.parse(s) : null; } catch (e) { return null; }
-  }
-
-  function startImport(equipes) {
+  function startImport(archive) {
+    state.archive = archive;
     state.demo = true;
     state.imported = true;
     state.user = null;
-    state.who = { name: (equipes[0] && equipes[0].owner) || '', login: '', avatar: '', email: '' };
+    state.who = { name: (archive.compte && archive.compte.nom) || '', login: '', avatar: '', email: (archive.compte && archive.compte.courriel) || '' };
     var p = {};
     try { p = JSON.parse(localStorage.getItem(CLE_IMPORT_PREFS) || '{}') || {}; } catch (e) {}
     state.prefs = Object.assign({ name: '', lang: '', currency: 'CAD', team: '' }, p);
@@ -448,19 +512,246 @@
     $('#demoBar').hidden = true;
     $('#sessionBar').hidden = true;
     $('#importBar').hidden = false;
-    $('#importDate').textContent = equipes[0] && equipes[0].syncedAt ? syncFmt.format(new Date(equipes[0].syncedAt)) : '';
+    $('#importDate').textContent = archive._modifie ? syncFmt.format(new Date(archive._modifie)) : '';
     try { history.replaceState(null, '', location.pathname); } catch (e) {}
-    setData(equipes);
+    setData(equipesDe(archive));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function effacerImport() {
-    try { localStorage.removeItem(CLE_IMPORT); localStorage.removeItem(CLE_IMPORT_PREFS); } catch (e) {}
+    try {
+      localStorage.removeItem(CLE_IMPORT); localStorage.removeItem(CLE_IMPORT_V1); localStorage.removeItem(CLE_IMPORT_PREFS);
+    } catch (e) {}
     state.imported = false;
     state.demo = false;
+    state.archive = null;
     state.teams = [];
     $('#importBar').hidden = true;
+    resetConfirms();
     if (configured) startCloud(); else show('setup');
+  }
+
+  /* Recalcule l'affichage après une modification, en restant sur la même équipe. */
+  function rafraichir() {
+    var ai = state.teams[state.team] ? state.teams[state.team]._ai : 0;
+    state.teams = equipesDe(state.archive);
+    var idx = 0;
+    state.teams.forEach(function (t, i) { if (t._ai === ai) idx = i; });
+    state.team = idx;
+    renderTabs();
+    renderTeam();
+  }
+
+  function abonnementCourant() {
+    var t = state.teams[state.team];
+    return state.archive.abonnements[t ? t._ai : 0];
+  }
+
+  /* ---------- Nouvelle saison créée sur le site ---------- */
+  function ouvrirEquipe() {
+    var sel = clear($('#ntLeague'));
+    Object.keys(LIGUES).forEach(function (id) { sel.appendChild(el('option', { value: id, text: LIGUES[id][LANG === 'en' ? 1 : 0] + ' · ' + nomSport(LIGUES[id][2]) })); });
+    sel.appendChild(el('option', { value: 'perso', text: T.custom }));
+    sel.value = 'lnh';
+    $('#ntName').value = '';
+    $('#ntSeason').value = T.seasonDefault;
+    $('#ntCost').value = '';
+    $('#ntSection').value = '';
+    $('#ntRow').value = '';
+    $('#ntSeats').value = '2';
+    msg('#ntMsg', '');
+    show('team');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function creerEquipe(e) {
+    e.preventDefault();
+    var nom = $('#ntName').value.trim();
+    if (!nom) { msg('#ntMsg', T.teamNameNeeded, true); $('#ntName').focus(); return; }
+    var nb = Math.max(1, Math.min(12, parseInt($('#ntSeats').value, 10) || 2));
+    var ab = {
+      id: uuid(), favori: !state.archive || !state.archive.abonnements.length, matchs: [],
+      reglages: {
+        configure: true, ligueID: $('#ntLeague').value, equipe: nom,
+        nomSaison: $('#ntSeason').value.trim() || T.seasonDefault,
+        coutAbonnement: Math.max(0, parseFloat(String($('#ntCost').value).replace(',', '.')) || 0),
+        sectionParDefaut: $('#ntSection').value.trim(), rangeeParDefaut: $('#ntRow').value.trim(),
+        nbSiegesParDefaut: nb, prixVenteParDefaut: 0, amphitheatre: ''
+      }
+    };
+    if (!state.archive) state.archive = { abonnements: [], carnet: [], compte: { nom: '', courriel: '', telephone: '', interac: '', cree: true }, equipesPersos: {}, versionVue: '' };
+    state.archive.abonnements.push(ab);
+    garder();
+    startImport(state.archive);
+    var t = 0; state.teams.forEach(function (x, i) { if (x._ai === state.archive.abonnements.length - 1) t = i; });
+    state.team = t; renderTabs(); renderTeam();
+  }
+
+  /* ---------- Liste de tous les matchs ---------- */
+  function ouvrirMatchs() {
+    var ab = abonnementCourant();
+    $('#matchesTitle').textContent = (ab.reglages && ab.reglages.equipe) || T.team;
+    var liste = clear($('#matchesList'));
+    var tous = (ab.matchs || []).map(function (m, mi) { return { m: m, mi: mi, d: new Date(m.date) }; })
+      .sort(function (x, y) { return x.d - y.d; });
+    var auj = new Date(); auj.setHours(0, 0, 0, 0);
+    var aVenir = tous.filter(function (x) { return x.d >= auj; });
+    var passes = tous.filter(function (x) { return x.d < auj; }).reverse();
+    if (!tous.length) liste.appendChild(el('p', { cls: 'muted', text: T.noGamesYet }));
+    [[T.upcoming, aVenir], [T.past, passes]].forEach(function (groupe) {
+      if (!groupe[1].length) return;
+      liste.appendChild(el('h3', { cls: 'm-group', text: groupe[0] + ' · ' + groupe[1].length }));
+      groupe[1].forEach(function (x) { liste.appendChild(ligneMatch(x.m, x.mi)); });
+    });
+    show('matches');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function ligneMatch(m, mi) {
+    var dt = new Date(m.date);
+    var pills = el('div', { cls: 'pills' });
+    (m.billets || []).forEach(function (b) {
+      var st = STATUT_APP[b.statut] || 'a_placer';
+      pills.appendChild(el('span', { cls: 'pill ' + STATUS_CLS[st] }, [T.status[st] + (st === 'vendu' && !b.paye ? T.unpaid : '')]));
+    });
+    var b = el('button', { type: 'button', cls: 'game game-btn' }, [
+      el('div', { cls: 'gdate' }, [el('b', { text: String(dt.getDate()) }), el('small', { text: monFmt.format(dt).replace('.', '') })]),
+      el('div', { cls: 'ginfo' }, [
+        el('b', { text: (m.domicile === false ? '@ ' : 'vs ') + (m.adversaire || T.opponent) }),
+        el('small', { text: cap(dayFmt.format(dt)).replace('.', '') + ' · ' + timeFmt.format(dt) }),
+        pills
+      ]),
+      el('span', { cls: 'chev', 'aria-hidden': 'true', text: '›' })
+    ]);
+    b.addEventListener('click', function () { ouvrirMatch(mi); });
+    return b;
+  }
+
+  /* ---------- Éditeur d'un match ---------- */
+  var edition = null;   // { mi: index ou -1, billets: [...] }
+
+  function ouvrirMatch(mi) {
+    var ab = abonnementCourant();
+    var r = ab.reglages || {};
+    var m = mi >= 0 ? ab.matchs[mi] : null;
+    var date;
+    if (m) date = m.date;
+    else { var d = new Date(); d.setDate(d.getDate() + 1); d.setHours(19, 0, 0, 0); date = isoApp(d); }
+    edition = {
+      mi: m ? mi : -1,
+      billets: m ? JSON.parse(JSON.stringify(m.billets || [])) : Array.from({ length: Math.max(1, +r.nbSiegesParDefaut || 2) }, function (_, i) {
+        return { id: uuid(), siege: T.seatWord + ' ' + (i + 1), statut: 'À placer', prixVente: 0, personne: '', courriel: '', telephone: '', paye: false };
+      })
+    };
+    $('#matchHeading').textContent = m ? (m.domicile === false ? '@ ' : 'vs ') + (m.adversaire || T.opponent) : T.newGame;
+    $('#mDate').value = pourChampDate(date);
+    $('#mOpp').value = m ? (m.adversaire || '') : '';
+    $('#mHome').value = m && m.domicile === false ? 'non' : 'oui';
+    $('#mSection').value = m ? (m.section || '') : (r.sectionParDefaut || '');
+    $('#mRow').value = m ? (m.rangee || '') : (r.rangeeParDefaut || '');
+    $('#mNotes').value = m ? (m.notes || '') : '';
+    var dl = clear($('#oppList'));
+    var vus = {};
+    state.archive.abonnements.forEach(function (a) { (a.matchs || []).forEach(function (x) { if (x.adversaire && !vus[x.adversaire]) { vus[x.adversaire] = 1; dl.appendChild(el('option', { value: x.adversaire })); } }); });
+    $('#mDelete').hidden = !m;
+    $('#mDelConfirm').hidden = true;
+    msg('#matchMsg', '');
+    dessinerBillets();
+    show('match');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!m) setTimeout(function () { $('#mOpp').focus(); }, 300);
+  }
+
+  function dessinerBillets() {
+    var box = clear($('#mSeats'));
+    edition.billets.forEach(function (b, i) {
+      var st = STATUT_APP[b.statut] || 'a_placer';
+      var choix = el('select', { 'aria-label': T.statusLabel });
+      ORDRE_STATUTS.forEach(function (s) { var o = el('option', { value: s, text: T.status[s] }); if (s === st) o.selected = true; choix.appendChild(o); });
+      choix.addEventListener('change', function () {
+        b.statut = STATUT_VERS_APP[choix.value];
+        if (choix.value !== 'vendu') b.paye = false;
+        dessinerBillets();
+      });
+      var siege = el('input', { type: 'text', value: b.siege || '', 'aria-label': T.seatLabel, placeholder: T.seatWord });
+      siege.addEventListener('input', function () { b.siege = siege.value; });
+      var retirer = el('button', { type: 'button', cls: 'seat-x', 'aria-label': T.removeSeat, title: T.removeSeat, text: '×' });
+      retirer.addEventListener('click', function () { edition.billets.splice(i, 1); dessinerBillets(); });
+      var tete = el('div', { cls: 'seat-top' }, [siege, choix, retirer]);
+      var carte = el('div', { cls: 'seat-card st-' + STATUS_CLS[st] }, [tete]);
+
+      if (st === 'vendu' || st === 'donne') {
+        var champs = el('div', { cls: 'seat-fields' });
+        if (st === 'vendu') {
+          var prix = el('input', { type: 'number', min: '0', step: '1', inputmode: 'decimal', value: b.prixVente ? String(b.prixVente) : '', placeholder: '0' });
+          prix.addEventListener('input', function () { b.prixVente = Math.max(0, parseFloat(prix.value) || 0); });
+          champs.appendChild(el('label', { cls: 'field sm' }, [el('span', { text: T.priceLabel }), prix]));
+        }
+        var pers = el('input', { type: 'text', value: b.personne || '', placeholder: T.personPh, autocomplete: 'off' });
+        pers.addEventListener('input', function () { b.personne = pers.value; });
+        champs.appendChild(el('label', { cls: 'field sm' }, [el('span', { text: st === 'vendu' ? T.soldTo : T.givenTo }), pers]));
+        var tel = el('input', { type: 'tel', value: b.telephone || '', placeholder: T.optional, autocomplete: 'off' });
+        tel.addEventListener('input', function () { b.telephone = tel.value; });
+        champs.appendChild(el('label', { cls: 'field sm' }, [el('span', { text: T.phoneLabel }), tel]));
+        var mail = el('input', { type: 'email', value: b.courriel || '', placeholder: T.optional, autocomplete: 'off' });
+        mail.addEventListener('input', function () { b.courriel = mail.value; });
+        champs.appendChild(el('label', { cls: 'field sm' }, [el('span', { text: T.emailLabel }), mail]));
+        if (st === 'vendu') {
+          var paye = el('input', { type: 'checkbox' }); paye.checked = !!b.paye;
+          paye.addEventListener('change', function () { b.paye = paye.checked; });
+          champs.appendChild(el('label', { cls: 'check' }, [paye, el('span', { text: T.paidLabel })]));
+        }
+        carte.appendChild(champs);
+      }
+      box.appendChild(carte);
+    });
+    if (!edition.billets.length) box.appendChild(el('p', { cls: 'muted', text: T.noSeats }));
+  }
+
+  function ajouterSiege() {
+    edition.billets.push({ id: uuid(), siege: T.seatWord + ' ' + (edition.billets.length + 1), statut: 'À placer', prixVente: 0, personne: '', courriel: '', telephone: '', paye: false });
+    dessinerBillets();
+  }
+
+  function enregistrerMatch(e) {
+    e.preventDefault();
+    var adv = $('#mOpp').value.trim();
+    var d = new Date($('#mDate').value);
+    if (!adv) { msg('#matchMsg', T.oppNeeded, true); $('#mOpp').focus(); return; }
+    if (isNaN(d)) { msg('#matchMsg', T.dateNeeded, true); $('#mDate').focus(); return; }
+    for (var i = 0; i < edition.billets.length; i++) {
+      var b = edition.billets[i];
+      if ((b.statut === 'Vendu' || b.statut === 'Donné') && !String(b.personne || '').trim()) {
+        msg('#matchMsg', T.personNeeded, true); return;
+      }
+      b.siege = String(b.siege || '').trim() || (T.seatWord + ' ' + (i + 1));
+      b.personne = String(b.personne || '').trim();
+      if (b.statut !== 'Vendu' && b.statut !== 'Donné') { b.personne = ''; b.telephone = ''; b.courriel = ''; }
+      if (b.statut !== 'Vendu') { b.prixVente = 0; b.paye = false; }
+    }
+    var ab = abonnementCourant();
+    if (!ab.matchs) ab.matchs = [];
+    var m = edition.mi >= 0 ? ab.matchs[edition.mi] : { id: uuid(), prixMarche: 0 };
+    m.date = isoApp(d);
+    m.adversaire = adv;
+    m.domicile = $('#mHome').value !== 'non';
+    m.section = $('#mSection').value.trim();
+    m.rangee = $('#mRow').value.trim();
+    m.notes = $('#mNotes').value;
+    m.billets = edition.billets;
+    if (edition.mi < 0) ab.matchs.push(m);
+    ab.matchs.sort(function (x, y) { return new Date(x.date) - new Date(y.date); });
+    garder();
+    rafraichir();
+    ouvrirMatchs();
+  }
+
+  function supprimerMatch() {
+    var ab = abonnementCourant();
+    if (edition && edition.mi >= 0) ab.matchs.splice(edition.mi, 1);
+    garder();
+    rafraichir();
+    ouvrirMatchs();
   }
 
   /* ================================================================ Tableau de bord */
@@ -546,15 +837,18 @@
           label + (t.status === 'vendu' && t.paid === false ? T.unpaid : '')
         ]));
       });
-      gl.appendChild(el('div', { cls: 'game' }, [
+      var ligne = el(state.imported ? 'button' : 'div', state.imported ? { type: 'button', cls: 'game game-btn' } : { cls: 'game' }, [
         el('div', { cls: 'gdate' }, [el('b', { text: String(dt.getDate()) }), el('small', { text: monFmt.format(dt).replace('.', '') })]),
         el('div', { cls: 'ginfo' }, [
           el('b', { text: (g.home === false ? '@ ' : 'vs ') + (g.opponent || T.opponent) }),
           el('small', { text: cap(dayFmt.format(dt)).replace('.', '') + ' · ' + timeFmt.format(dt) }),
           pills
         ])
-      ]));
+      ]);
+      if (state.imported) ligne.addEventListener('click', function () { ouvrirMatch(g._mi); });
+      gl.appendChild(ligne);
     });
+    $('#dashActions').hidden = !state.imported;
 
     /* --- Qui doit encore payer --- */
     var ol = clear($('#owing'));
@@ -739,6 +1033,18 @@
   $('#pasteGo').addEventListener('click', validerCollage);
   $('#pasteCancel').addEventListener('click', annulerCollage);
   $('#importClear').addEventListener('click', effacerImport);
+  document.querySelectorAll('[data-new-team]').forEach(function (b) { b.addEventListener('click', ouvrirEquipe); });
+  document.querySelectorAll('[data-matches]').forEach(function (b) { b.addEventListener('click', ouvrirMatchs); });
+  document.querySelectorAll('[data-add-game]').forEach(function (b) { b.addEventListener('click', function () { ouvrirMatch(-1); }); });
+  $('#ntForm').addEventListener('submit', creerEquipe);
+  $('#ntCancel').addEventListener('click', annulerCollage);
+  $('#matchesBack').addEventListener('click', function () { show('dash'); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  $('#matchForm').addEventListener('submit', enregistrerMatch);
+  $('#mCancel').addEventListener('click', ouvrirMatchs);
+  $('#mAddSeat').addEventListener('click', ajouterSiege);
+  $('#mDelete').addEventListener('click', function () { $('#mDelConfirm').hidden = false; });
+  $('#mDelNo').addEventListener('click', function () { $('#mDelConfirm').hidden = true; });
+  $('#mDelYes').addEventListener('click', supprimerMatch);
   $('#retry').addEventListener('click', function () { if (configured) startCloud(); });
   $('#ghSignIn').addEventListener('click', signIn);
   $('#signOut').addEventListener('click', signOut);
@@ -768,7 +1074,7 @@
 
   var garde = importGarde();
   if (/[?&]demo=1/.test(location.search)) startDemo();
-  else if (garde && garde.length) startImport(garde);
+  else if (garde) startImport(garde);
   else if (configured) startCloud();
   else show('setup');
   reopenSettingsIfAsked();
