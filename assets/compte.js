@@ -42,7 +42,7 @@
       notSet: 'Non fourni par GitHub', firstTeam: 'Première équipe (ordre alphabétique)', noTeams: 'Aucune équipe synchronisée',
       switching: 'Ouverture de la version anglaise…',
       pasteEmpty: 'Collez d\'abord le texte copié dans l\'app.',
-      pasteBad: 'Ce texte ne ressemble pas aux données de l\'app TicketStay. Dans l\'app, utilisez Réglages → Partager la saison → Copier pour le site web, puis collez tout le texte.',
+      pasteBad: 'Ce texte ne ressemble pas aux données de l\'app TicketStay. Dans l\'app, utilisez Réglages → Partager la saison → Envoyer les données → Copier, puis collez tout le texte.',
       pasteNoTeam: 'Les données ont été lues, mais elles ne contiennent aucune équipe.',
       importNote: 'Données de l\'app : vos préférences sont gardées dans ce navigateur seulement. L\'export et la suppression en ligne ne s\'appliquent pas.',
       importSaved: 'Préférences gardées dans ce navigateur.',
@@ -74,7 +74,7 @@
       notSet: 'Not provided by GitHub', firstTeam: 'First team (alphabetical)', noTeams: 'No synced teams',
       switching: 'Opening the French version…',
       pasteEmpty: 'First paste the text copied in the app.',
-      pasteBad: 'This text doesn\'t look like TicketStay app data. In the app, use Settings → Share the season → Copy for the website, then paste all of the text.',
+      pasteBad: 'This text doesn\'t look like TicketStay app data. In the app, use Settings → Share the season → Send the data → Copy, then paste all of the text.',
       pasteNoTeam: 'The data was read, but it contains no team.',
       importNote: 'App data: your preferences are kept in this browser only. Online export and deletion don\'t apply.',
       importSaved: 'Preferences kept in this browser.',
@@ -330,7 +330,7 @@
 
 
   /* ================================================================ Données collées depuis l'app
-   * Dans l'app : Réglages → Partager la saison → Copier pour le site web.
+   * Dans l'app : Réglages → Partager la saison → Envoyer les données → Copier.
    * Le texte est lu ici, dans le navigateur. Rien n'est envoyé : seule une
    * version allégée (sans NIP, photos ni emblèmes) est gardée dans ce navigateur. */
   var CLE_IMPORT = 'ts-import-v1';
